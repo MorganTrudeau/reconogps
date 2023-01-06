@@ -1,4 +1,4 @@
-import { PixelRatio, Platform, StyleProp } from "react-native";
+import { PixelRatio, Platform, StyleSheet } from "react-native";
 import { SpacingScale } from "../types/styles";
 
 export const BORDER_RADIUS_SM = 3;
@@ -38,9 +38,9 @@ export function normalize(size: number) {
 }
 
 const FontSizes = {
-  SMALL: normalize(12),
-  NORMAL: normalize(16),
-  LARGE: normalize(19),
+  SMALL: normalize(11),
+  NORMAL: normalize(14),
+  LARGE: normalize(18),
 };
 type FontSize = typeof FontSizes[keyof typeof FontSizes];
 
@@ -93,7 +93,13 @@ export const colors = {
   black: "#000",
 };
 
-export const styles = {
+export const styles = StyleSheet.create({
+  header: {
+    backgroundColor: colors.background,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+
   container: { flex: 1, backgroundColor: colors.background },
 
   textInput: {
@@ -127,4 +133,4 @@ export const styles = {
     color: colors.text,
     fontWeight: FontWeights.BOLD,
   }),
-} as StyleProp<any>;
+});

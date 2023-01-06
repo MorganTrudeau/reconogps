@@ -15,9 +15,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation";
 import AppButton from "../components/Core/AppButton";
-import { login } from "../api/auth";
 import { useAlert } from "../hooks/useAlert";
 import { errorToMessage } from "../utils";
+import { login } from "../redux/thunks/auth";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { RootState } from "../redux/store";
+import { useUpdated } from "../hooks/useUpdated";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "login">;
 
@@ -25,33 +29,41 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const insets = useSafeAreaInsets();
   const Alert = useAlert();
+  const dispatch = useAppDispatch();
+
+  const { loading, error } = useAppSelector(
+    (state: RootState) => state.auth.loginRequest
+  );
+
+  useUpdated(error, (currentError, prevError) => {
+    if (!prevError && currentError) {
+      Alert.alert("Login Failed", errorToMessage(currentError));
+    }
+  });
 
   const passwordInput = useRef<TextInput | null>(null);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleForgotPassword = () => {
     navigation.navigate("forgot-password");
   };
 
   const handleLogin = async () => {
-    try {
-      setLoading(true);
-      const res = await login(username, password);
-
-      if (!(res && res.Data && typeof res.Data === "object")) {
-        throw "invalid_data";
-      }
-
-      setLoading(false);
-      console.log(res);
-    } catch (error) {
-      setLoading(false);
-      console.log("Login Error: ", error);
-      Alert.alert("Login Failed", errorToMessage(error));
+    if (!username) {
+      return Alert.alert(
+        "Login Incomplete",
+        "Enter your email or username before logging in."
+      );
     }
+    if (!password) {
+      return Alert.alert(
+        "Login Incomplete",
+        "Enter your password before logging in."
+      );
+    }
+    dispatch(login({ account: username, password }));
   };
 
   const focusPassword = () => {
