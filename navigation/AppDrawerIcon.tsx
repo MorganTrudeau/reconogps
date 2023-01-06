@@ -2,7 +2,7 @@ import React from "react";
 import Feather from "@expo/vector-icons/Feather";
 
 const AppDrawerIcon = ({ size, color, icon }: Props) => {
-  return <Feather {...{ size, color }} name={icon} />;
+  return <Feather {...{ size: 20, color }} name={icon} />;
 };
 
 export default AppDrawerIcon;
@@ -10,6 +10,7 @@ export default AppDrawerIcon;
 type Props = {
   size: number;
   color: string;
+  focused: boolean;
   icon:
     | "link"
     | "search"

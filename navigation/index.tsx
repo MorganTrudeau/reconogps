@@ -17,6 +17,14 @@ import ForgotPasswordScreen from "../screens/ForgotPassword";
 import LoginScreen from "../screens/LoginScreen";
 import AppDrawerContent from "./AppDrawerContext";
 import AppDrawerIcon from "./AppDrawerIcon";
+import ProfileScreen from "../screens/ProfileScreen";
+import GeofencesScreen from "../screens/GeofencesScreen";
+import AlarmSettingsScreen from "../screens/AlarmSettingsScreen";
+import SharedAssetsScreen from "../screens/SharedAssetsScreen";
+import ReportsScreen from "../screens/ReportsScreen";
+import ContactsScreen from "../screens/ContactsScreen";
+import UserGuideScreen from "../screens/UserGuideScreen";
+import SupportScreen from "../screens/SupportScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -24,6 +32,14 @@ export type RootStackParamList = {
   login: undefined;
   "forgot-password": undefined;
   home: undefined;
+  profile: undefined;
+  geofences: undefined;
+  "alarm-settings": undefined;
+  "shared-assets": undefined;
+  reports: undefined;
+  contacts: undefined;
+  "user-guide": undefined;
+  support: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -94,6 +110,92 @@ const MainStack = () => {
         }}
         // @ts-ignore
         component={HomeScreen}
+      />
+      <Drawer.Screen
+        name="profile"
+        options={{
+          headerTitle: "Profile",
+          drawerLabel: "Profile",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"user"} />,
+        }}
+        // @ts-ignore
+        component={ProfileScreen}
+      />
+      <Drawer.Screen
+        name="geofences"
+        options={{
+          headerTitle: "Geofences",
+          drawerLabel: "Geofences",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"maximize"} />,
+        }}
+        // @ts-ignore
+        component={GeofencesScreen}
+      />
+      <Drawer.Screen
+        name="alarm-settings"
+        options={{
+          headerTitle: "Alarms",
+          drawerLabel: "Alarms",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"bell"} />,
+        }}
+        // @ts-ignore
+        component={AlarmSettingsScreen}
+      />
+      <Drawer.Screen
+        name="shared-assets"
+        options={{
+          headerTitle: "Shared Assets",
+          drawerLabel: "Shared Assets",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"share-2"} />,
+        }}
+        // @ts-ignore
+        component={SharedAssetsScreen}
+      />
+      <Drawer.Screen
+        name="reports"
+        options={{
+          headerTitle: "Reports",
+          drawerLabel: "Reports",
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"bar-chart-2"} />
+          ),
+        }}
+        // @ts-ignore
+        component={ReportsScreen}
+      />
+      <Drawer.Screen
+        name="contacts"
+        options={{
+          headerTitle: "Contacts",
+          drawerLabel: "Contacts",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"users"} />,
+        }}
+        // @ts-ignore
+        component={ContactsScreen}
+      />
+      <Drawer.Screen
+        name="user-guide"
+        options={{
+          headerTitle: "User Guide",
+          drawerLabel: "User Guide",
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"clipboard"} />
+          ),
+          unmountOnBlur: true,
+        }}
+        // @ts-ignore
+        component={UserGuideScreen}
+      />
+      <Drawer.Screen
+        name="support"
+        options={{
+          headerTitle: "Support",
+          drawerLabel: "Support",
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"info"} />,
+          unmountOnBlur: true,
+        }}
+        // @ts-ignore
+        component={SupportScreen}
       />
     </Drawer.Navigator>
   );
