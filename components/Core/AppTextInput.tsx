@@ -83,6 +83,7 @@ const AppTextInput = forwardRef<TextInput, Props>(
             },
             style,
           ]}
+          value={value}
         />
         {usingSecureTextEntry ? (
           <Pressable

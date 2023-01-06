@@ -13,19 +13,26 @@ import {
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logger from "redux-logger";
+import activeUserSlice from "../reducers/activeUser";
+import { transform as activeUserTransform } from "../reducers/activeUser";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   assets: assetsReducer,
+  activeUser: activeUserSlice,
 });
 
 const persistConfig = {
-  key: "v3",
+  key: "v5",
   version: 1,
   storage: AsyncStorage,
+  transforms: [activeUserTransform],
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  rootReducer
+) as typeof rootReducer;
 
 export const store = configureStore({
   reducer: persistedReducer,

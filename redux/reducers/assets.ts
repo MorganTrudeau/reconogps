@@ -46,7 +46,4 @@ export const assetsSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const {} = assetsSlice.actions;
-
 export default assetsSlice.reducer;

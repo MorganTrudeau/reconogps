@@ -117,6 +117,7 @@ const MainStack = () => {
           headerTitle: "Profile",
           drawerLabel: "Profile",
           drawerIcon: (props) => <AppDrawerIcon {...props} icon={"user"} />,
+          unmountOnBlur: true,
         }}
         // @ts-ignore
         component={ProfileScreen}

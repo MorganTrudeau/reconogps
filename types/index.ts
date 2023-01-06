@@ -1,3 +1,25 @@
+export type User = {
+  Address0: string;
+  Address1: string;
+  Address2: string;
+  Address3: string;
+  Address4: string;
+  CountryCode: string;
+  CustomerName: string;
+  CustomerType: number;
+  Email: string;
+  Expires: string;
+  FirstName: string;
+  Mobile: string;
+  Number: string | null;
+  Role: number;
+  SMSTimes: number;
+  SecurityCode: string;
+  SurName: string;
+  TimeZone: number;
+  TimeZoneID: string;
+};
+
 export type StaticAsset = {
   id: string;
   imei: string; //imei
