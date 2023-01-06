@@ -1,0 +1,13 @@
+diff --git a/node_modules/@reduxjs/toolkit/dist/entities/models.d.ts b/node_modules/@reduxjs/toolkit/dist/entities/models.d.ts
+index 1b746f8..873ac38 100644
+--- a/node_modules/@reduxjs/toolkit/dist/entities/models.d.ts
++++ b/node_modules/@reduxjs/toolkit/dist/entities/models.d.ts
+@@ -3,7 +3,7 @@ import type { IsAny } from '../tsHelpers';
+ /**
+  * @public
+  */
+-export declare type EntityId = number | string;
++export declare type EntityId = string;
+ /**
+  * @public
+  */

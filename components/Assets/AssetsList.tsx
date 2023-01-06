@@ -1,19 +1,48 @@
-import React from "react";
-import { FlatList, FlatListProps } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList, FlatListProps, RefreshControl } from "react-native";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { StaticAsset } from "../../types";
 import AssetItem from "./AssetItem";
+import { loadDynamicAssets } from "../../redux/thunks/assets";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { getStaticAssets } from "../../redux/selectors/assets";
 
-type Props = { assets: StaticAsset[] };
+type Props = {} & Omit<FlatListProps<StaticAsset>, "data" | "renderItem">;
 
-const AssetsList = ({
-  assets,
-  ...rest
-}: Props & Omit<FlatListProps<StaticAsset>, "data" | "renderItem">) => {
-  const renderItem = ({ item, index }: { item: StaticAsset; index: number }) => {
+const AssetsList = (props: Props) => {
+  const { assets, ids, loading } = useAppSelector((state) => ({
+    assets: getStaticAssets(state),
+    ids: state.assets.staticData.ids,
+    loading: state.assets.loadRequest.loading,
+  }));
+  const dispatch = useAppDispatch();
+
+  const load = () => {
+    dispatch(loadDynamicAssets({ ids }));
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: StaticAsset;
+    index: number;
+  }) => {
     return <AssetItem asset={item} />;
   };
 
-  return <FlatList data={assets} renderItem={renderItem} {...rest} />;
+  return (
+    <FlatList
+      data={assets}
+      renderItem={renderItem}
+      {...props}
+      refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
+    />
+  );
 };
 
 export default AssetsList;

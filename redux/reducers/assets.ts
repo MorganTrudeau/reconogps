@@ -5,18 +5,22 @@ import {
 } from "@reduxjs/toolkit";
 import { login, logout } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
-import { StaticAsset } from "../../types";
+import { DynamicAsset, StaticAsset } from "../../types";
 import { mapArrayOfAssetArrays } from "../../utils/assets";
+import { loadDynamicAssets } from "../thunks/assets";
 
 export interface AuthState {
   staticData: EntityState<StaticAsset>;
+  dynamicData: EntityState<DynamicAsset>;
   loadRequest: SimpleLoadingState;
 }
 
-const assetsAdapter = createEntityAdapter<StaticAsset>();
+const staticAssetsAdapter = createEntityAdapter<StaticAsset>();
+const dynamicAssetsAdapter = createEntityAdapter<DynamicAsset>();
 
 const initialState: AuthState = {
-  staticData: assetsAdapter.getInitialState(),
+  staticData: staticAssetsAdapter.getInitialState(),
+  dynamicData: dynamicAssetsAdapter.getInitialState(),
   loadRequest: { error: null, loading: false },
 };
 
@@ -28,7 +32,12 @@ export const assetsSlice = createSlice({
     // Login data
     builder.addCase(login.fulfilled, (state, action) => {
       const staticAssets = mapArrayOfAssetArrays(action.payload.AssetArray);
-      assetsAdapter.setAll(state.staticData, staticAssets);
+      staticAssetsAdapter.setAll(state.staticData, staticAssets);
+    });
+    // Load Dynamic
+    builder.addCase(loadDynamicAssets.fulfilled, (state, action) => {
+      const dynamicAssets = mapArrayOfAssetArrays(action.payload);
+      dynamicAssetsAdapter.setAll(state.dynamicData, dynamicAssets);
     });
     // Logout reset
     builder.addCase(logout.fulfilled, (state, action) => {

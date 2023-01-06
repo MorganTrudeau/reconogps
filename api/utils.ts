@@ -10,3 +10,7 @@ export const validateResponseData = (res: any) => {
     throw res?.data?.Data || "invalid_data";
   }
 };
+
+export const Errors = {
+  InvalidAuth: "invalid_auth",
+};

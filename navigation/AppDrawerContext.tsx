@@ -7,15 +7,13 @@ import { logout } from "../redux/thunks/auth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { ActivityIndicator } from "react-native";
-import { useTheme } from "../hooks/useTheme";
 import AppDrawerIcon from "./AppDrawerIcon";
 import { useAlert } from "../hooks/useAlert";
 
 const AppDraweContent = (props: any) => {
-  const { colors } = useTheme();
   const Alert = useAlert();
   const dispatch = useAppDispatch();
-  const { minorToken, logoutRequest } = useAppSelector((state) => ({
+  const { logoutRequest } = useAppSelector((state) => ({
     minorToken: state.auth.minorToken,
     logoutRequest: state.auth.logoutRequest,
   }));
@@ -32,9 +30,7 @@ const AppDraweContent = (props: any) => {
       return;
     }
 
-    if (minorToken) {
-      dispatch(logout({ minorToken, deviceToken: "asdf" }));
-    }
+    dispatch(logout());
   };
 
   const renderLogoutIcon = ({

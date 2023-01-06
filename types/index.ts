@@ -51,3 +51,5 @@ export type StaticAsset = {
   suspendDate: string; //SuspendDate
   a10: string; // additional value
 };
+
+export type DynamicAsset = {};
