@@ -12,7 +12,7 @@ import AppTextInput from "../components/Core/AppTextInput";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation";
-import { spacing } from "../styles";
+import { iconSize, spacing } from "../styles";
 import { User } from "../types";
 import Feather from "@expo/vector-icons/Feather";
 import { updateUserInfo } from "../redux/thunks/user";
@@ -58,15 +58,19 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
 
   const renderSaveButton = () => {
     return (
-      <Pressable style={styles.headerRight} onPress={handleUpdateUser}>
-        <Feather color={colors.primary} name={"check-circle"} size={20} />
+      <Pressable style={theme.drawerHeaderRight} onPress={handleUpdateUser}>
+        <Feather
+          color={colors.primary}
+          name={"check-circle"}
+          size={iconSize("md")}
+        />
       </Pressable>
     );
   };
 
   const renderLoading = () => {
     return (
-      <View style={styles.headerRight}>
+      <View style={theme.drawerHeaderRight}>
         <ActivityIndicator color={colors.primary} />
       </View>
     );
@@ -150,7 +154,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing("lg"),
     paddingBottom: spacing("md"),
   },
-  headerRight: { marginHorizontal: 11, padding: 3 },
 });
 
 export default ProfileScreen;

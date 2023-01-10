@@ -1,5 +1,6 @@
 import { StaticAsset } from "../types";
 import { IMAGE_URL } from "@env";
+import { AlertButton, AlertOptions } from "react-native";
 
 export const constructImageUrl = (image: string) =>
   `${IMAGE_URL}/Attachment/images/${image}?${Date.now()}`;
@@ -14,4 +15,22 @@ export const errorToMessage = (error: unknown): string => {
   } else {
     return "Something went wrong. Please try again.";
   }
+};
+
+export const alertGeneralError = (
+  Alert: {
+    alert: (
+      title: string,
+      message?: string | undefined,
+      buttons?: AlertButton[] | undefined,
+      options?: AlertOptions | undefined
+    ) => void;
+  },
+  onConfirm?: () => void
+) => {
+  Alert.alert(
+    "Internal Error",
+    "Something went wrong please try again.",
+    onConfirm ? [{ text: "OK", onPress: onConfirm }] : undefined
+  );
 };

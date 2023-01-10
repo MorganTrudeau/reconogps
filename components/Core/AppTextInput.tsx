@@ -14,10 +14,23 @@ import { iconSize, spacing } from "../../styles";
 import { useUpdated } from "../../hooks/useUpdated";
 import { useTheme } from "../../hooks/useTheme";
 
-type Props = { containerStyle?: StyleProp<ViewStyle> } & TextInputProps;
+type Props = {
+  containerStyle?: StyleProp<ViewStyle>;
+  animatedPlaceholder?: boolean;
+} & TextInputProps;
 
 const AppTextInput = forwardRef<TextInput, Props>(
-  ({ style, containerStyle, placeholder, value, ...rest }: Props, ref) => {
+  (
+    {
+      style,
+      containerStyle,
+      placeholder,
+      value,
+      animatedPlaceholder = true,
+      ...rest
+    }: Props,
+    ref
+  ) => {
     const { theme, colors } = useTheme();
 
     const placeholderAnimation = useRef(
@@ -67,7 +80,13 @@ const AppTextInput = forwardRef<TextInput, Props>(
     const usingSecureTextEntry = typeof secureTextEntry === "boolean";
 
     return (
-      <View style={[styles.container, containerStyle]}>
+      <View
+        style={[
+          styles.container,
+          !!placeholder && animatedPlaceholder && { marginTop: spacing("xl") },
+          containerStyle,
+        ]}
+      >
         <TextInput
           // @ts-ignore
           ref={ref}
@@ -98,7 +117,7 @@ const AppTextInput = forwardRef<TextInput, Props>(
           </Pressable>
         ) : null}
 
-        {!!placeholder && (
+        {!!placeholder && animatedPlaceholder && (
           <Animated.Text
             style={[
               theme.textPrimary,
@@ -130,7 +149,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: spacing("xl"),
   },
   placeholder: { position: "absolute", left: spacing("md"), top: -10 },
   eyeIcon: { position: "absolute", right: spacing("lg") },

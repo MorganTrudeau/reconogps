@@ -1,7 +1,7 @@
 import { PixelRatio, Platform, StyleSheet } from "react-native";
 import { SpacingScale } from "../types/styles";
 
-export const BORDER_RADIUS_SM = 3;
+export const BORDER_RADIUS_SM = 5;
 
 export const iconSize = (sizeScale: SpacingScale): number => {
   switch (sizeScale) {
@@ -91,6 +91,9 @@ export const colors = {
 
   white: "#fff",
   black: "#000",
+  red: "#a32638",
+  empty: "#a8a8a8",
+  border: "#3c3c3c",
 };
 
 export const styles = StyleSheet.create({
@@ -100,12 +103,21 @@ export const styles = StyleSheet.create({
     elevation: 0,
   },
 
+  drawerHeaderRight: { marginHorizontal: 11, padding: 3 },
+
   container: { flex: 1, backgroundColor: colors.background },
+  row: { flexDirection: "row", alignItems: "center" },
+
+  borderBottom: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
+  },
 
   textInput: {
     backgroundColor: colors.surface,
     borderRadius: BORDER_RADIUS_SM,
-    padding: spacing("lg"),
+    paddingHorizontal: spacing("lg"),
+    paddingVertical: spacing("md"),
     fontSize: FontSizes.NORMAL,
     color: colors.text,
     flex: 1,
@@ -127,6 +139,21 @@ export const styles = StyleSheet.create({
   textPrimary: createFont({ color: colors.primary }),
   textMeta: createFont({ color: colors.textMeta }),
   text: createFont({ color: colors.text }),
+
+  title: createFont({
+    color: colors.text,
+    fontWeight: FontWeights.BOLD,
+  }),
+
+  textLargePrimary: createFont({
+    fontSize: FontSizes.LARGE,
+    color: colors.primary,
+  }),
+  textLargeMeta: createFont({
+    fontSize: FontSizes.LARGE,
+    color: colors.textMeta,
+  }),
+  textLarge: createFont({ fontSize: FontSizes.LARGE, color: colors.text }),
 
   titleLarge: createFont({
     fontSize: FontSizes.LARGE,

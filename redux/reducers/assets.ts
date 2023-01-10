@@ -8,8 +8,9 @@ import { SimpleLoadingState } from "../../types/redux";
 import { DynamicAsset, StaticAsset } from "../../types";
 import { mapArrayOfAssetArrays } from "../../utils/assets";
 import { loadDynamicAssets } from "../thunks/assets";
+import { IDLE_STATE } from "../utils";
 
-export interface AuthState {
+export interface AssetsState {
   staticData: EntityState<StaticAsset>;
   dynamicData: EntityState<DynamicAsset>;
   loadRequest: SimpleLoadingState;
@@ -18,10 +19,10 @@ export interface AuthState {
 const staticAssetsAdapter = createEntityAdapter<StaticAsset>();
 const dynamicAssetsAdapter = createEntityAdapter<DynamicAsset>();
 
-const initialState: AuthState = {
+const initialState: AssetsState = {
   staticData: staticAssetsAdapter.getInitialState(),
   dynamicData: dynamicAssetsAdapter.getInitialState(),
-  loadRequest: { error: null, loading: false },
+  loadRequest: IDLE_STATE,
 };
 
 export const assetsSlice = createSlice({

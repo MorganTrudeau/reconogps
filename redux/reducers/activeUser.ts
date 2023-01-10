@@ -3,7 +3,7 @@ import { login, logout } from "../thunks/auth";
 import { updateUserInfo } from "../thunks/user";
 import { User } from "../../types";
 import { SimpleLoadingState } from "../../types/redux";
-import { createSimpleLoadingState } from "../utils";
+import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
 import { createTransform } from "redux-persist";
 
 export interface ActiveUserState {
@@ -15,7 +15,7 @@ export interface ActiveUserState {
 const initialState: ActiveUserState = {
   data: null,
 
-  updateRequest: { error: null, loading: false },
+  updateRequest: IDLE_STATE,
 };
 
 export const transform = createTransform(
@@ -40,7 +40,7 @@ export const activeUserSlice = createSlice({
     // Update User Info
     builder.addCase(updateUserInfo.fulfilled, (state, action) => {
       state.data = action.payload;
-      state.updateRequest.loading = false;
+      state.updateRequest = SUCCESS_STATE;
     });
     // Logout reset
     builder.addCase(logout.fulfilled, (state, action) => {

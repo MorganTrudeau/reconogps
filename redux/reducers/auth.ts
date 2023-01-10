@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, refreshToken } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
-import { createSimpleLoadingState } from "../utils";
+import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
 
 export interface AuthState {
   majorToken: string | null;
@@ -17,8 +17,8 @@ const initialState: AuthState = {
   minorToken: null,
   deviceToken: "asdf",
 
-  loginRequest: { error: null, loading: false },
-  logoutRequest: { error: null, loading: false },
+  loginRequest: IDLE_STATE,
+  logoutRequest: IDLE_STATE,
 };
 
 export const authSlice = createSlice({
@@ -32,7 +32,7 @@ export const authSlice = createSlice({
       state.majorToken = action.payload.MajorToken;
       state.minorToken = action.payload.MinorToken;
 
-      state.loginRequest = { error: null, loading: false };
+      state.loginRequest = SUCCESS_STATE;
     });
     // Logout
     createSimpleLoadingState("logoutRequest", builder, logout);
@@ -40,7 +40,7 @@ export const authSlice = createSlice({
       state.majorToken = null;
       state.minorToken = null;
 
-      state.logoutRequest = { error: null, loading: false };
+      state.logoutRequest = SUCCESS_STATE;
     });
     // Refresh
     builder.addCase(refreshToken.fulfilled, (state, action) => {

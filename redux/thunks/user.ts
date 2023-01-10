@@ -5,7 +5,7 @@ import { User } from "../../types";
 import { RootState } from "../store";
 
 export const updateUserInfo = createAsyncThunk(
-  "assets/updateUserInfo",
+  "user/updateUserInfo",
   (update: Partial<User>, thunkApi) => {
     const { majorToken, minorToken } = (thunkApi.getState() as RootState).auth;
     if (!(majorToken && minorToken)) {

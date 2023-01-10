@@ -25,6 +25,8 @@ import ReportsScreen from "../screens/ReportsScreen";
 import ContactsScreen from "../screens/ContactsScreen";
 import UserGuideScreen from "../screens/UserGuideScreen";
 import SupportScreen from "../screens/SupportScreen";
+import AddContactScreen from "../screens/AddContactScreen";
+import { AddContactData, Contact, EditContactData } from "../types";
 
 const Drawer = createDrawerNavigator();
 
@@ -40,6 +42,7 @@ export type RootStackParamList = {
   contacts: undefined;
   "user-guide": undefined;
   support: undefined;
+  "manage-contact": undefined | { editContactData: EditContactData };
 };
 
 const Stack = createNativeStackNavigator();
@@ -52,6 +55,8 @@ const getDefaultStackOptions = (
     headerTintColor: colors.primary,
     headerTitleStyle: theme.titleLarge,
     headerStyle: theme.header,
+    headerBackTitle: "Back",
+    headerShadowVisible: false,
   };
 };
 
@@ -64,6 +69,7 @@ const getDefaultDrawerOptions = (
     headerTitleStyle: theme.titleLarge,
     headerTitle: "",
     headerStyle: theme.header,
+    headerShadowVisible: false,
     drawerStyle: { backgroundColor: colors.background },
     drawerActiveBackgroundColor: colors.primary,
     drawerActiveTintColor: colors.black,
@@ -92,7 +98,7 @@ const AuthStack = () => {
   );
 };
 
-const MainStack = () => {
+const DrawerStack = () => {
   const { theme, colors } = useTheme();
   const defaultOptions = getDefaultDrawerOptions(theme, colors);
   return (
@@ -199,6 +205,29 @@ const MainStack = () => {
         component={SupportScreen}
       />
     </Drawer.Navigator>
+  );
+};
+
+const MainStack = () => {
+  const { theme, colors } = useTheme();
+  const defaultOptions = getDefaultStackOptions(theme, colors);
+  return (
+    <Stack.Navigator screenOptions={defaultOptions}>
+      <Stack.Screen
+        name="dashboard"
+        options={{ headerShown: false }}
+        // @ts-ignore
+        component={DrawerStack}
+      />
+      <Stack.Screen
+        name="manage-contact"
+        options={{
+          title: "Add Contact",
+        }}
+        // @ts-ignore
+        component={AddContactScreen}
+      />
+    </Stack.Navigator>
   );
 };
 

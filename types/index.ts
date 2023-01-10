@@ -1,3 +1,34 @@
+export type Contact = {
+  Code: string;
+  Number: string | null;
+  FamilyId: string | null;
+  CheckDigits: string | null;
+  CustomerCode: string;
+  FirstName: string | null;
+  SubName: string | null;
+  Mobile: string | null;
+  Phone: string | null;
+  EMail: string | null;
+  RoleType: number;
+  AssetIds: string[];
+  LoginName: string;
+  Password: string;
+  LicenceExpiryDate: string | null;
+  LicenceDetails: string | null;
+};
+
+export type AddContactData = {
+  FirstName: string;
+  SubName: string;
+  EMail: string;
+  Mobile: string;
+  Phone: string;
+};
+
+export type EditContactData = AddContactData & {
+  Code: string;
+};
+
 export type User = {
   Address0: string;
   Address1: string;
