@@ -10,3 +10,8 @@ export const contactToEditContactData = (contact: Contact): EditContactData => {
     Code: contact.Code,
   };
 };
+
+export const buildContactName = (contact: Contact): string =>
+  `${contact.FirstName || ""}${
+    contact.FirstName && contact.SubName ? " " : ""
+  }${contact.SubName || ""}`;

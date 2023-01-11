@@ -27,6 +27,8 @@ import UserGuideScreen from "../screens/UserGuideScreen";
 import SupportScreen from "../screens/SupportScreen";
 import AddContactScreen from "../screens/AddContactScreen";
 import { AddContactData, Contact, EditContactData } from "../types";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import CreateReportScreen from "../screens/CreateReportScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,6 +45,10 @@ export type RootStackParamList = {
   "user-guide": undefined;
   support: undefined;
   "manage-contact": undefined | { editContactData: EditContactData };
+  "change-password": undefined;
+  "create-report": {
+    context: "alarms" | "overview" | "runtime" | "stops" | "trips";
+  };
 };
 
 const Stack = createNativeStackNavigator();
@@ -122,7 +128,7 @@ const DrawerStack = () => {
         options={{
           headerTitle: "Profile",
           drawerLabel: "Profile",
-          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"user"} />,
+          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"account"} />,
           unmountOnBlur: true,
         }}
         // @ts-ignore
@@ -133,7 +139,9 @@ const DrawerStack = () => {
         options={{
           headerTitle: "Geofences",
           drawerLabel: "Geofences",
-          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"maximize"} />,
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"texture-box"} />
+          ),
         }}
         // @ts-ignore
         component={GeofencesScreen}
@@ -153,7 +161,9 @@ const DrawerStack = () => {
         options={{
           headerTitle: "Shared Assets",
           drawerLabel: "Shared Assets",
-          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"share-2"} />,
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"share-variant"} />
+          ),
         }}
         // @ts-ignore
         component={SharedAssetsScreen}
@@ -164,7 +174,7 @@ const DrawerStack = () => {
           headerTitle: "Reports",
           drawerLabel: "Reports",
           drawerIcon: (props) => (
-            <AppDrawerIcon {...props} icon={"bar-chart-2"} />
+            <AppDrawerIcon {...props} icon={"chart-box"} />
           ),
         }}
         // @ts-ignore
@@ -175,7 +185,9 @@ const DrawerStack = () => {
         options={{
           headerTitle: "Contacts",
           drawerLabel: "Contacts",
-          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"users"} />,
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"account-multiple"} />
+          ),
         }}
         // @ts-ignore
         component={ContactsScreen}
@@ -198,7 +210,9 @@ const DrawerStack = () => {
         options={{
           headerTitle: "Support",
           drawerLabel: "Support",
-          drawerIcon: (props) => <AppDrawerIcon {...props} icon={"info"} />,
+          drawerIcon: (props) => (
+            <AppDrawerIcon {...props} icon={"information"} />
+          ),
           unmountOnBlur: true,
         }}
         // @ts-ignore
@@ -226,6 +240,26 @@ const MainStack = () => {
         }}
         // @ts-ignore
         component={AddContactScreen}
+      />
+      <Stack.Screen
+        name="change-password"
+        options={{
+          title: "Change Password",
+        }}
+        // @ts-ignore
+        component={ChangePasswordScreen}
+      />
+      <Stack.Screen
+        name="forgot-password"
+        options={{ title: "Forgot Password" }}
+        // @ts-ignore
+        component={ForgotPasswordScreen}
+      />
+      <Stack.Screen
+        name="create-report"
+        options={{ title: "Create Report" }}
+        // @ts-ignore
+        component={CreateReportScreen}
       />
     </Stack.Navigator>
   );

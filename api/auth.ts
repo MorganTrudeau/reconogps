@@ -78,3 +78,16 @@ export const resetPassword = async (
   validateResponseData(res);
   return res.data;
 };
+
+export const changePassword = async (
+  minorToken: string,
+  oldpwd: string,
+  newpwd: string
+) => {
+  const res = await axios.get(`${API_URL}/QuikTrak/V1/User/Password`, {
+    params: { MinorToken: minorToken, oldpwd, newpwd },
+  });
+  console.log(res);
+  validateResponseData(res);
+  return res.data;
+};

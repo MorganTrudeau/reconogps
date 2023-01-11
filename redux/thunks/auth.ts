@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as AuthApis from "../../api/auth";
-import { Errors } from "../../api/utils";
+import { Errors } from "../../utils/enums";
 import { RootState } from "../store";
 
 export const login = createAsyncThunk(
@@ -28,5 +28,19 @@ export const refreshToken = createAsyncThunk(
       throw Errors.InvalidAuth;
     }
     return AuthApis.refreshToken(majorToken, minorToken, deviceToken);
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  (
+    { oldPassword, newPassword }: { oldPassword: string; newPassword: string },
+    thunkApi
+  ) => {
+    const { minorToken } = (thunkApi.getState() as RootState).auth;
+    if (!minorToken) {
+      throw Errors.InvalidAuth;
+    }
+    return AuthApis.changePassword(minorToken, oldPassword, newPassword);
   }
 );

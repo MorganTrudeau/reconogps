@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: "v6",
+  key: "v8",
   version: 1,
   storage: AsyncStorage,
   transforms: [activeUserTransform],

@@ -3,10 +3,10 @@ import { View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { iconSize, spacing } from "../../styles/";
-import { FeatherIcon, ThemeProps } from "../../types/styles";
+import { FeatherIcon, MaterialIcon, ThemeProps } from "../../types/styles";
 import AppText from "../Core/AppText";
-import Feather from "@expo/vector-icons/Feather";
 import { useTheme } from "../../hooks/useTheme";
+import AppIcon from "../Core/AppIcon";
 
 export const OPTION_HEIGHT = 55;
 export const OPTION_ICON_SIZE = iconSize("md");
@@ -16,7 +16,7 @@ export type OptionModalItem = {
   customRenderer?: (props: { closeModal: () => void }) => React.ReactElement;
   value: string;
   text?: string;
-  icon?: FeatherIcon;
+  icon?: MaterialIcon;
   iconSize?: number;
   onPress?: (value: string) => void;
   renderIcon?: () => React.ReactElement;
@@ -180,7 +180,7 @@ export const OptionItem = ({
             marginRight: spacing("lg"),
           }}
         >
-          <Feather
+          <AppIcon
             name={option.icon}
             size={option.iconSize || OPTION_ICON_SIZE}
             color={
@@ -222,7 +222,7 @@ export const OptionItem = ({
         {option.loading ? (
           <ActivityIndicator color={colors.primary} />
         ) : option.selected ? (
-          <Feather name={"check-circle"} color={colors.primary} />
+          <AppIcon name={"check-circle"} color={colors.primary} />
         ) : null}
       </View>
     </View>

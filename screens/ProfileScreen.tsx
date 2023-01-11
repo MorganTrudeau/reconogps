@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
   View,
+  Switch,
 } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -14,25 +14,47 @@ import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation";
 import { iconSize, spacing } from "../styles";
 import { User } from "../types";
-import Feather from "@expo/vector-icons/Feather";
 import { updateUserInfo } from "../redux/thunks/user";
 import { useAppDispatch } from "../hooks/useAppDispatch";
+import AppText from "../components/Core/AppText";
+import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
+import { PermissionValues } from "../utils/enums";
+import { isAgentOrDealer } from "../redux/selectors/user";
+import AppField from "../components/Core/AppField";
+import TimeZoneModal from "../components/Modals/TimeZoneModal";
+import { Modalize } from "react-native-modalize";
+import { constructTimeZoneId, getTimeZone } from "../utils/user";
+import AppIcon from "../components/Core/AppIcon";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "profile">;
 
 const ProfileScreen = ({ navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
 
-  const { activeUser, updateRequest } = useAppSelector((state) => ({
-    activeUser: state.activeUser.data,
-    updateRequest: state.activeUser.updateRequest,
-  }));
+  const timeZoneModalRef = useRef<Modalize>(null);
+
+  const { activeUser, updateRequest, permissions2, agentOrDealer } =
+    useAppSelector((state) => ({
+      activeUser: state.activeUser.data || ({} as User),
+      permissions2: state.activeUser.permissions2,
+      updateRequest: state.activeUser.updateRequest,
+      agentOrDealer: isAgentOrDealer(state),
+    }));
   const dispatch = useAppDispatch();
 
-  const [userUpdate, setUserUpdate] = useState<Partial<User>>({});
-
-  const userUpdateRef = useRef(userUpdate);
-  userUpdateRef.current = { ...(activeUser || {}), ...userUpdate };
+  const [userUpdate, setUserUpdate] = useState<Partial<User>>({
+    ...activeUser,
+  });
+  const [autoMonthlyReport, setAutoMonthlyReport] = useState(
+    permissions2?.autoMonthlyReport || 0
+  );
+  const [timeZoneValue, setTimeZoneValue] = useState<string | null | undefined>(
+    constructTimeZoneId(activeUser.TimeZone, activeUser.TimeZoneID)
+  );
+  const timeZoneName = useMemo(() => {
+    const timeZoneObject = getTimeZone(timeZoneValue);
+    return timeZoneObject ? timeZoneObject.name : "";
+  }, [timeZoneValue]);
 
   const handleUpdate = (key: keyof User) => (val: string) => {
     setUserUpdate((s) => ({ ...s, [key]: val }));
@@ -51,50 +73,27 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
   };
 
   const handleUpdateUser = () => {
-    console.log(userUpdateRef.current);
     Keyboard.dismiss();
-    dispatch(updateUserInfo(userUpdateRef.current));
-  };
 
-  const renderSaveButton = () => {
-    return (
-      <Pressable style={theme.drawerHeaderRight} onPress={handleUpdateUser}>
-        <Feather
-          color={colors.primary}
-          name={"check-circle"}
-          size={iconSize("md")}
-        />
-      </Pressable>
+    dispatch(
+      updateUserInfo({
+        // @ts-ignore we need to pass timezone value string as TimeZone for api
+        update: { ...userUpdate, TimeZone: timeZoneValue },
+        permissions2: !agentOrDealer ? { autoMonthlyReport } : {},
+      })
     );
   };
 
-  const renderLoading = () => {
-    return (
-      <View style={theme.drawerHeaderRight}>
-        <ActivityIndicator color={colors.primary} />
-      </View>
-    );
+  const handleChangePassword = () => {
+    navigation.navigate("change-password");
   };
 
-  const setHeaderRightSaveButton = () => {
-    navigation.setOptions({ headerRight: renderSaveButton });
-  };
-
-  const setHeaderRightLoading = () => {
-    navigation.setOptions({ headerRight: renderLoading });
-  };
-
-  useEffect(() => {
-    setHeaderRightSaveButton();
-  }, []);
-
-  useEffect(() => {
-    if (updateRequest.loading) {
-      setHeaderRightLoading();
-    } else {
-      setHeaderRightSaveButton();
-    }
-  }, [updateRequest.loading]);
+  useHeaderRightSave({
+    loading: updateRequest.loading,
+    navigation,
+    onPress: handleUpdateUser,
+    style: theme.drawerHeaderRight,
+  });
 
   return (
     <View style={theme.container}>
@@ -144,7 +143,64 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
           onChangeText={handleUpdate("Address4")}
           value={getValue("Address4")}
         />
+        <AppField
+          placeholder="Timezone"
+          value={timeZoneName}
+          onPress={() =>
+            timeZoneModalRef.current && timeZoneModalRef.current.open()
+          }
+        />
+
+        {!agentOrDealer && (
+          <Pressable
+            style={[theme.row, styles.settingContainer]}
+            onPress={() =>
+              setAutoMonthlyReport((v) =>
+                v === 0 ? PermissionValues.AutoMonthlyReport : 0
+              )
+            }
+          >
+            <AppIcon
+              name={"file-chart"}
+              color={colors.primary}
+              style={styles.passwordIcon}
+              size={iconSize("sm")}
+            />
+            <AppText>Receive Monthly Account Report</AppText>
+            <Switch
+              trackColor={{ true: colors.primary, false: colors.surface }}
+              value={
+                (autoMonthlyReport & PermissionValues.AutoMonthlyReport) === 0
+              }
+              onValueChange={(active) =>
+                setAutoMonthlyReport(
+                  active ? 0 : PermissionValues.AutoMonthlyReport
+                )
+              }
+              style={{ marginLeft: spacing("lg") }}
+            />
+          </Pressable>
+        )}
+
+        <Pressable
+          style={[theme.row, styles.settingContainer]}
+          onPress={handleChangePassword}
+        >
+          <AppIcon
+            name={"key"}
+            color={colors.primary}
+            style={styles.passwordIcon}
+            size={iconSize("sm")}
+          />
+          <AppText>Change Password</AppText>
+        </Pressable>
       </ScrollView>
+
+      <TimeZoneModal
+        ref={timeZoneModalRef}
+        selectedTimeZoneId={timeZoneValue}
+        onSelect={setTimeZoneValue}
+      />
     </View>
   );
 };
@@ -154,6 +210,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing("lg"),
     paddingBottom: spacing("md"),
   },
+  settingContainer: { marginTop: spacing("xl") },
+  passwordIcon: { marginRight: spacing("md") },
 });
 
 export default ProfileScreen;

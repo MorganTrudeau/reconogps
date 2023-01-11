@@ -106,7 +106,14 @@ export const styles = StyleSheet.create({
   drawerHeaderRight: { marginHorizontal: 11, padding: 3 },
 
   container: { flex: 1, backgroundColor: colors.background },
+  contentContainer: { paddingHorizontal: spacing("lg") },
   row: { flexDirection: "row", alignItems: "center" },
+
+  modalHeaderSelectAll: {
+    marginHorizontal: 0,
+    paddingHorizontal: spacing("lg"),
+    marginTop: spacing("sm"),
+  },
 
   borderBottom: {
     borderBottomWidth: StyleSheet.hairlineWidth,

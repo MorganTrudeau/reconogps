@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, refreshToken } from "../thunks/auth";
+import { changePassword, login, logout, refreshToken } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
 import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
 
@@ -10,6 +10,7 @@ export interface AuthState {
 
   loginRequest: SimpleLoadingState;
   logoutRequest: SimpleLoadingState;
+  changePasswordRequest: SimpleLoadingState;
 }
 
 const initialState: AuthState = {
@@ -19,6 +20,7 @@ const initialState: AuthState = {
 
   loginRequest: IDLE_STATE,
   logoutRequest: IDLE_STATE,
+  changePasswordRequest: IDLE_STATE,
 };
 
 export const authSlice = createSlice({
@@ -33,6 +35,11 @@ export const authSlice = createSlice({
       state.minorToken = action.payload.MinorToken;
 
       state.loginRequest = SUCCESS_STATE;
+    });
+    // Change password
+    createSimpleLoadingState("changePasswordRequest", builder, changePassword);
+    builder.addCase(changePassword.fulfilled, (state, action) => {
+      state.changePasswordRequest = SUCCESS_STATE;
     });
     // Logout
     createSimpleLoadingState("logoutRequest", builder, logout);

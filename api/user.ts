@@ -1,20 +1,27 @@
 import axios from "axios";
 import { API_URL } from "@env";
 import { validateResponseData } from "./utils";
-import { User } from "../types";
+import { Permissions2, User } from "../types";
+import { userFromUpdateApiResponse } from "../utils/user";
 
 export const updateUserInfo = async (
   majorToken: string,
   minorToken: string,
-  update: Partial<User>
+  update: Partial<User>,
+  permissions2: Permissions2
 ) => {
-  const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/AccountEdit`, {
-    params: { MajorToken: majorToken, MinorToken: minorToken, ...update },
-  });
+  const params = {
+    MajorToken: majorToken,
+    MinorToken: minorToken,
+    ...update,
+    ...permissions2,
+  };
 
-  console.log(res);
+  const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/AccountEdit`, {
+    params,
+  });
 
   validateResponseData(res);
 
-  return res.data.Data;
+  return { user: userFromUpdateApiResponse(res.data.Data), permissions2 };
 };

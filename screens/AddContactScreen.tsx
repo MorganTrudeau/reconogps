@@ -1,17 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation";
-import { iconSize, spacing } from "../styles";
-import Feather from "@expo/vector-icons/Feather";
+import { spacing } from "../styles";
 
 import { AddContactData, EditContactData } from "../types";
 import { addContact, editContact } from "../redux/thunks/contacts";
@@ -20,6 +13,7 @@ import { useAlert } from "../hooks/useAlert";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useUpdated } from "../hooks/useUpdated";
 import { alertGeneralError } from "../utils";
+import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -45,8 +39,6 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
           Phone: "",
         }
   );
-  const contactDataRef = useRef(contactData);
-  contactDataRef.current = contactData;
 
   const { loading, success } = useAppSelector(
     (state) => state.contacts.addContact
@@ -68,47 +60,26 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
   };
 
   const handleAddContact = () => {
-    console.log(contactDataRef.current);
-    if (!contactDataRef.current.FirstName.length) {
+    if (!contactData.FirstName.length) {
       return Alert.alert(
         "Incomplete Contact",
         "Please add a first name for your contact."
       );
     }
-    if (!contactDataRef.current.SubName.length) {
+    if (!contactData.SubName.length) {
       return Alert.alert(
         "Incomplete Contact",
         "Please add a last name for your contact."
       );
     }
     if (isEditing) {
-      if (!("Code" in contactDataRef.current)) {
+      if (!("Code" in contactData)) {
         return alertGeneralError(Alert, () => navigation.goBack);
       }
-      dispatch(editContact(contactDataRef.current));
+      dispatch(editContact(contactData));
     } else {
-      dispatch(addContact(contactDataRef.current));
+      dispatch(addContact(contactData));
     }
-  };
-
-  const setHeaderRightAddButton = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Pressable onPress={handleAddContact}>
-          <Feather
-            name={"check-circle"}
-            size={iconSize("md")}
-            color={colors.primary}
-          />
-        </Pressable>
-      ),
-    });
-  };
-
-  const setHeaderRightLoading = () => {
-    navigation.setOptions({
-      headerRight: () => <ActivityIndicator color={colors.primary} />,
-    });
   };
 
   useEffect(() => {
@@ -117,13 +88,11 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (loading) {
-      setHeaderRightLoading();
-    } else {
-      setHeaderRightAddButton();
-    }
-  }, [loading]);
+  useHeaderRightSave({
+    loading,
+    navigation,
+    onPress: handleAddContact,
+  });
 
   return (
     <View style={theme.container}>

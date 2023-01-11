@@ -29,6 +29,10 @@ export type EditContactData = AddContactData & {
   Code: string;
 };
 
+export type Permissions = string[];
+
+export type Permissions2 = { autoMonthlyReport?: number };
+
 export type User = {
   Address0: string;
   Address1: string;
@@ -106,3 +110,5 @@ export type StaticAsset = {
 };
 
 export type DynamicAsset = {};
+
+export type ReportAlarm = { AlertId: string; AlertName: string };

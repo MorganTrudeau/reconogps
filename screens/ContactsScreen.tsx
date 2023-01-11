@@ -10,7 +10,6 @@ import { RootStackParamList } from "../navigation";
 import { getContacts } from "../redux/selectors/contacts";
 import { deleteContact, loadContacts } from "../redux/thunks/contacts";
 import { iconSize, spacing } from "../styles";
-import Feather from "@expo/vector-icons/Feather";
 import OptionsModal, {
   OptionModalItem,
 } from "../components/Modals/OptionsModal";
@@ -21,6 +20,7 @@ import { useUpdated } from "../hooks/useUpdated";
 import { contactToEditContactData } from "../utils/contacts";
 import Avatar from "../components/Avatar";
 import AppText from "../components/Core/AppText";
+import AppIcon from "../components/Core/AppIcon";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "contacts">;
 
@@ -68,7 +68,7 @@ const ContactsScreen = ({ navigation }: NavigationProps) => {
           style={theme.drawerHeaderRight}
           onPress={() => navigation.navigate("manage-contact")}
         >
-          <Feather
+          <AppIcon
             name={"plus-circle"}
             size={iconSize("md")}
             color={colors.primary}
@@ -126,13 +126,13 @@ const ContactsScreen = ({ navigation }: NavigationProps) => {
     {
       value: "edit",
       text: "Edit Contact",
-      icon: "edit",
+      icon: "pencil",
       onPress: handleEditSelectedContact,
     },
     {
       value: "delete",
       text: "Delete Contact",
-      icon: "trash",
+      icon: "delete",
       destructive: true,
       onPress: handleDeleteSelectedContact,
       loading: deleteRequest.loading,

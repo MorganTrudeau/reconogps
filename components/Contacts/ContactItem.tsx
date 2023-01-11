@@ -5,7 +5,7 @@ import { iconSize, spacing } from "../../styles";
 import { Contact } from "../../types";
 import Avatar from "../Avatar";
 import AppText from "../Core/AppText";
-import Feather from "@expo/vector-icons/Feather";
+import AppIcon from "../Core/AppIcon";
 
 type Props = {
   contact: Contact;
@@ -45,8 +45,8 @@ const ContactItem = ({ contact, onPress, onOptionsPress }: Props) => {
       </View>
 
       <Pressable onPress={() => onOptionsPress && onOptionsPress(contact)}>
-        <Feather
-          name={"more-vertical"}
+        <AppIcon
+          name={"dots-vertical"}
           color={colors.primary}
           size={iconSize("md")}
         />

@@ -1,10 +1,10 @@
 import React from "react";
-import Feather from "@expo/vector-icons/Feather";
 import { iconSize } from "../styles";
-import { FeatherIcon } from "../types/styles";
+import { MaterialIcon } from "../types/styles";
+import AppIcon from "../components/Core/AppIcon";
 
 const AppDrawerIcon = ({ size, color, icon }: Props) => {
-  return <Feather {...{ size: iconSize("sm"), color }} name={icon} />;
+  return <AppIcon {...{ size: iconSize("md"), color }} name={icon} />;
 };
 
 export default AppDrawerIcon;
@@ -13,5 +13,5 @@ type Props = {
   size: number;
   color: string;
   focused: boolean;
-  icon: FeatherIcon;
+  icon: MaterialIcon;
 };

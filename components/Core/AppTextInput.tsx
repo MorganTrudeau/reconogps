@@ -1,22 +1,25 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import {
   Animated,
+  NativeSyntheticEvent,
   Pressable,
   StyleProp,
   StyleSheet,
   TextInput,
+  TextInputFocusEventData,
   TextInputProps,
   View,
   ViewStyle,
 } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
 import { iconSize, spacing } from "../../styles";
 import { useUpdated } from "../../hooks/useUpdated";
 import { useTheme } from "../../hooks/useTheme";
+import AppIcon from "./AppIcon";
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   animatedPlaceholder?: boolean;
+  validation?: (val: string) => boolean;
 } & TextInputProps;
 
 const AppTextInput = forwardRef<TextInput, Props>(
@@ -27,11 +30,14 @@ const AppTextInput = forwardRef<TextInput, Props>(
       placeholder,
       value,
       animatedPlaceholder = true,
+      validation,
       ...rest
     }: Props,
     ref
   ) => {
     const { theme, colors } = useTheme();
+
+    const [invalidValue, setInvalidValue] = useState(false);
 
     const placeholderAnimation = useRef(
       new Animated.Value(!!value ? 1 : 0)
@@ -79,6 +85,18 @@ const AppTextInput = forwardRef<TextInput, Props>(
     );
     const usingSecureTextEntry = typeof secureTextEntry === "boolean";
 
+    const handleBlur = (
+      event: NativeSyntheticEvent<TextInputFocusEventData>
+    ) => {
+      if (rest.onBlur) {
+        rest.onBlur(event);
+      }
+      if (validation && value) {
+        const valid = validation(value);
+        setInvalidValue(!valid);
+      }
+    };
+
     return (
       <View
         style={[
@@ -100,16 +118,18 @@ const AppTextInput = forwardRef<TextInput, Props>(
             usingSecureTextEntry && {
               paddingRight: EYE_ICON_SIZE + spacing("lg") * 1.5,
             },
+            invalidValue && { borderBottomWidth: 1, borderColor: colors.red },
             style,
           ]}
           value={value}
+          onBlur={handleBlur}
         />
         {usingSecureTextEntry ? (
           <Pressable
             onPress={() => setSecureTextEntry(!secureTextEntry)}
             style={styles.eyeIcon}
           >
-            <Feather
+            <AppIcon
               name={secureTextEntry ? "eye-off" : "eye"}
               size={EYE_ICON_SIZE}
               color={colors.primary}

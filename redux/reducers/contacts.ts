@@ -3,7 +3,7 @@ import {
   createSlice,
   EntityState,
 } from "@reduxjs/toolkit";
-import { logout } from "../thunks/auth";
+import { login, logout } from "../thunks/auth";
 import { Contact } from "../../types";
 import { SimpleLoadingState } from "../../types/redux";
 import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
@@ -49,6 +49,10 @@ export const contactsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Login data
+    builder.addCase(login.fulfilled, (state, action) => {
+      contactsAdapter.setAll(state.data, action.payload.ContactList);
+    });
     // Load contacts
     createSimpleLoadingState("loadRequest", builder, loadContacts);
     builder.addCase(loadContacts.fulfilled, (state, action) => {

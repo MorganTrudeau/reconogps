@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as AssetApis from "../../api/assets";
-import { Errors } from "../../api/utils";
+import { Errors } from "../../utils/enums";
 import { RootState } from "../store";
 
 export const loadDynamicAssets = createAsyncThunk(

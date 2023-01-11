@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as ContactsApis from "../../api/contacts";
-import { Errors } from "../../api/utils";
+import { Errors } from "../../utils/enums";
 import { AddContactData, EditContactData } from "../../types";
 import { RootState } from "../store";
 

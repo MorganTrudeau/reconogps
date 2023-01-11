@@ -9,6 +9,7 @@ import { store, persistor } from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import AuthManager from "./services/AuthManager";
+import { PortalProvider } from "@gorhom/portal";
 
 export default function App() {
   return (
@@ -16,7 +17,9 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider>
-            <NavigationStack />
+            <PortalProvider>
+              <NavigationStack />
+            </PortalProvider>
             <AuthManager />
             <StatusBar style="light" />
           </ThemeProvider>
