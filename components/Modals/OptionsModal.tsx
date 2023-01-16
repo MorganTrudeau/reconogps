@@ -7,6 +7,7 @@ import { FeatherIcon, MaterialIcon, ThemeProps } from "../../types/styles";
 import AppText from "../Core/AppText";
 import { useTheme } from "../../hooks/useTheme";
 import AppIcon from "../Core/AppIcon";
+import { Portal } from "@gorhom/portal";
 
 export const OPTION_HEIGHT = 55;
 export const OPTION_ICON_SIZE = iconSize("md");
@@ -18,13 +19,14 @@ export type OptionModalItem = {
   text?: string;
   icon?: MaterialIcon;
   iconSize?: number;
-  onPress?: (value: string) => void;
+  onPress?: () => void;
   renderIcon?: () => React.ReactElement;
   destructive?: boolean;
   onConfirmation?: () => Promise<boolean>;
   disabled?: boolean;
   loading?: boolean;
   selected?: boolean;
+  closeOnPress?: boolean;
 };
 
 type OptionModalProps = {
@@ -32,19 +34,12 @@ type OptionModalProps = {
   description?: string;
   options: Array<OptionModalItem>;
   onSelect?: () => void;
-  closeOnPress?: boolean;
   HeaderComponent?: React.FC<any>;
 };
 
 const OptionsModal = forwardRef<Modalize, OptionModalProps>(
   (
-    {
-      title,
-      description,
-      options = [],
-      closeOnPress,
-      HeaderComponent,
-    }: OptionModalProps,
+    { title, description, options = [], HeaderComponent }: OptionModalProps,
     ref
   ) => {
     const { theme, colors } = useTheme();
@@ -60,7 +55,7 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
     };
 
     const handleSelect = async (option: OptionModalItem) => {
-      if (closeOnPress) {
+      if (option.closeOnPress) {
         closeModal();
       }
 
@@ -77,7 +72,7 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
       const onPress = option.onPress;
 
       if (typeof onPress === "function") {
-        requestAnimationFrame(() => onPress(option.value));
+        requestAnimationFrame(() => onPress());
       }
     };
 
@@ -99,40 +94,42 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
       );
 
     return (
-      <Modalize
-        ref={ref}
-        adjustToContentHeight={true}
-        modalStyle={{ backgroundColor: colors.background }}
-        childrenStyle={{
-          paddingTop: PADDING_TOP,
-          paddingBottom: PADDING_BOTTOM,
-        }}
-      >
-        {(!!title || !!description) && (
-          <View
-            style={{
-              marginHorizontal: spacing("lg"),
-              marginBottom: TITLE_PADDING_BOTTOM,
-            }}
-          >
-            {!!title && <AppText style={theme.titleLarge}>{title}</AppText>}
-            {!!description && (
-              <AppText
-                style={{
-                  color: colors.empty,
-                  marginTop: 3,
-                }}
-              >
-                {description}
-              </AppText>
-            )}
-          </View>
-        )}
+      <Portal>
+        <Modalize
+          ref={ref}
+          adjustToContentHeight={true}
+          modalStyle={{ backgroundColor: colors.background }}
+          childrenStyle={{
+            paddingTop: PADDING_TOP,
+            paddingBottom: PADDING_BOTTOM,
+          }}
+        >
+          {(!!title || !!description) && (
+            <View
+              style={{
+                marginHorizontal: spacing("lg"),
+                marginBottom: TITLE_PADDING_BOTTOM,
+              }}
+            >
+              {!!title && <AppText style={theme.titleLarge}>{title}</AppText>}
+              {!!description && (
+                <AppText
+                  style={{
+                    color: colors.empty,
+                    marginTop: 3,
+                  }}
+                >
+                  {description}
+                </AppText>
+              )}
+            </View>
+          )}
 
-        {HeaderComponent !== undefined && <HeaderComponent />}
+          {HeaderComponent !== undefined && <HeaderComponent />}
 
-        {renderOptions()}
-      </Modalize>
+          {renderOptions()}
+        </Modalize>
+      </Portal>
     );
   }
 );

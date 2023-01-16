@@ -10,19 +10,25 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import AuthManager from "./services/AuthManager";
 import { PortalProvider } from "@gorhom/portal";
+import ToastProvider from "./context/ToastContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ThemeProvider>
-            <PortalProvider>
-              <NavigationStack />
-            </PortalProvider>
-            <AuthManager />
-            <StatusBar style="light" />
-          </ThemeProvider>
+          <SafeAreaProvider>
+            <ThemeProvider>
+              <ToastProvider>
+                <PortalProvider>
+                  <NavigationStack />
+                </PortalProvider>
+              </ToastProvider>
+              <AuthManager />
+              <StatusBar style="light" />
+            </ThemeProvider>
+          </SafeAreaProvider>
         </PersistGate>
       </Provider>
     </NavigationContainer>

@@ -26,9 +26,17 @@ import ContactsScreen from "../screens/ContactsScreen";
 import UserGuideScreen from "../screens/UserGuideScreen";
 import SupportScreen from "../screens/SupportScreen";
 import AddContactScreen from "../screens/AddContactScreen";
-import { AddContactData, Contact, EditContactData } from "../types";
+import {
+  AddContactData,
+  Contact,
+  EditContactData,
+  SharedAsset,
+  SharedAssetListData,
+} from "../types";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import CreateReportScreen from "../screens/CreateReportScreen";
+import ShareNewAssetScreen from "../screens/ShareNewAssetScreen";
+import SharedAssetDetailsScreen from "../screens/SharedAssetDetailsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -49,6 +57,9 @@ export type RootStackParamList = {
   "create-report": {
     context: "alarms" | "overview" | "runtime" | "stops" | "trips";
   };
+  "share-new-asset": undefined;
+  "subscribe-asset": undefined;
+  "shared-asset-details": { sharedAssetCode: string };
 };
 
 const Stack = createNativeStackNavigator();
@@ -260,6 +271,18 @@ const MainStack = () => {
         options={{ title: "Create Report" }}
         // @ts-ignore
         component={CreateReportScreen}
+      />
+      <Stack.Screen
+        name="share-new-asset"
+        options={{ title: "Share New Asset" }}
+        // @ts-ignore
+        component={ShareNewAssetScreen}
+      />
+      <Stack.Screen
+        name="shared-asset-details"
+        options={{ title: "Shared Asset Details" }}
+        // @ts-ignore
+        component={SharedAssetDetailsScreen}
       />
     </Stack.Navigator>
   );

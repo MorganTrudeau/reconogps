@@ -14,6 +14,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useUpdated } from "../hooks/useUpdated";
 import { alertGeneralError } from "../utils";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
+import { useToast } from "../hooks/useToast";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -23,6 +24,7 @@ type NavigationProps = NativeStackScreenProps<
 const AddContactScreen = ({ route, navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const Alert = useAlert();
+  const Toast = useToast();
 
   const isEditing = !!route.params?.editContactData;
 
@@ -47,6 +49,7 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
 
   useUpdated(success, (currentSuccess, prevSuccess) => {
     if (currentSuccess && !prevSuccess) {
+      Toast.show(isEditing ? "Contact Edited" : "Contact Added");
       navigation.goBack();
     }
   });
@@ -76,6 +79,7 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
       if (!("Code" in contactData)) {
         return alertGeneralError(Alert, () => navigation.goBack);
       }
+      console.log(contactData);
       dispatch(editContact(contactData));
     } else {
       dispatch(addContact(contactData));

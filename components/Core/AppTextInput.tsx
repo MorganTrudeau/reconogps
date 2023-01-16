@@ -20,6 +20,7 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   animatedPlaceholder?: boolean;
   validation?: (val: string) => boolean;
+  required?: boolean;
 } & TextInputProps;
 
 const AppTextInput = forwardRef<TextInput, Props>(
@@ -31,6 +32,7 @@ const AppTextInput = forwardRef<TextInput, Props>(
       value,
       animatedPlaceholder = true,
       validation,
+      required,
       ...rest
     }: Props,
     ref
@@ -91,9 +93,19 @@ const AppTextInput = forwardRef<TextInput, Props>(
       if (rest.onBlur) {
         rest.onBlur(event);
       }
-      if (validation && value) {
-        const valid = validation(value);
-        setInvalidValue(!valid);
+      if (validation) {
+        if (value) {
+          const valid = validation(value);
+          setInvalidValue(!valid);
+        } else if (!invalidValue) {
+          setInvalidValue(true);
+        }
+      } else if (required) {
+        if (!value && !invalidValue) {
+          setInvalidValue(true);
+        } else if (value && invalidValue) {
+          setInvalidValue(false);
+        }
       }
     };
 

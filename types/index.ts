@@ -111,4 +111,15 @@ export type StaticAsset = {
 
 export type DynamicAsset = {};
 
+export type SharedAsset = {
+  Code: string;
+  CreateTime: string;
+  CreatorCode: string | null;
+  CustomerCode: string;
+  EndTime: string;
+  IMEI: string;
+};
+
+export type SharedAssetListData = SharedAsset & { asset?: StaticAsset };
+
 export type ReportAlarm = { AlertId: string; AlertName: string };

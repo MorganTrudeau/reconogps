@@ -20,3 +20,14 @@ export const loadDynamicAssets = createAsyncThunk(
     return AssetApis.loadDynamicAssets(majorToken, minorToken, ids);
   }
 );
+
+export const loadStaticAssets = createAsyncThunk(
+  "assets/loadStaticAssets",
+  (_, thunkApi) => {
+    const { majorToken, minorToken } = (thunkApi.getState() as RootState).auth;
+    if (!(majorToken && minorToken)) {
+      throw Errors.InvalidAuth;
+    }
+    return AssetApis.loadStaticAssets(majorToken, minorToken);
+  }
+);

@@ -14,6 +14,11 @@ export const createSimpleLoadingState = <State>(
   });
   builder.addCase(thunk.rejected, (state, action) => {
     // @ts-ignore
-    state[stateKey] = { loading: false, error: action.error, success: false };
+    state[stateKey] = {
+      loading: false,
+      // @ts-ignore
+      error: action.error?.message || action.error || "general_error",
+      success: false,
+    };
   });
 };

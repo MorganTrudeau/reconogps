@@ -145,17 +145,7 @@ const ContactsScreen = ({ navigation }: NavigationProps) => {
     }
 
     return (
-      <View
-        style={[
-          theme.row,
-          {
-            paddingHorizontal: spacing("lg"),
-            paddingTop: spacing("md"),
-            paddingBottom: spacing("lg"),
-          },
-          theme.borderBottom,
-        ]}
-      >
+      <View style={theme.optionsHeader}>
         <Avatar
           firstName={selectedContact.FirstName}
           lastName={selectedContact.SubName}

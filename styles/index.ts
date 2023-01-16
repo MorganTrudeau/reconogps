@@ -115,9 +115,23 @@ export const styles = StyleSheet.create({
     marginTop: spacing("sm"),
   },
 
+  optionsHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: spacing("lg"),
+    paddingTop: spacing("md"),
+    paddingBottom: spacing("lg"),
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
+  },
+
   borderBottom: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.border,
+  },
+  borderTop: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
   },
 
   textInput: {
@@ -143,12 +157,30 @@ export const styles = StyleSheet.create({
     color: "#000000",
   }),
 
+  textSmallPrimary: createFont({
+    color: colors.primary,
+    fontSize: FontSizes.SMALL,
+  }),
+  textSmallMeta: createFont({
+    color: colors.textMeta,
+    fontSize: FontSizes.SMALL,
+  }),
+  textSmall: createFont({ color: colors.text, fontSize: FontSizes.SMALL }),
+
   textPrimary: createFont({ color: colors.primary }),
   textMeta: createFont({ color: colors.textMeta }),
   text: createFont({ color: colors.text }),
 
   title: createFont({
     color: colors.text,
+    fontWeight: FontWeights.BOLD,
+  }),
+  titleMeta: createFont({
+    color: colors.textMeta,
+    fontWeight: FontWeights.BOLD,
+  }),
+  titlePrimary: createFont({
+    color: colors.primary,
     fontWeight: FontWeights.BOLD,
   }),
 

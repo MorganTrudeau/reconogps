@@ -3,7 +3,8 @@ import { useMemo, useState } from "react";
 export const useSelectItems = (
   data: any[],
   initalSelectedIds: string[] = [],
-  idSelector: (val: any) => string = (val: any) => val.id
+  idSelector: (val: any) => string = (val: any) => val.id,
+  singleSelect?: boolean
 ) => {
   const [selectedIds, setSelectedIds] = useState<string[]>(initalSelectedIds);
 
@@ -20,11 +21,15 @@ export const useSelectItems = (
   };
 
   const selectId = (id: string) => {
-    setSelectedIds((selectedIds) =>
-      selectedIds.includes(id)
-        ? selectedIds.filter((i) => i !== id)
-        : [...selectedIds, id]
-    );
+    if (singleSelect) {
+      setSelectedIds([id]);
+    } else {
+      setSelectedIds((selectedIds) =>
+        selectedIds.includes(id)
+          ? selectedIds.filter((i) => i !== id)
+          : [...selectedIds, id]
+      );
+    }
   };
 
   const isSelected = (id: string) => {

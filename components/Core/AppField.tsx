@@ -13,6 +13,7 @@ import { useUpdated } from "../../hooks/useUpdated";
 import { useTheme } from "../../hooks/useTheme";
 import AppText from "./AppText";
 import AppIcon from "./AppIcon";
+import { MaterialIcon } from "../../types/styles";
 
 export type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -21,6 +22,7 @@ export type Props = {
   placeholder?: string;
   value: string;
   loading?: boolean;
+  endIcon?: MaterialIcon;
 };
 
 const AppField = ({
@@ -30,6 +32,7 @@ const AppField = ({
   onPress,
   animatedPlaceholder = true,
   loading,
+  endIcon,
 }: Props) => {
   const { theme, colors } = useTheme();
 
@@ -77,7 +80,7 @@ const AppField = ({
   return (
     <Pressable
       onPress={onPress}
-      disabled={!onPress}
+      disabled={!onPress || loading}
       style={[
         styles.container,
         !!placeholder && animatedPlaceholder && { marginTop: spacing("xl") },
@@ -106,14 +109,14 @@ const AppField = ({
           style={[styles.icon, { right: ICON_RIGHT * 1.5 }]}
           color={colors.primary}
         />
-      ) : (
+      ) : onPress ? (
         <AppIcon
-          name={"chevron-down"}
+          name={endIcon || "chevron-down"}
           size={ICON_SIZE}
           color={colors.primary}
           style={styles.icon}
         />
-      )}
+      ) : null}
 
       {!!placeholder && animatedPlaceholder && (
         <Animated.Text

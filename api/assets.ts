@@ -20,3 +20,18 @@ export const loadDynamicAssets = async (
 
   return res.data.Data;
 };
+
+export const loadStaticAssets = async (
+  majorToken: string,
+  minorToken: string
+) => {
+  const res = await axios.get(`${API_URL}/QUIKTRAK/V2/ASSET/GETLIST`, {
+    params: { MajorToken: majorToken, MinorToken: minorToken },
+  });
+
+  console.log(res);
+
+  validateResponseData(res);
+
+  return res.data.Data;
+};

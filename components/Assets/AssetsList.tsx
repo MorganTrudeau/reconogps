@@ -12,8 +12,8 @@ type Props = {} & Omit<FlatListProps<StaticAsset>, "data" | "renderItem">;
 const AssetsList = (props: Props) => {
   const { assets, ids, loading } = useAppSelector((state) => ({
     assets: getStaticAssets(state),
-    ids: state.assets.staticData.ids,
-    loading: state.assets.loadRequest.loading,
+    ids: state.assets.staticData.ids as string[],
+    loading: state.assets.staticLoadRequest.loading,
   }));
   const dispatch = useAppDispatch();
 

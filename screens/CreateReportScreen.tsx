@@ -134,8 +134,8 @@ const CreateReportScreen = ({ navigation, route }: NavigationProps) => {
         Emails,
         Export: "PDF",
         Logo: "https://helper.quiktrak.com.au/logo/quiktrak/logo.png",
-        DateFrom: moment(startDate).format(Constants.COM_TIMEFORMAT),
-        DateTo: moment(endDate).format(Constants.COM_TIMEFORMAT),
+        DateFrom: moment(startDate).format(Constants.MOMENT_DATE_TIME_FORMAT),
+        DateTo: moment(endDate).format(Constants.MOMENT_DATE_TIME_FORMAT),
         AlertIds,
       };
 

@@ -1,3 +1,3 @@
 export const Constants = {
-  COM_TIMEFORMAT: "YYYY-MM-DD HH:mm:ss",
+  MOMENT_DATE_TIME_FORMAT: "YYYY-MM-DD HH:mm",
 };

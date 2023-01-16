@@ -1,3 +1,5 @@
+import { MaterialIcon } from "../types/styles";
+
 export const CustomerTypes = {
   Agent: 2,
   Enterprise: 4,
@@ -13,4 +15,8 @@ export const PermissionValues = {
 
 export const Errors = {
   InvalidAuth: "invalid_auth",
+};
+
+export const IconSet: { asset: MaterialIcon } = {
+  asset: "car",
 };

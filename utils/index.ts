@@ -112,3 +112,6 @@ export const validateEmail = (email: string): boolean => {
 
   return !!email.match(validRegex);
 };
+
+export const validateNumber = (value: string): boolean =>
+  value !== "" && !isNaN(Number(value));
