@@ -14,7 +14,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import logger from "redux-logger";
 
 import authReducer, { AuthState } from "../reducers/auth";
-import assetsReducer, { AssetsState } from "../reducers/assets";
+import assetsReducer, {
+  AssetsState,
+  transform as assetsTransform,
+} from "../reducers/assets";
 import contactsReducer, {
   ContactsState,
   transform as contactsTransform,
@@ -24,6 +27,10 @@ import activeUserSlice, {
   transform as activeUserTransform,
 } from "../reducers/activeUser";
 import sharedAssetsSlice, { SharedAssetsState } from "../reducers/sharedAssets";
+import geofencesSlice, {
+  GeofencesState,
+  transform as geofencesTransform,
+} from "../reducers/geofences";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -31,14 +38,20 @@ const rootReducer = combineReducers({
   activeUser: activeUserSlice,
   contacts: contactsReducer,
   sharedAssets: sharedAssetsSlice,
+  geofences: geofencesSlice,
 });
 
 const persistConfig: PersistConfig<RootState> = {
   key: "v12",
   version: 1,
   storage: AsyncStorage,
-  transforms: [activeUserTransform, contactsTransform],
-  blacklist: ["sharedAssets"],
+  transforms: [
+    assetsTransform,
+    activeUserTransform,
+    contactsTransform,
+    geofencesTransform,
+  ],
+  blacklist: ["sharedAssets", "geofences"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -61,6 +74,7 @@ export type RootState = {
   activeUser: ActiveUserState;
   contacts: ContactsState;
   sharedAssets: SharedAssetsState;
+  geofences: GeofencesState;
 };
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

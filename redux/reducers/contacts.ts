@@ -19,7 +19,7 @@ export interface ContactsState {
   data: EntityState<Contact>;
 
   loadRequest: SimpleLoadingState;
-  addContact: SimpleLoadingState;
+  addContactRequest: SimpleLoadingState;
   deleteRequest: SimpleLoadingState;
 }
 
@@ -31,7 +31,7 @@ const initialState: ContactsState = {
   data: contactsAdapter.getInitialState(),
 
   loadRequest: IDLE_STATE,
-  addContact: IDLE_STATE,
+  addContactRequest: IDLE_STATE,
   deleteRequest: IDLE_STATE,
 };
 
@@ -60,18 +60,18 @@ export const contactsSlice = createSlice({
       state.loadRequest = SUCCESS_STATE;
     });
     // Add contact
-    createSimpleLoadingState("addContact", builder, addContact);
+    createSimpleLoadingState("addContactRequest", builder, addContact);
     // Update User Info
     builder.addCase(addContact.fulfilled, (state, action) => {
       contactsAdapter.setOne(state.data, action.payload);
-      state.addContact = SUCCESS_STATE;
+      state.addContactRequest = SUCCESS_STATE;
     });
     // Edit contact
-    createSimpleLoadingState("addContact", builder, editContact);
+    createSimpleLoadingState("addContactRequest", builder, editContact);
     // Update User Info
     builder.addCase(editContact.fulfilled, (state, action) => {
       contactsAdapter.setOne(state.data, action.payload);
-      state.addContact = SUCCESS_STATE;
+      state.addContactRequest = SUCCESS_STATE;
     });
     // Delete contact
     createSimpleLoadingState("deleteRequest", builder, deleteContact);

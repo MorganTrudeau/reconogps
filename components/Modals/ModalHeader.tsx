@@ -11,7 +11,7 @@ type Props = {
   search?: string;
   setSearch?: (search: string) => void;
   onRequestClose: () => void;
-  title: string;
+  title?: string;
 } & ThemeProps;
 
 const ModalHeader = ({

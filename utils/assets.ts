@@ -1,5 +1,10 @@
 import { StaticAsset } from "../types";
 
+export const assetHasIcon = (staticAsset: StaticAsset): boolean => {
+  const pattern = /^IMEI_/i;
+  return !!staticAsset.icon && pattern.test(staticAsset.icon);
+};
+
 export const getAssetKeyFromIndex = (index: number): keyof StaticAsset => {
   const indexKeyMap: { [num: number]: keyof StaticAsset | "" } = {
     0: "id",

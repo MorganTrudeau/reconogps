@@ -1,11 +1,20 @@
-export type AlarmReportParams = {
+export type ReportParams = {
   MajorToken: string;
   MinorToken: string;
   IMEIs: string[];
   Emails: string[];
   Export: "PDF";
   Logo: string;
-  DateFrom: string;
-  DateTo: string;
-  AlertIds: string[];
+  DateFrom?: string;
+  DateTo?: string;
+  To: string;
+  From: string;
+  AlertIds?: string[];
+  Alerts?: string[];
+  AsIds?: string[];
+  Features?: string[];
+  GetGeofenceCodes?: string[];
+  EventClass?: string;
+  EventTypes?: number[] | string;
+  EventDurations?: string[];
 };

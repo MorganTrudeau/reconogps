@@ -8,7 +8,8 @@ import { SimpleLoadingState } from "../../types/redux";
 import { DynamicAsset, StaticAsset } from "../../types";
 import { mapArrayOfAssetArrays } from "../../utils/assets";
 import { loadDynamicAssets, loadStaticAssets } from "../thunks/assets";
-import { createSimpleLoadingState, IDLE_STATE } from "../utils";
+import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import { createTransform } from "redux-persist";
 
 export interface AssetsState {
   staticData: EntityState<StaticAsset>;
@@ -38,8 +39,9 @@ export const assetsSlice = createSlice({
     // Load Static
     createSimpleLoadingState("staticLoadRequest", builder, loadStaticAssets);
     builder.addCase(loadStaticAssets.fulfilled, (state, action) => {
-      const staticAssets = mapArrayOfAssetArrays(action.payload);
-      staticAssetsAdapter.setAll(state.staticData, staticAssets);
+      // const staticAssets = mapArrayOfAssetArrays(action.payload);
+      // staticAssetsAdapter.setAll(state.staticData, action.payload);
+      state.staticLoadRequest = SUCCESS_STATE;
     });
     // Load Dynamic
     builder.addCase(loadDynamicAssets.fulfilled, (state, action) => {
@@ -52,5 +54,14 @@ export const assetsSlice = createSlice({
     });
   },
 });
+
+export const transform = createTransform(
+  (state: AssetsState) => ({
+    ...initialState,
+    staticData: state.staticData,
+  }),
+  (state: AssetsState) => state,
+  { whitelist: ["assets"] }
+);
 
 export default assetsSlice.reducer;

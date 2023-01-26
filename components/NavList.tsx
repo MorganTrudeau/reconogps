@@ -5,6 +5,7 @@ import { iconSize, spacing } from "../styles";
 import { MaterialIcon } from "../types/styles";
 import AppText from "./Core/AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AppScrollView from "./Core/AppScrollView";
 
 export type NavListItem = {
   icon: MaterialIcon;
@@ -39,7 +40,7 @@ const NavList = ({ items }: Props) => {
     );
   };
 
-  return <ScrollView>{items.map(renderItem)}</ScrollView>;
+  return <AppScrollView>{items.map(renderItem)}</AppScrollView>;
 };
 
 const styles = StyleSheet.create({

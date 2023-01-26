@@ -1,20 +1,11 @@
 import React, { forwardRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Keyboard,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, Keyboard, StyleSheet, View } from "react-native";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useTheme } from "../../hooks/useTheme";
 import { useToast } from "../../hooks/useToast";
 import { useUpdated } from "../../hooks/useUpdated";
-import {
-  extendSharedAssetExpiry,
-  subscribeSharedAsset,
-} from "../../redux/thunks/sharedAssets";
+import { extendSharedAssetExpiry } from "../../redux/thunks/sharedAssets";
 import { BORDER_RADIUS_SM, spacing } from "../../styles";
 import ConfirmCancelButtons from "../ConfirmCancelButtons";
 import AppText from "../Core/AppText";
@@ -22,6 +13,7 @@ import AppTextInput from "../Core/AppTextInput";
 import AppModal, { AppModalRef } from "../Core/AppModal";
 import AppKeyboardAwareView from "../KeyboardAwareView";
 import { validateNumber } from "../../utils";
+import AppScrollView from "../Core/AppScrollView";
 
 type Props = { close: () => void; sharedAssetCode: string | undefined };
 
@@ -56,7 +48,10 @@ const ExtendSharedAssetExpiry = ({ close, sharedAssetCode }: Props) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       scrollOffset={-spacing("lg")}
     >
-      <ScrollView scrollEnabled={false} keyboardShouldPersistTaps={"handled"}>
+      <AppScrollView
+        scrollEnabled={false}
+        keyboardShouldPersistTaps={"handled"}
+      >
         {extendExpiryRequest.loading ? (
           <View style={theme.row}>
             <AppText>Extending Share Expiry</AppText>
@@ -91,7 +86,7 @@ const ExtendSharedAssetExpiry = ({ close, sharedAssetCode }: Props) => {
             />
           </>
         )}
-      </ScrollView>
+      </AppScrollView>
     </AppKeyboardAwareView>
   );
 };

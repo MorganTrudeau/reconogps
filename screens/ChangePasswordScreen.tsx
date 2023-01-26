@@ -1,12 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import AppScrollView from "../components/Core/AppScrollView";
 import AppText from "../components/Core/AppText";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useAlert } from "../hooks/useAlert";
@@ -77,7 +72,7 @@ const ChangePasswordScreen = ({ navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      <ScrollView contentContainerStyle={styles.listContent}>
+      <AppScrollView contentContainerStyle={styles.listContent}>
         <AppTextInput
           placeholder="Current password"
           value={state.oldPassword}
@@ -128,7 +123,7 @@ const ChangePasswordScreen = ({ navigation }: NavigationProps) => {
             Click here.
           </AppText>
         </AppText>
-      </ScrollView>
+      </AppScrollView>
     </View>
   );
 };

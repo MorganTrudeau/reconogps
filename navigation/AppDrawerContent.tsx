@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   logo: {
     height: ICON_HEIGHT,
     width: ICON_WIDTH,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     marginTop: spacing("md"),
     marginBottom: spacing("md") * 2,
   },

@@ -1,7 +1,8 @@
-import { ReportAlarm, StaticAsset, User } from "../types";
+import { ReportAlarm, SolutionType, StaticAsset, User } from "../types";
 import { IMAGE_URL } from "@env";
 import { AlertButton, AlertOptions } from "react-native";
 import { timeZones } from "./data";
+import { SolutionTypes } from "./enums";
 
 export const constructImageUrl = (image: string) =>
   `${IMAGE_URL}/Attachment/images/${image}?${Date.now()}`;
@@ -36,12 +37,10 @@ export const alertGeneralError = (
   );
 };
 
-const getAlarmName = (type: string) => {
+export const getAlarmName = (type: string | number) => {
   let name = "";
   type = "" + type;
   switch (type) {
-    //case '0':           ret = LANGUAGE.REPORT_ALERT_LIST_MSG01; break; // None
-    //case '1':           ret = LANGUAGE.REPORT_ALERT_LIST_MSG02; break; // Custom
     case "2":
       name = "SOS Duress";
       break;
@@ -95,6 +94,74 @@ const getAlarmName = (type: string) => {
       break;
   }
   return name;
+};
+
+export const getAlarmListTypeForSolution = (
+  solutionType: SolutionType | null | undefined
+) => {
+  const lowercaseSolution = solutionType?.toLowerCase() as SolutionType;
+
+  if (
+    lowercaseSolution === SolutionTypes.track ||
+    lowercaseSolution === SolutionTypes.watch ||
+    lowercaseSolution === SolutionTypes.life
+  ) {
+    return 2;
+  } else if (lowercaseSolution === SolutionTypes.protect) {
+    return 1;
+  }
+
+  return 3;
+};
+
+const witiAlarmIdsWhiteList = ["8", "1024", "16", "512", "4", "131072"];
+const alarmIdsWhiteList = [
+  "65536",
+  "32768",
+  "1048576",
+  "131072",
+  "1024",
+  "8",
+  "16",
+  "128",
+  "512",
+  "4",
+  "2",
+  "256",
+  "33554432",
+  "2097152",
+  "16777216",
+];
+const emailAlarmIdsWhiteList = [
+  "8",
+  "1024",
+  "16",
+  "512",
+  "4",
+  "131072",
+  "1048576",
+];
+
+export const filterAlarmIdsForAssetSolution = (
+  alarms: string[],
+  solution: string
+) => {
+  if (solution.includes("witi")) {
+    return alarms.filter((id) => witiAlarmIdsWhiteList.includes(id));
+  } else {
+    return alarms.filter((id) => alarmIdsWhiteList.includes(id));
+  }
+};
+
+export const filterEmailAlarmIdsForAssetSolution = (
+  alarms: string[],
+  solution: string
+) => {
+  if (solution.includes("witi")) {
+    return alarms.filter((id) => witiAlarmIdsWhiteList.includes(id));
+  } else {
+    return alarms.filter((id) => emailAlarmIdsWhiteList.includes(id));
+  }
 };
 
 export const mapAlarmsResponse = (alarms: ReportAlarm[]): ReportAlarm[] => {

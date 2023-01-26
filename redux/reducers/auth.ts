@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { changePassword, login, logout, refreshToken } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
 import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import { createTransform } from "redux-persist";
 
 export interface AuthState {
   majorToken: string | null;
@@ -55,5 +56,16 @@ export const authSlice = createSlice({
     });
   },
 });
+
+export const transform = createTransform(
+  (state: AuthState) => ({
+    ...initialState,
+    majorToken: state.majorToken,
+    minorToken: state.minorToken,
+    deviceToken: state.deviceToken,
+  }),
+  (state: AuthState) => state,
+  { whitelist: ["auth"] }
+);
 
 export default authSlice.reducer;

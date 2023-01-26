@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation";
@@ -15,6 +15,7 @@ import { useUpdated } from "../hooks/useUpdated";
 import { alertGeneralError } from "../utils";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { useToast } from "../hooks/useToast";
+import AppScrollView from "../components/Core/AppScrollView";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -43,7 +44,7 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
   );
 
   const { loading, success } = useAppSelector(
-    (state) => state.contacts.addContact
+    (state) => state.contacts.addContactRequest
   );
   const dispatch = useAppDispatch();
 
@@ -100,7 +101,7 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      <ScrollView
+      <AppScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContainer}
       >
@@ -134,7 +135,7 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
           autoCorrect={false}
           keyboardType={"number-pad"}
         />
-      </ScrollView>
+      </AppScrollView>
     </View>
   );
 };

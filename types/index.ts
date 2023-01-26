@@ -1,3 +1,9 @@
+import { SolutionTypes } from "../utils/enums";
+
+export type SolutionType = typeof SolutionTypes[keyof typeof SolutionTypes];
+
+export type WeekDayId = "0" | "1" | "2" | "3" | "4" | "5" | "6";
+
 export type Contact = {
   Code: string;
   Number: string | null;
@@ -85,7 +91,7 @@ export type StaticAsset = {
   imsi: string; //imsi
   a7: string; // additional value
   groupCode: string; //GroupCode
-  solutionType: string; //SolutionType
+  solutionType: SolutionType; //SolutionType
   a8: string; // additional value
   a9: string; // additional value
   maxSpeedAlertMode: string; //MaxSpeedAlertMode
@@ -123,3 +129,46 @@ export type SharedAsset = {
 export type SharedAssetListData = SharedAsset & { asset?: StaticAsset };
 
 export type ReportAlarm = { AlertId: string; AlertName: string };
+
+export type OverviewReportOption = { Name: string; Value: string };
+
+export type Geofence = {
+  Address: string;
+  Alerts: number;
+  Alt: number;
+  BeginDate: string | null;
+  BeginTime: string;
+  Code: string;
+  ContactList: { Code: string; Mail: string }[];
+  Content: string;
+  CustomerCode: string;
+  CycleType: number;
+  DelayTime: number;
+  EndDate: string | null;
+  EndTime: string;
+  GeoPolygon: string;
+  GeoType: number;
+  Icon: string;
+  InSpeedLimit: number;
+  Inverse: number;
+  Lat: number;
+  Lng: number;
+  Name: string;
+  NotifyTypes: number;
+  Radius: number;
+  Relay: number;
+  RelayTime: number;
+  SelectedAssetList: { AsCode: string; IMEI: string }[];
+  Share: number;
+  State: number;
+  TimeZone: number;
+  Unit: "MPS";
+  Week: {
+    BeginTime: string;
+    CustomerCode: string;
+    EndTime: string;
+    ForeignCode: string;
+    Vaild: number;
+    Week: number;
+  }[];
+};

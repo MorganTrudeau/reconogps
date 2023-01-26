@@ -12,6 +12,7 @@ import Animated, {
   Value,
   withSpring,
   withTiming,
+  Easing,
 } from "react-native-reanimated";
 import { iconSize } from "../../styles";
 import { ThemeProps } from "../../types/styles";
@@ -28,7 +29,10 @@ const AppCheckBox = ({ value, onValueChange, style, theme, colors }: Props) => {
 
   useEffect(() => {
     if (value) {
-      checkAnimation.value = withSpring(1);
+      checkAnimation.value = withTiming(1, {
+        duration: 250,
+        easing: Easing.out(Easing.cubic),
+      });
     } else {
       checkAnimation.value = withTiming(0, { duration: 100 });
     }
@@ -45,16 +49,17 @@ const AppCheckBox = ({ value, onValueChange, style, theme, colors }: Props) => {
       onPress={onValueChange ? () => onValueChange(!value) : undefined}
       disabled={!onValueChange}
       style={[styles.container, style]}
+      hitSlop={8}
     >
       <AppIcon
-        name={"checkbox-blank-circle-outline"}
+        name={"checkbox-blank-outline"}
         color={colors.empty}
         size={CHECK_ICON_SIZE}
         style={styles.checkIcon}
       />
       <Animated.View style={[styles.checkIcon, animatedStyles]}>
         <AppIcon
-          name={"checkbox-marked-circle"}
+          name={"checkbox-marked"}
           color={colors.primary}
           size={CHECK_ICON_SIZE}
         />

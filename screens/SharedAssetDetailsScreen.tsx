@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useMemo, useRef } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import AppField from "../components/Core/AppField";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
@@ -14,6 +14,7 @@ import { Constants } from "../utils/constants";
 import FooterButton from "../components/FooterButton";
 import ExtendSharedAssetExpiryModal from "../components/Modals/ExtendSharedAssetExpiryModal";
 import { AppModalRef } from "../components/Core/AppModal";
+import AppScrollView from "../components/Core/AppScrollView";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -97,7 +98,7 @@ const SharedAssetDetailsScreen = ({ navigation, route }: NavigationProps) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView
+      <AppScrollView
         style={theme.container}
         contentContainerStyle={theme.contentContainer}
       >
@@ -114,7 +115,7 @@ const SharedAssetDetailsScreen = ({ navigation, route }: NavigationProps) => {
         />
         <AppField placeholder={"Date Shared"} value={formattedStartDate} />
         <AppField placeholder={"Expiry Date"} value={formattedEndDate} />
-      </ScrollView>
+      </AppScrollView>
       <FooterButton
         title={"Extend Expiry Date"}
         icon={"autorenew"}

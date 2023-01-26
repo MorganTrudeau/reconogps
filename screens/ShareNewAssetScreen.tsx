@@ -4,6 +4,7 @@ import { ScrollView, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import AssetSelectModal from "../components/Assets/AssetSelectModal";
 import AppField from "../components/Core/AppField";
+import AppScrollView from "../components/Core/AppScrollView";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useAlert } from "../hooks/useAlert";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -69,7 +70,7 @@ const ShareNewAssetScreen = ({ route, navigation }: NavigationProps) => {
   });
 
   return (
-    <ScrollView
+    <AppScrollView
       style={theme.container}
       contentContainerStyle={theme.contentContainer}
     >
@@ -94,7 +95,7 @@ const ShareNewAssetScreen = ({ route, navigation }: NavigationProps) => {
         singleSelect={true}
         blacklistedImeis={sharedAssetImeis}
       />
-    </ScrollView>
+    </AppScrollView>
   );
 };
 

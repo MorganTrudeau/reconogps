@@ -39,7 +39,9 @@ const AppTextInput = forwardRef<TextInput, Props>(
   ) => {
     const { theme, colors } = useTheme();
 
-    const [invalidValue, setInvalidValue] = useState(false);
+    const [invalidValue, setInvalidValue] = useState(
+      validation && value ? !validation(value) : false
+    );
 
     const placeholderAnimation = useRef(
       new Animated.Value(!!value ? 1 : 0)
@@ -93,20 +95,18 @@ const AppTextInput = forwardRef<TextInput, Props>(
       if (rest.onBlur) {
         rest.onBlur(event);
       }
-      if (validation) {
-        if (value) {
-          const valid = validation(value);
-          setInvalidValue(!valid);
-        } else if (!invalidValue) {
-          setInvalidValue(true);
-        }
-      } else if (required) {
-        if (!value && !invalidValue) {
-          setInvalidValue(true);
-        } else if (value && invalidValue) {
-          setInvalidValue(false);
-        }
+
+      let invalid = false;
+
+      if (validation && value) {
+        invalid = !validation(value);
       }
+
+      if (required && !value) {
+        invalid = true;
+      }
+
+      invalid !== invalidValue && setInvalidValue(invalid);
     };
 
     return (

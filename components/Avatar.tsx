@@ -30,7 +30,7 @@ const Avatar = ({ firstName, lastName, style, size = 40 }: Props) => {
         style,
       ]}
     >
-      <AppText style={theme.title} allowFontScaling={false}>
+      <AppText style={[theme.title, {fontSize: size / 2.5}]} allowFontScaling={false}>
         {abrev}
       </AppText>
     </View>

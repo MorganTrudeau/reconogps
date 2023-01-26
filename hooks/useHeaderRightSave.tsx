@@ -19,14 +19,16 @@ export const useHeaderRightSave = ({
   navigation,
   onPress,
   style,
+  disabled,
 }: {
-  loading: boolean;
+  loading?: boolean;
   navigation: Navigation;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
+  disabled?: boolean;
 }) => {
   const onPressRef = useRef(onPress);
-  onPressRef.current = onPress
+  onPressRef.current = onPress;
 
   const { colors } = useTheme();
 
@@ -34,7 +36,7 @@ export const useHeaderRightSave = ({
     return (
       <Pressable style={style} onPress={() => onPressRef.current()}>
         <AppIcon
-          color={colors.primary}
+          color={disabled ? colors.empty : colors.primary}
           name={"check-circle"}
           size={iconSize("md")}
         />
@@ -68,5 +70,5 @@ export const useHeaderRightSave = ({
     } else {
       setHeaderRightSaveButton();
     }
-  }, [loading]);
+  }, [loading, disabled]);
 };

@@ -12,6 +12,7 @@ import AuthManager from "./services/AuthManager";
 import { PortalProvider } from "@gorhom/portal";
 import ToastProvider from "./context/ToastContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import ToastManager from "./services/ToastManager";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
                 <PortalProvider>
                   <NavigationStack />
                 </PortalProvider>
+                <ToastManager />
               </ToastProvider>
               <AuthManager />
               <StatusBar style="light" />

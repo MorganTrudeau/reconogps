@@ -1,13 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useMemo, useRef, useState } from "react";
-import {
-  Keyboard,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  Switch,
-} from "react-native";
+import { Keyboard, Pressable, StyleSheet, View, Switch } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
@@ -25,6 +18,7 @@ import TimeZoneModal from "../components/Modals/TimeZoneModal";
 import { Modalize } from "react-native-modalize";
 import { constructTimeZoneId, getTimeZone } from "../utils/user";
 import AppIcon from "../components/Core/AppIcon";
+import AppScrollView from "../components/Core/AppScrollView";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "profile">;
 
@@ -97,7 +91,7 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      <ScrollView contentContainerStyle={styles.inputContainer}>
+      <AppScrollView contentContainerStyle={styles.inputContainer}>
         <AppTextInput
           placeholder="First Name"
           onChangeText={handleUpdate("FirstName")}
@@ -194,7 +188,7 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
           />
           <AppText>Change Password</AppText>
         </Pressable>
-      </ScrollView>
+      </AppScrollView>
 
       <TimeZoneModal
         ref={timeZoneModalRef}

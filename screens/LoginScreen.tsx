@@ -1,12 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import AppTextInput from "../components/Core/AppTextInput";
 import { spacing } from "../styles";
@@ -22,6 +15,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { RootState } from "../redux/store";
 import { useUpdated } from "../hooks/useUpdated";
+import AppScrollView from "../components/Core/AppScrollView";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "login">;
 
@@ -71,7 +65,7 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
   };
 
   return (
-    <ScrollView
+    <AppScrollView
       keyboardShouldPersistTaps="handled"
       style={theme.container}
       contentContainerStyle={styles.container}
@@ -117,7 +111,7 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
           loading={loading}
         />
       </View>
-    </ScrollView>
+    </AppScrollView>
   );
 };
 

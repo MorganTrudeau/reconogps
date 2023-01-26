@@ -11,7 +11,9 @@ export const contactToEditContactData = (contact: Contact): EditContactData => {
   };
 };
 
-export const buildContactName = (contact: Contact): string =>
+export const buildContactName = (
+  contact: Pick<Contact, "FirstName" | "SubName">
+): string =>
   `${contact.FirstName || ""}${
     contact.FirstName && contact.SubName ? " " : ""
   }${contact.SubName || ""}`;

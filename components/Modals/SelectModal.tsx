@@ -6,18 +6,24 @@ import { useTheme } from "../../hooks/useTheme";
 import { useSelectItems } from "../../hooks/useSelectItems";
 import SelectItem from "../SelectItem";
 import ModalHeader from "../Modals/ModalHeader";
+import SelectAllHeader from "../SelectAllHeader";
 
 const defaultIdSelector = (data: any) => data.id;
 const defaultNameSelector = (data: any) => data.name;
 
-type Props = {
-  modalTitle: string;
+export type Props = {
+  modalTitle?: string;
   data: any[];
   onSelect: (selectedAssetData: any[]) => void;
   initialSelectedIds?: string[];
   idSelector?: (data: any) => string;
   nameSelector?: (data: any) => string;
   customItemContent?: (data: any) => React.ReactElement;
+  ListEmptyComponent?: React.ReactElement;
+  autoSelectAll?: boolean;
+  singleSelect?: boolean;
+  hideSearch?: boolean;
+  selectAllTitle?: string;
 };
 
 const SelectModal = forwardRef<Modalize, Props>(
@@ -30,6 +36,11 @@ const SelectModal = forwardRef<Modalize, Props>(
       initialSelectedIds,
       modalTitle,
       customItemContent,
+      ListEmptyComponent,
+      autoSelectAll,
+      singleSelect,
+      hideSearch,
+      selectAllTitle,
     },
     ref
   ) => {
@@ -42,7 +53,13 @@ const SelectModal = forwardRef<Modalize, Props>(
       selectAll,
       allSelected,
       isSelected,
-    } = useSelectItems(data, initialSelectedIds, idSelector);
+    } = useSelectItems(
+      data,
+      initialSelectedIds,
+      idSelector,
+      singleSelect,
+      autoSelectAll
+    );
 
     useEffect(() => {
       onSelect(selectedData);
@@ -82,6 +99,7 @@ const SelectModal = forwardRef<Modalize, Props>(
             title={modalTitle}
             theme={theme}
             colors={colors}
+            showSearch={!hideSearch}
           />
         </View>
       );
@@ -109,15 +127,15 @@ const SelectModal = forwardRef<Modalize, Props>(
             bounces: false,
             extraData: selectedIds,
             ListHeaderComponent: (
-              <SelectItem
-                data={{ id: "select-all", name: "Select All" }}
+              <SelectAllHeader
+                title={selectAllTitle}
                 isSelected={allSelected}
-                onSelect={selectAll}
+                onPress={selectAll}
                 style={theme.modalHeaderSelectAll}
-                textStyle={theme.title}
                 {...{ theme, colors }}
               />
             ),
+            ListEmptyComponent,
           }}
         />
       </Portal>

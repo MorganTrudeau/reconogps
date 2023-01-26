@@ -92,7 +92,7 @@ export const colors = {
   white: "#fff",
   black: "#000",
   red: "#a32638",
-  empty: "#a8a8a8",
+  empty: "#353535",
   border: "#3c3c3c",
 };
 
@@ -103,6 +103,8 @@ export const styles = StyleSheet.create({
     elevation: 0,
   },
 
+  disabledOpacity: {opacity: 0.5},
+
   drawerHeaderRight: { marginHorizontal: 11, padding: 3 },
 
   container: { flex: 1, backgroundColor: colors.background },
@@ -112,7 +114,6 @@ export const styles = StyleSheet.create({
   modalHeaderSelectAll: {
     marginHorizontal: 0,
     paddingHorizontal: spacing("lg"),
-    marginTop: spacing("sm"),
   },
 
   optionsHeader: {

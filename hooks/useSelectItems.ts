@@ -1,21 +1,28 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useUpdated } from "./useUpdated";
 
 export const useSelectItems = (
   data: any[],
-  initalSelectedIds: string[] = [],
+  initalSelectedIds?: string[],
   idSelector: (val: any) => string = (val: any) => val.id,
-  singleSelect?: boolean
+  singleSelect?: boolean,
+  autoSelectAll?: boolean
 ) => {
-  const [selectedIds, setSelectedIds] = useState<string[]>(initalSelectedIds);
-
   const ids = useMemo(() => {
     return data.map(idSelector);
   }, [data]);
+
+  const [selectedIds, setSelectedIds] = useState<string[]>(
+    initalSelectedIds ? initalSelectedIds : autoSelectAll ? ids : []
+  );
+
   const selectedData = useMemo(() => {
-    return selectedIds.map((id) => data.find((d) => idSelector(d) === id));
+    return selectedIds
+      .map((id) => data.find((d) => idSelector(d) === id))
+      .filter((d) => !!d);
   }, [selectedIds]);
 
-  const allSelected = selectedIds.length === ids.length;
+  const allSelected = !!ids.length && selectedIds.length === ids.length;
   const selectAll = () => {
     allSelected ? setSelectedIds([]) : setSelectedIds([...ids]);
   };
@@ -35,6 +42,15 @@ export const useSelectItems = (
   const isSelected = (id: string) => {
     return selectedIds.includes(id);
   };
+
+  useUpdated(ids, (currentIds, prevIds) => {
+    // Handle auto selecting data that loads async
+    if (prevIds.length === 0 && currentIds.length > 0 && autoSelectAll) {
+      setSelectedIds(ids);
+    } else {
+      setSelectedIds((stateIds) => stateIds.filter((id) => ids.includes(id)));
+    }
+  });
 
   return {
     selectedIds,

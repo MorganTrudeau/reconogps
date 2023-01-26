@@ -15,7 +15,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import HomeScreen from "../screens/HomeScreen";
 import ForgotPasswordScreen from "../screens/ForgotPassword";
 import LoginScreen from "../screens/LoginScreen";
-import AppDrawerContent from "./AppDrawerContext";
+import AppDrawerContent from "./AppDrawerContent";
 import AppDrawerIcon from "./AppDrawerIcon";
 import ProfileScreen from "../screens/ProfileScreen";
 import GeofencesScreen from "../screens/GeofencesScreen";
@@ -26,17 +26,13 @@ import ContactsScreen from "../screens/ContactsScreen";
 import UserGuideScreen from "../screens/UserGuideScreen";
 import SupportScreen from "../screens/SupportScreen";
 import AddContactScreen from "../screens/AddContactScreen";
-import {
-  AddContactData,
-  Contact,
-  EditContactData,
-  SharedAsset,
-  SharedAssetListData,
-} from "../types";
+import { EditContactData } from "../types";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import CreateReportScreen from "../screens/CreateReportScreen";
 import ShareNewAssetScreen from "../screens/ShareNewAssetScreen";
 import SharedAssetDetailsScreen from "../screens/SharedAssetDetailsScreen";
+import { IconSet } from "../utils/enums";
+import ManageAssetAlarmsScreen from "../screens/ManageAssetAlarmsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -60,6 +56,9 @@ export type RootStackParamList = {
   "share-new-asset": undefined;
   "subscribe-asset": undefined;
   "shared-asset-details": { sharedAssetCode: string };
+  "manage-asset-alarms": {
+    imeis: string; // comma separated list of asset imeis
+  };
 };
 
 const Stack = createNativeStackNavigator();
@@ -151,7 +150,7 @@ const DrawerStack = () => {
           headerTitle: "Geofences",
           drawerLabel: "Geofences",
           drawerIcon: (props) => (
-            <AppDrawerIcon {...props} icon={"texture-box"} />
+            <AppDrawerIcon {...props} icon={IconSet.geofences} />
           ),
         }}
         // @ts-ignore
@@ -283,6 +282,12 @@ const MainStack = () => {
         options={{ title: "Shared Asset Details" }}
         // @ts-ignore
         component={SharedAssetDetailsScreen}
+      />
+      <Stack.Screen
+        name="manage-asset-alarms"
+        options={{ title: "Manage Alarms" }}
+        // @ts-ignore
+        component={ManageAssetAlarmsScreen}
       />
     </Stack.Navigator>
   );

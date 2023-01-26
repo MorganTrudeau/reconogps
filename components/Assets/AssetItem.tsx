@@ -8,6 +8,8 @@ import { usePlaceholderLoader } from "../../hooks/usePlaceholderLoader";
 import { LinearGradient } from "expo-linear-gradient";
 import Placeholder from "../Placeholder";
 import Avatar from "../Avatar";
+import { assetHasIcon } from "../../utils/assets";
+import AssetAvatar from "./AssetAvatar";
 
 type Props = { asset: StaticAsset };
 
@@ -16,20 +18,7 @@ const AssetItem = ({ asset }: Props) => {
 
   return (
     <View style={styles.container}>
-      {asset.icon === "activation.png" ? (
-        <Avatar
-          firstName={asset.name.charAt(0)}
-          lastName={asset.name.charAt(1)}
-          size={ICON_SIZE}
-          style={styles.icon}
-        />
-      ) : (
-        <Image
-          source={{ uri: constructImageUrl(asset.icon) }}
-          style={styles.icon}
-          resizeMode="cover"
-        />
-      )}
+      <AssetAvatar asset={asset} />
       <View>
         <AppText>{asset.name}</AppText>
         <Placeholder loading={true} style={styles.placeholder1} />
