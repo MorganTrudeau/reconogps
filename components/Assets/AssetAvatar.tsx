@@ -20,6 +20,17 @@ const AssetAvatar = ({
     { height: size, width: size, borderRadius: size / 2 },
     style,
   ];
+
+  // @todo remove
+  return (
+    <Avatar
+      firstName={asset.name.charAt(0)}
+      lastName={asset.name.charAt(1)}
+      size={size}
+      style={iconStyle}
+    />
+  );
+
   return !assetHasIcon(asset) ? (
     <Avatar
       firstName={asset.name.charAt(0)}
@@ -36,7 +47,7 @@ const AssetAvatar = ({
   );
 };
 
-const ICON_SIZE = 45;
+const ICON_SIZE = 40;
 
 const styles = StyleSheet.create({
   icon: {

@@ -6,7 +6,7 @@ import { spacing } from "../styles";
 import AppText from "../components/Core/AppText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 import AppButton from "../components/Core/AppButton";
 import { useAlert } from "../hooks/useAlert";
 import { errorToMessage } from "../utils";

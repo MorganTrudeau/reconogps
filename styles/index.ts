@@ -89,6 +89,7 @@ export const colors = {
   text: "#ffffff",
   textMeta: "#939393",
 
+  green: "#4cd964",
   white: "#fff",
   black: "#000",
   red: "#a32638",
@@ -103,7 +104,7 @@ export const styles = StyleSheet.create({
     elevation: 0,
   },
 
-  disabledOpacity: {opacity: 0.5},
+  disabledOpacity: { opacity: 0.5 },
 
   drawerHeaderRight: { marginHorizontal: 11, padding: 3 },
 
@@ -150,6 +151,13 @@ export const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS_SM,
     padding: spacing("lg"),
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconButton: {
+    backgroundColor: colors.background,
+    padding: spacing("lg"),
+    borderRadius: 10000,
     justifyContent: "center",
     alignItems: "center",
   },

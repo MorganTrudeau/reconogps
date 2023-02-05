@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { View } from "react-native";
 import NavList, { NavListItem } from "../components/NavList";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "reports">;
 

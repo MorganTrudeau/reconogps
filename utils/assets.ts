@@ -1,4 +1,6 @@
-import { StaticAsset } from "../types";
+import moment from "moment";
+import { DynamicAsset, StaticAsset } from "../types";
+import { Constants } from "./constants";
 
 export const assetHasIcon = (staticAsset: StaticAsset): boolean => {
   const pattern = /^IMEI_/i;
@@ -76,4 +78,50 @@ export const mapArrayOfAssetArrays = (assetArrays: any[][]): StaticAsset[] => {
 
     return [...acc, assetObj];
   }, [] as StaticAsset[]);
+};
+
+const CurrentTimeZone = moment().utcOffset() / 60;
+export const initDynamicAssetData = (data: any[]): DynamicAsset => {
+  const dynamicAsset: DynamicAsset = {
+    id: data[0],
+    imei: data[1],
+    protocolClass: data[2],
+    positionType: data[3],
+    dataType: data[4],
+    positionTime:
+      data[5] !== null
+        ? moment(data[5].split(".")[0])
+            .add(CurrentTimeZone, "hours")
+            .format(Constants.MOMENT_DATE_TIME_FORMAT)
+        : null,
+    sysTime:
+      data[6] !== null
+        ? moment(data[6].split(".")[0])
+            .add(CurrentTimeZone, "hours")
+            .format(Constants.MOMENT_DATE_TIME_FORMAT)
+        : null,
+    staticTime:
+      data[7] !== null
+        ? moment(data[7])
+            .add(CurrentTimeZone, "hours")
+            .format(Constants.MOMENT_DATE_TIME_FORMAT)
+        : null,
+    isRealTime: data[8],
+    isLocated: data[9],
+    satelliteSignal: data[10],
+    gsmSignal: data[11],
+    lat: Number(data[12]),
+    lng: Number(data[13]),
+    alt: Number(data[14]),
+    direct: data[15],
+    speed: data[16],
+    mileage: data[17],
+    launchHours: data[18],
+    alerts: data[19],
+    status: data[20],
+    originalAlerts: data[21],
+    originalStatus: data[22],
+  };
+
+  return dynamicAsset;
 };

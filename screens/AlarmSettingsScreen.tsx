@@ -6,7 +6,7 @@ import AppIcon from "../components/Core/AppIcon";
 import AppText from "../components/Core/AppText";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 import { iconSize, spacing } from "../styles";
 import { StaticAsset } from "../types";
 

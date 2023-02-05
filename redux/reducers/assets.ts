@@ -18,7 +18,9 @@ export interface AssetsState {
 }
 
 const staticAssetsAdapter = createEntityAdapter<StaticAsset>();
-const dynamicAssetsAdapter = createEntityAdapter<DynamicAsset>();
+const dynamicAssetsAdapter = createEntityAdapter<DynamicAsset>({
+  selectId: (model) => model.id,
+});
 
 const initialState: AssetsState = {
   staticData: staticAssetsAdapter.getInitialState(),
@@ -39,14 +41,14 @@ export const assetsSlice = createSlice({
     // Load Static
     createSimpleLoadingState("staticLoadRequest", builder, loadStaticAssets);
     builder.addCase(loadStaticAssets.fulfilled, (state, action) => {
+      console.log("PAYLOAD",action.payload)
       // const staticAssets = mapArrayOfAssetArrays(action.payload);
       // staticAssetsAdapter.setAll(state.staticData, action.payload);
       state.staticLoadRequest = SUCCESS_STATE;
     });
     // Load Dynamic
     builder.addCase(loadDynamicAssets.fulfilled, (state, action) => {
-      const dynamicAssets = mapArrayOfAssetArrays(action.payload);
-      dynamicAssetsAdapter.setAll(state.dynamicData, dynamicAssets);
+      dynamicAssetsAdapter.setAll(state.dynamicData, action.payload);
     });
     // Logout reset
     builder.addCase(logout.fulfilled, (state, action) => {

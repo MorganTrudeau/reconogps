@@ -22,10 +22,18 @@ export const IconSet: {
   asset: MaterialIcon;
   geofences: MaterialIcon;
   time: MaterialIcon;
+  speedSlow: MaterialIcon;
+  speedFast: MaterialIcon;
+  voltage: MaterialIcon;
+  location: MaterialIcon;
 } = {
   asset: "car",
   geofences: "texture-box",
   time: "clock-time-four",
+  speedSlow: "speedometer-slow",
+  speedFast: "speedometer",
+  voltage: "lightning-bolt",
+  location: "map-marker",
 };
 
 export const SolutionTypes = {

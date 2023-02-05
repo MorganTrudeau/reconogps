@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_URL } from "@env";
 import { validateResponseData } from "./utils";
 import { Errors } from "../utils/enums";
+import { initDynamicAssetData } from "../utils/assets";
 
 export const loadDynamicAssets = async (
   majorToken: string,
@@ -12,14 +13,16 @@ export const loadDynamicAssets = async (
   var formData = new FormData();
   formData.append("codes", codes);
   const res = await axios.post(
-    `${API_URL}/QuikTrak/V1/Device/GetPosInfos2`,
+    `${API_URL}/QuikTrak/V1/Device/GetPosInfos`,
     formData,
     { params: { MajorToken: majorToken, MinorToken: minorToken } }
   );
 
+  console.log(res);
+
   validateResponseData(res);
 
-  return res.data.Data;
+  return res.data.Data.map(initDynamicAssetData);
 };
 
 export const loadStaticAssets = async (
@@ -34,6 +37,8 @@ export const loadStaticAssets = async (
     throw Errors.InvalidData;
   }
 
+  console.log(res);
+
   return res.data.rows;
 };
 
@@ -47,8 +52,6 @@ export const loadAssetAlarms = async (
       params: { SolutionCode: solutionType, ProductName: productName },
     }
   );
-
-  console.log(res);
 
   validateResponseData(res);
 

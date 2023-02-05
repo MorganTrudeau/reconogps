@@ -2,6 +2,11 @@ import { SolutionTypes } from "../utils/enums";
 
 export type SolutionType = typeof SolutionTypes[keyof typeof SolutionTypes];
 
+export type LatLng = {
+  latitude: number;
+  longitude: number;
+};
+
 export type WeekDayId = "0" | "1" | "2" | "3" | "4" | "5" | "6";
 
 export type Contact = {
@@ -115,7 +120,36 @@ export type StaticAsset = {
   a10: string; // additional value
 };
 
-export type DynamicAsset = {};
+export type DynamicAsset = {
+  id: string;
+  imei: string;
+  protocolClass: string;
+  positionType: number;
+  dataType: number;
+  positionTime: string | null;
+  sysTime: string | null;
+  staticTime: string | null;
+  isRealTime: boolean;
+  isLocated: boolean;
+  satelliteSignal: number;
+  gsmSignal: number;
+  lat: number;
+  lng: number;
+  alt: number;
+  direct: number;
+  speed: number;
+  mileage: number;
+  launchHours: number;
+  alerts: number;
+  status: number;
+  originalAlerts: number;
+  originalStatus: number;
+};
+
+export type CombinedAsset = {
+  staticData: StaticAsset;
+  dynamicData: DynamicAsset;
+};
 
 export type SharedAsset = {
   Code: string;

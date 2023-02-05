@@ -1,15 +1,11 @@
 import * as React from "react";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   createDrawerNavigator,
-  DrawerNavigationOptions,
+  DrawerToggleButton,
 } from "@react-navigation/drawer";
 
 import { useTheme } from "../hooks/useTheme";
-import { Colors, Theme } from "../types/styles";
 import { useAppSelector } from "../hooks/useAppSelector";
 // Screens
 import HomeScreen from "../screens/HomeScreen";
@@ -33,7 +29,9 @@ import ShareNewAssetScreen from "../screens/ShareNewAssetScreen";
 import SharedAssetDetailsScreen from "../screens/SharedAssetDetailsScreen";
 import { IconSet } from "../utils/enums";
 import ManageAssetAlarmsScreen from "../screens/ManageAssetAlarmsScreen";
+import { getDefaultDrawerOptions, getDefaultStackOptions } from "./utils";
 
+const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export type RootStackParamList = {
@@ -59,38 +57,8 @@ export type RootStackParamList = {
   "manage-asset-alarms": {
     imeis: string; // comma separated list of asset imeis
   };
-};
-
-const Stack = createNativeStackNavigator();
-
-const getDefaultStackOptions = (
-  theme: Theme,
-  colors: Colors
-): NativeStackNavigationOptions => {
-  return {
-    headerTintColor: colors.primary,
-    headerTitleStyle: theme.titleLarge,
-    headerStyle: theme.header,
-    headerBackTitle: "Back",
-    headerShadowVisible: false,
-  };
-};
-
-const getDefaultDrawerOptions = (
-  theme: Theme,
-  colors: Colors
-): DrawerNavigationOptions => {
-  return {
-    headerTintColor: colors.primary,
-    headerTitleStyle: theme.titleLarge,
-    headerTitle: "",
-    headerStyle: theme.header,
-    headerShadowVisible: false,
-    drawerStyle: { backgroundColor: colors.background },
-    drawerActiveBackgroundColor: colors.primary,
-    drawerActiveTintColor: colors.black,
-    drawerInactiveTintColor: colors.text,
-  };
+  assets: undefined;
+  "asset-details": { assetId: string };
 };
 
 const AuthStack = () => {
@@ -126,8 +94,21 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="home"
         options={{
-          headerTitle: "Home",
+          // headerTitle: "Home",
+          headerTransparent: true,
           drawerLabel: "Home",
+          headerLeft: (props) => (
+            <DrawerToggleButton
+              {...props}
+              // @ts-ignore
+              style={{
+                marginHorizontal: 9,
+                backgroundColor: colors.background,
+                borderRadius: 5,
+                padding: 2,
+              }}
+            />
+          ),
           drawerIcon: (props) => <AppDrawerIcon {...props} icon={"home"} />,
         }}
         // @ts-ignore

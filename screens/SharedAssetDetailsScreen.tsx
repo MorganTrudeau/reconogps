@@ -4,7 +4,7 @@ import { View } from "react-native";
 import AppField from "../components/Core/AppField";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 import * as Clipboard from "expo-clipboard";
 import { useToast } from "../hooks/useToast";
 import EmptyList from "../components/EmptyList";

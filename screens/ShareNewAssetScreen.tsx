@@ -11,7 +11,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 import { getMySharedAssets } from "../redux/selectors/sharedAssets";
 import { startSharingAsset } from "../redux/thunks/sharedAssets";
 import { StaticAsset } from "../types";

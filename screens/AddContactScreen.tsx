@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../RootStackParamList";
 import { spacing } from "../styles";
 
 import { AddContactData, EditContactData } from "../types";

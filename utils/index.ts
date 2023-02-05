@@ -1,8 +1,23 @@
-import { ReportAlarm, SolutionType, StaticAsset, User } from "../types";
+import { ReportAlarm, SolutionType } from "../types";
 import { IMAGE_URL } from "@env";
 import { AlertButton, AlertOptions } from "react-native";
-import { timeZones } from "./data";
 import { SolutionTypes } from "./enums";
+
+export const roundNumber = (num: number, decimalPlaces: number) => {
+  if (decimalPlaces > 0) {
+    const places = Math.pow(10, decimalPlaces + 1);
+    console.log(num, places);
+    return Math.round((num + Number.EPSILON) * places) / places;
+  } else {
+    return Math.round(num);
+  }
+};
+
+export const errorHasCode = (
+  error: unknown
+): error is { code: string | number } => {
+  return typeof error === "object" && error !== null && "code" in error;
+};
 
 export const constructImageUrl = (image: string) =>
   `${IMAGE_URL}/Attachment/images/${image}?${Date.now()}`;
