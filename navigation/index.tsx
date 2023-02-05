@@ -30,6 +30,7 @@ import SharedAssetDetailsScreen from "../screens/SharedAssetDetailsScreen";
 import { IconSet } from "../utils/enums";
 import ManageAssetAlarmsScreen from "../screens/ManageAssetAlarmsScreen";
 import { getDefaultDrawerOptions, getDefaultStackOptions } from "./utils";
+import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -94,20 +95,25 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="home"
         options={{
-          // headerTitle: "Home",
           headerTransparent: true,
           drawerLabel: "Home",
           headerLeft: (props) => (
-            <DrawerToggleButton
-              {...props}
-              // @ts-ignore
+            <View
               style={{
                 marginHorizontal: 9,
                 backgroundColor: colors.background,
                 borderRadius: 5,
                 padding: 2,
               }}
-            />
+            >
+              <DrawerToggleButton
+                {...props}
+                // @ts-ignore
+                style={{
+                  marginHorizontal: 0,
+                }}
+              />
+            </View>
           ),
           drawerIcon: (props) => <AppDrawerIcon {...props} icon={"home"} />,
         }}

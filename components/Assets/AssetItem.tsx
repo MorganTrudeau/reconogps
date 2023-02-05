@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { iconSize, spacing } from "../../styles";
 import { CombinedAsset, StaticAsset } from "../../types";
-import { constructImageUrl, roundNumber } from "../../utils";
 import AppText from "../Core/AppText";
 import { usePlaceholderLoader } from "../../hooks/usePlaceholderLoader";
-import { LinearGradient } from "expo-linear-gradient";
 import Placeholder from "../Placeholder";
-import Avatar from "../Avatar";
-import { assetHasIcon } from "../../utils/assets";
 import AssetAvatar from "./AssetAvatar";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { ThemeProps } from "../../types/styles";
 import AppIcon from "../Core/AppIcon";
 import { IconSet } from "../../utils/enums";
-import { geocodeAddress, geocodeLatLong } from "../../api/position";
+import { geocodeLatLong } from "../../api/position";
 
 type Props = {
   asset: StaticAsset;
@@ -64,7 +60,6 @@ const AssetItem = ({
       onPress={() =>
         onPress &&
         asset &&
-        dynamicData &&
         onPress({ staticData: asset, dynamicData: dynamicData })
       }
     >

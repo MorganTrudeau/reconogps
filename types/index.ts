@@ -148,7 +148,7 @@ export type DynamicAsset = {
 
 export type CombinedAsset = {
   staticData: StaticAsset;
-  dynamicData: DynamicAsset;
+  dynamicData?: DynamicAsset;
 };
 
 export type SharedAsset = {

@@ -178,7 +178,9 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
       return (
         <View style={styles.handle}>
           <HeaderLeft />
-          <MemoizedLogo />
+          <View style={styles.logoContainer}>
+            <MemoizedLogo />
+          </View>
           {renderHeaderRight()}
         </View>
       );
@@ -272,6 +274,7 @@ const ICON_HEIGHT = ICON_WIDTH * ICON_RATIO;
 
 const styles = StyleSheet.create({
   listContent: { paddingTop: spacing("md") },
+  logoContainer: { flex: 3, alignItems: "center" },
   logo: {
     height: ICON_HEIGHT,
     width: ICON_WIDTH,
