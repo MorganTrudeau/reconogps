@@ -5,10 +5,10 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
-import { useWindowDimensions, View } from "react-native";
+import { StatusBar, useWindowDimensions, View } from "react-native";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { loadStaticAssets } from "../redux/thunks/assets";
 import AppMap from "../components/Core/AppMap";
@@ -17,9 +17,9 @@ import AssetsDisplayModal, {
   BOTTOM_SHEET_SNAP_POINTS,
 } from "../components/Assets/AssetsDisplayModal";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { getCombinedAssets } from "../redux/selectors/assets";
-import MapboxGL, { Point, RegionPayload } from "@rnmapbox/maps";
-import { CombinedAsset } from "../types";
+import { getCombinedAssets, getDynamicAssets } from "../redux/selectors/assets";
+import MapboxGL, { RegionPayload } from "@rnmapbox/maps";
+import { DynamicAsset } from "../types";
 import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
 import AssetMarkerView, {
   MarkerProps,
@@ -36,7 +36,7 @@ import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 
-const HomeScreen = ({ navigation }: NavigationProps) => {
+const HomeScreen = ({}: NavigationProps) => {
   const { theme, colors } = useTheme();
   const { height } = useWindowDimensions();
 
@@ -46,6 +46,10 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   const zoomRef = useRef(0);
 
   const combinedAssets = useAppSelector((state) => getCombinedAssets(state));
+  const dynamicAssets = useAppSelector((state) => getDynamicAssets(state));
+  const staticAssetEntities = useAppSelector(
+    (state) => state.assets.staticData.entities
+  );
   const dispatch = useAppDispatch();
 
   const [selectedMarker, setSelectedMarker] = useState<{
@@ -53,9 +57,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [selectedAsset, setSelectedAsset] = useState<CombinedAsset | null>(
-    null
-  );
+  const [selectedAsset, setSelectedAsset] = useState<DynamicAsset | null>(null);
 
   useEffect(() => {
     dispatch(loadStaticAssets());
@@ -78,16 +80,16 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   );
 
   const createMarkerProps = useCallback(
-    (combinedAsset: CombinedAsset): MarkerProps => {
-      const { dynamicData, staticData } = combinedAsset;
+    (dynamicAsset: DynamicAsset): MarkerProps => {
+      const staticAsset = staticAssetEntities[dynamicAsset.id];
       return {
-        longitude: dynamicData.lng,
-        latitude: dynamicData.lat,
-        title: staticData.name,
+        longitude: dynamicAsset.lng,
+        latitude: dynamicAsset.lat,
+        title: staticAsset?.name,
         theme,
         colors,
-        selectedId: selectedAsset?.staticData.id || selectedMarker?.id,
-        id: combinedAsset.staticData.id,
+        selectedId: selectedAsset?.id || selectedMarker?.id,
+        id: dynamicAsset.id,
         onPress: handleMarkerPress,
       };
     },
@@ -98,17 +100,17 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     if (selectedAsset) {
       return [createMarkerProps(selectedAsset)];
     }
-    if (combinedAssets) {
-      return combinedAssets.map(createMarkerProps);
-    }
+
+    return dynamicAssets.map(createMarkerProps);
+
     return [];
-  }, [combinedAssets, selectedAsset, createMarkerProps]);
+  }, [dynamicAssets, selectedAsset, createMarkerProps]);
 
   const defaultMapBounds = useMemo(() => {
-    if (combinedAssets.length) {
-      const bounds = getBoundsFromCoordinates(combinedAssets, (asset) => ({
-        latitude: asset.dynamicData.lat,
-        longitude: asset.dynamicData.lng,
+    if (dynamicAssets.length) {
+      const bounds = getBoundsFromCoordinates(dynamicAssets, (asset) => ({
+        latitude: asset.lat,
+        longitude: asset.lng,
       }));
       return { ...bounds, ...defaultCameraPadding };
     } else {
@@ -159,12 +161,12 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     }
   };
 
-  const selectAsset = (asset: CombinedAsset, paddingBottom?: number) => {
+  const selectAsset = (asset: DynamicAsset, paddingBottom?: number) => {
     const bounds = getBoundsFromCoordinates(
       [asset],
       (asset) => ({
-        latitude: asset.dynamicData.lat,
-        longitude: asset.dynamicData.lng,
+        latitude: asset.lat,
+        longitude: asset.lng,
       }),
       0.0005
     );
@@ -186,9 +188,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
       return deselectAll();
     }
 
-    const asset = combinedAssets.find(
-      (asset) => asset.staticData.id === assetId
-    );
+    const asset = dynamicAssets.find((asset) => asset.id === assetId);
 
     if (asset) {
       selectAsset(asset, height * BOTTOM_SHEET_SNAP_POINTS[1]);
@@ -202,7 +202,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   };
 
   const handleMapPress = useCallback(() => {
-    bottomSheetRef.current?.snapToIndex(0);
+    // bottomSheetRef.current?.snapToIndex(0);
   }, []);
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { WebView } from "react-native-webview";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "support">;
 

@@ -10,7 +10,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { useTheme } from "../hooks/useTheme";
 import { useUpdated } from "../hooks/useUpdated";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { changePassword } from "../redux/thunks/auth";
 import { spacing } from "../styles";
 

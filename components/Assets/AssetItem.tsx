@@ -25,8 +25,6 @@ const AssetItem = ({
   colors,
   showDetails = true,
 }: Props) => {
-  const placeholderLoader = usePlaceholderLoader(undefined);
-
   const dynamicData = useAppSelector(
     (state) => state.assets.dynamicData.entities[asset.id]
   );

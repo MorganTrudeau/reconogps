@@ -24,11 +24,9 @@ import {
 } from "@react-navigation/native";
 import AppIcon from "../Core/AppIcon";
 import { useUpdated } from "../../hooks/useUpdated";
-import { RootStackParamList } from "../../navigation";
-import { useCombinedRefs } from "../../hooks/useCombinedRefs";
+import { RootStackParamList } from "../../navigation/utils";
 import AppIconButton from "../Core/AppIconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { CombinedAsset } from "../../types";
 import { NavigationProp } from "../../types/navigation";
 import Animated, {
   useAnimatedStyle,
@@ -162,6 +160,7 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
     const renderHeaderRight = useCallback(() => {
       return (
         <Pressable
+          hitSlop={10}
           style={styles.headerRightButton}
           onPress={handleHeaderRightPress}
         >
@@ -255,7 +254,11 @@ const HeaderLeft = () => {
 
   if (navigationIndex && navigationIndex > 0) {
     return (
-      <Pressable style={styles.headerLeftButton} onPress={navigation.goBack}>
+      <Pressable
+        style={styles.headerLeftButton}
+        onPress={navigation.goBack}
+        hitSlop={10}
+      >
         <AppIcon
           name={"chevron-left"}
           color={colors.white}

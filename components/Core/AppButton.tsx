@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextProps,
   TextStyle,
+  ViewStyle,
 } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
 import { spacing } from "../../styles";
@@ -17,6 +18,7 @@ type Props = {
   titleStyle?: StyleProp<TextStyle>;
   titleProps?: TextProps;
   loading?: boolean;
+  style: ViewStyle;
 } & PressableProps;
 
 const AppButton = ({

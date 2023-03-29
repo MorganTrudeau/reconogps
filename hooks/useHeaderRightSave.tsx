@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useTheme } from "./useTheme";
 import { useEffect, useRef } from "react";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { iconSize } from "../styles";
 import AppIcon from "../components/Core/AppIcon";

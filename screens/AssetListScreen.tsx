@@ -10,7 +10,7 @@ import AssetItem from "../components/Assets/AssetItem";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../navigation/utils";
 import { getStaticAssets } from "../redux/selectors/assets";
 import { loadDynamicAssets } from "../redux/thunks/assets";
 import { spacing } from "../styles";

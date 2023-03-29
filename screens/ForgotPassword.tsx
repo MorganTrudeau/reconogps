@@ -4,7 +4,7 @@ import { useTheme } from "../hooks/useTheme";
 import { spacing } from "../styles";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import AppTextInput from "../components/Core/AppTextInput";
 import AppText from "../components/Core/AppText";
 import AppButton from "../components/Core/AppButton";

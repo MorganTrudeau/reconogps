@@ -12,13 +12,19 @@ export const loadDynamicAssets = async (
   const codes = ids.join(",");
   var formData = new FormData();
   formData.append("codes", codes);
+
+  console.log(API_URL, codes, majorToken, minorToken);
+
   const res = await axios.post(
-    `${API_URL}/QuikTrak/V1/Device/GetPosInfos`,
+    `${API_URL}/QuikTrak/V1/Device/GetPosInfosDB`,
     formData,
-    { params: { MajorToken: majorToken, MinorToken: minorToken } }
+    {
+      params: { MajorToken: majorToken, MinorToken: minorToken },
+      headers: { "Content-Type": "multipart/form-data" },
+    }
   );
 
-  console.log(res);
+  console.log("RES", res);
 
   validateResponseData(res);
 

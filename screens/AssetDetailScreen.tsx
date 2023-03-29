@@ -5,7 +5,7 @@ import { SceneMap, TabBar, TabBarProps, TabView } from "react-native-tab-view";
 import AssetItem from "../components/Assets/AssetItem";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../navigation/utils";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,

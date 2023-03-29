@@ -30,7 +30,7 @@ export type MarkerProps = ViewProps & {
   latitude: number;
   longitude: number;
   id: string;
-  title: string;
+  title: string | undefined;
   onPress?: (val: { id: string; latitude: number; longitude: number }) => void;
 } & ThemeProps;
 
@@ -53,11 +53,13 @@ const AssetMarkerView = ({
       style={{ display: "flex", zIndex: 1 }}
       isSelected={isSelected}
     >
-      <AnimatedMarkerAnnotation
-        active={!!isSelected}
-        title={title}
-        {...{ theme, colors }}
-      />
+      {!!title && (
+        <AnimatedMarkerAnnotation
+          active={!!isSelected}
+          title={title}
+          {...{ theme, colors }}
+        />
+      )}
       <Pressable
         disabled={!onPress}
         style={{

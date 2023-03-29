@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "geofences">;
 

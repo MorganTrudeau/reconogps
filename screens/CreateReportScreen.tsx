@@ -19,7 +19,7 @@ import { useAlert } from "../hooks/useAlert";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { getContacts } from "../redux/selectors/contacts";
 import { spacing } from "../styles";
 import {

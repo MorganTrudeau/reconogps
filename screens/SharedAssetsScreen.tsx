@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useRef } from "react";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../navigation/utils";
 import {
   TabView,
   SceneMap,

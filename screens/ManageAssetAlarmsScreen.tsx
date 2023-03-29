@@ -17,7 +17,7 @@ import SelectList from "../components/SelectList";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { useToast } from "../hooks/useToast";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { spacing } from "../styles";
 import { Contact, WeekDayId } from "../types";
 import {

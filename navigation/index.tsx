@@ -35,33 +35,6 @@ import { View } from "react-native";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-export type RootStackParamList = {
-  login: undefined;
-  "forgot-password": undefined;
-  home: undefined;
-  profile: undefined;
-  geofences: undefined;
-  "alarm-settings": undefined;
-  "shared-assets": undefined;
-  reports: undefined;
-  contacts: undefined;
-  "user-guide": undefined;
-  support: undefined;
-  "manage-contact": undefined | { editContactData: EditContactData };
-  "change-password": undefined;
-  "create-report": {
-    context: "alarms" | "overview" | "runtime" | "stops" | "trips";
-  };
-  "share-new-asset": undefined;
-  "subscribe-asset": undefined;
-  "shared-asset-details": { sharedAssetCode: string };
-  "manage-asset-alarms": {
-    imeis: string; // comma separated list of asset imeis
-  };
-  assets: undefined;
-  "asset-details": { assetId: string };
-};
-
 const AuthStack = () => {
   const { theme, colors } = useTheme();
   const defaultOptions = getDefaultStackOptions(theme, colors);

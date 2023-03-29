@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig: PersistConfig<RootState> = {
-  key: "v12",
+  key: "v13",
   version: 1,
   storage: AsyncStorage,
   transforms: [

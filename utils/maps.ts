@@ -42,12 +42,12 @@ export const defaultCameraPadding = createCameraPadding({
   paddingBottom: DEVICE_HEIGHT * BOTTOM_SHEET_SNAP_POINTS[0],
 });
 export const defaultBounds = {
-  ne: [-122.69639222222222, 49.16037444444444],
+  ne: [-123.55, 49.0],
   paddingBottom: 267.2,
   paddingLeft: 14,
   paddingRight: 14,
   paddingTop: 14,
-  sw: [-122.69855055555556, 49.15870888888889],
+  sw: [-121.62, 50.0],
 };
 
 export const defaultCameraCenterCoordinate = [-123.1207, 49.2827];
@@ -60,7 +60,7 @@ export const defaultCameraConfig: CameraStop = {
 export const getBoundsFromCoordinates = <T>(
   data: T[],
   latLngSelector: (value: T) => LatLng,
-  offset: number = 0.001
+  offset: number = 0.015
 ): CameraBounds => {
   let north: number | undefined = 0;
   let east: number | undefined = 0;

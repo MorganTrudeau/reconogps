@@ -6,7 +6,7 @@ import AppTextInput from "../components/Core/AppTextInput";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { getContacts } from "../redux/selectors/contacts";
 import { deleteContact, loadContacts } from "../redux/thunks/contacts";
 import { iconSize, spacing } from "../styles";

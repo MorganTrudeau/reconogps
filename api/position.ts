@@ -4,9 +4,17 @@ import { validateResponseData } from "./utils";
 import { initDynamicAssetData } from "../utils/assets";
 
 export const geocodeLatLong = async (lat: number, lon: number) => {
-  const res = await axios.get(`${GEOCODE_API_URL}/reverse.php`, {
-    params: { lat, lon, format: "json", zoon: "18", addressdetails: "1" },
-  });
+  let res;
+
+  try {
+    res = await axios.get(`${GEOCODE_API_URL}/reverse.php`, {
+      params: { lat, lon, format: "json", zoon: "18", addressdetails: "1" },
+    });
+  } catch (error) {
+    res = await axios.get(`${GEOCODE_API_URL2}/reverse`, {
+      params: { lat, lon, format: "json", zoon: "18", addressdetails: "1" },
+    });
+  }
 
   //   const res = await axios.get(
   //     `${GEOCODE_API_URL2}/reverse?format=json&zoom=18&addressdetails=1&lat=${lat}&lon=${lon}`

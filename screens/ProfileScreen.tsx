@@ -4,7 +4,7 @@ import { Keyboard, Pressable, StyleSheet, View, Switch } from "react-native";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
-import { RootStackParamList } from "../RootStackParamList";
+import { RootStackParamList } from "../navigation/utils";
 import { iconSize, spacing } from "../styles";
 import { User } from "../types";
 import { updateUserInfo } from "../redux/thunks/user";
