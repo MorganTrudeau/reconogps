@@ -173,7 +173,6 @@ const ManageAssetAlarmsScreen = ({ navigation, route }: NavigationProps) => {
       }));
     } catch (error) {
       Toast.show(Translations.errors.common);
-      console.log();
       setState((s) => ({ ...s, loading: false }));
     }
   };

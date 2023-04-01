@@ -21,6 +21,7 @@ type Props = {
   animatedPlaceholder?: boolean;
   validation?: (val: string) => boolean;
   required?: boolean;
+  error?: boolean;
 } & TextInputProps;
 
 const AppTextInput = forwardRef<TextInput, Props>(
@@ -33,6 +34,7 @@ const AppTextInput = forwardRef<TextInput, Props>(
       animatedPlaceholder = true,
       validation,
       required,
+      error,
       ...rest
     }: Props,
     ref
@@ -130,7 +132,10 @@ const AppTextInput = forwardRef<TextInput, Props>(
             usingSecureTextEntry && {
               paddingRight: EYE_ICON_SIZE + spacing("lg") * 1.5,
             },
-            invalidValue && { borderBottomWidth: 1, borderColor: colors.red },
+            (invalidValue || error) && {
+              borderBottomWidth: 1,
+              borderColor: colors.red,
+            },
             style,
           ]}
           value={value}

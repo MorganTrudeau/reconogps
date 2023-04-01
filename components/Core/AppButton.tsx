@@ -18,7 +18,7 @@ type Props = {
   titleStyle?: StyleProp<TextStyle>;
   titleProps?: TextProps;
   loading?: boolean;
-  style: ViewStyle;
+  style?: ViewStyle;
 } & PressableProps;
 
 const AppButton = ({

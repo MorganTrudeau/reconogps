@@ -119,7 +119,6 @@ const HomeScreen = ({}: NavigationProps) => {
   }, [combinedAssets]);
 
   const handleModalHeightChange = (modalHeight: number) => {
-    console.log(modalHeight);
     modalHeightRef.current = modalHeight;
   };
 

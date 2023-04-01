@@ -34,7 +34,6 @@ const ForgotPasswordScreen = ({ navigation }: NavigationProps) => {
     try {
       setLoading(true);
       const res = await getPasswordResetCode(email);
-      console.log("Result: ", res);
       if (res && res.Data && res.Data.CheckCode) {
         setCheckCode(res.Data.CheckCode);
       } else {
@@ -70,7 +69,6 @@ const ForgotPasswordScreen = ({ navigation }: NavigationProps) => {
     try {
       setLoading(true);
       const res = await resetPassword(email, code, newPassword);
-      console.log("Result: ", res);
       setLoading(false);
     } catch (error) {
       setLoading(false);

@@ -8,8 +8,6 @@ export const loadContacts = async (majorToken: string) => {
     params: { MajorToken: majorToken },
   });
 
-  console.log(res);
-
   return res.data;
 };
 

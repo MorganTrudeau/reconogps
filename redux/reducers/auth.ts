@@ -9,6 +9,8 @@ export interface AuthState {
   minorToken: string | null;
   deviceToken: string | null;
 
+  registering: boolean;
+
   loginRequest: SimpleLoadingState;
   logoutRequest: SimpleLoadingState;
   changePasswordRequest: SimpleLoadingState;
@@ -19,6 +21,8 @@ const initialState: AuthState = {
   minorToken: null,
   deviceToken: "asdf",
 
+  registering: false,
+
   loginRequest: IDLE_STATE,
   logoutRequest: IDLE_STATE,
   changePasswordRequest: IDLE_STATE,
@@ -27,13 +31,24 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    startRegistration: (state) => {
+      state.registering = true;
+    },
+    endRegistration: (state) => {
+      state.registering = false;
+    },
+  },
   extraReducers: (builder) => {
     // Login
     createSimpleLoadingState("loginRequest", builder, login);
     builder.addCase(login.fulfilled, (state, action) => {
       state.majorToken = action.payload.MajorToken;
       state.minorToken = action.payload.MinorToken;
+
+      console.log(action.payload);
+
+      state.registering = action.payload.AssetArray.length === 0;
 
       state.loginRequest = SUCCESS_STATE;
     });
@@ -63,9 +78,12 @@ export const transform = createTransform(
     majorToken: state.majorToken,
     minorToken: state.minorToken,
     deviceToken: state.deviceToken,
+    registering: state.registering,
   }),
   (state: AuthState) => state,
   { whitelist: ["auth"] }
 );
+
+export const { startRegistration, endRegistration } = authSlice.actions;
 
 export default authSlice.reducer;

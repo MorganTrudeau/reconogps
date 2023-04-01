@@ -37,8 +37,6 @@ const ToastManager = () => {
     return errorObj;
   });
 
-  console.log(errors);
-
   useUpdated(errors, (currentErrors, prevErrors) => {
     Object.entries(currentErrors).forEach(([key, val]) => {
       if (val && !prevErrors[key]) {

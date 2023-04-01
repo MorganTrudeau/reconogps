@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "469721161763",
+    "project_id": "reconogps",
+    "storage_bucket": "reconogps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469721161763:android:fa6fb0f9f8f61b56e19196",
+        "android_client_info": {
+          "package_name": "com.reconogps.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469721161763-40halvecjt8ao4gkncunsnaiu8d0m08i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_PIhs7IP1oxDJ4_tVbQsntatliGEoj5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469721161763-40halvecjt8ao4gkncunsnaiu8d0m08i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "469721161763-eabka28q3eb74c1emqirokdkdp2hh3m9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -99,7 +99,6 @@ const SharedAssetsScreen = ({ navigation }: NavigationProps) => {
 const selectMySharedAssetsLoading = (state: RootState) =>
   state.sharedAssets.loadMySharedAssetsRequest.loading;
 const FirstRoute = (props: SceneRendererProps & { route: TabRouteProps }) => {
-  console.log(props);
   return (
     <SharedAssetTab
       loadSharedAssetsThunk={loadMySharedAssets}

@@ -13,6 +13,7 @@ import { PortalProvider } from "@gorhom/portal";
 import ToastProvider from "./context/ToastContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ToastManager from "./services/ToastManager";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 export default function App() {
   return (
@@ -23,7 +24,13 @@ export default function App() {
             <ThemeProvider>
               <ToastProvider>
                 <PortalProvider>
-                  <NavigationStack />
+                  <StripeProvider
+                    publishableKey="pk_test_51M1LLjCDBFeHvOGCnqXOb5rYjJmc7hHk94sR8upPbKCY6eJiNd2WW1ncV1eeeqcmzlATHoOGt1zZYAc12RfHHyaV00tfUzHwvo"
+                    urlScheme="reconogps" // required for 3D Secure and bank redirects
+                    merchantIdentifier="merchant.com.reconogps.app.dev" // required for Apple Pay
+                  >
+                    <NavigationStack />
+                  </StripeProvider>
                 </PortalProvider>
                 <ToastManager />
               </ToastProvider>

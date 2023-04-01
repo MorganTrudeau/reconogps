@@ -90,8 +90,8 @@ export const colors = {
   textMeta: "#939393",
 
   green: "#4cd964",
-  white: "#fff",
-  black: "#000",
+  white: "#ffffff",
+  black: "#000000",
   red: "#a32638",
   empty: "#353535",
   border: "#3c3c3c",

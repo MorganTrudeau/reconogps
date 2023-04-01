@@ -41,7 +41,6 @@ export const assetsSlice = createSlice({
     // Load Static
     createSimpleLoadingState("staticLoadRequest", builder, loadStaticAssets);
     builder.addCase(loadStaticAssets.fulfilled, (state, action) => {
-      console.log("PAYLOAD",action.payload)
       // const staticAssets = mapArrayOfAssetArrays(action.payload);
       // staticAssetsAdapter.setAll(state.staticData, action.payload);
       state.staticLoadRequest = SUCCESS_STATE;

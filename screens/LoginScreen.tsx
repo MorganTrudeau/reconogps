@@ -16,6 +16,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { RootState } from "../redux/store";
 import { useUpdated } from "../hooks/useUpdated";
 import AppScrollView from "../components/Core/AppScrollView";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "login">;
 
@@ -110,6 +111,26 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
           onPress={handleLogin}
           loading={loading}
         />
+
+        <Pressable
+          style={{ alignSelf: "center" }}
+          onPress={() => navigation.navigate("signup")}
+        >
+          <AppText
+            style={[
+              theme.text,
+              {
+                textAlign: "center",
+                marginTop: spacing("lg") * 2,
+              },
+            ]}
+          >
+            Don't have an account yet?{" "}
+            <AppText style={[theme.title, { color: colors.primary }]}>
+              Sign Up
+            </AppText>
+          </AppText>
+        </Pressable>
       </View>
     </AppScrollView>
   );

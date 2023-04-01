@@ -20,8 +20,6 @@ export const login = async (account: string, password: string) => {
 
   validateResponseData(res);
 
-  console.log(res);
-
   return res.data.Data;
 };
 
@@ -50,7 +48,6 @@ export const refreshToken = async (
       DeviceToken: deviceToken,
     },
   });
-  console.log(res);
   validateResponseData(res);
   return res.data.Data;
 };
@@ -87,7 +84,6 @@ export const changePassword = async (
   const res = await axios.get(`${API_URL}/QuikTrak/V1/User/Password`, {
     params: { MinorToken: minorToken, oldpwd, newpwd },
   });
-  console.log(res);
   validateResponseData(res);
   return res.data;
 };

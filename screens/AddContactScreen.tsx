@@ -80,7 +80,6 @@ const AddContactScreen = ({ route, navigation }: NavigationProps) => {
       if (!("Code" in contactData)) {
         return alertGeneralError(Alert, () => navigation.goBack);
       }
-      console.log(contactData);
       dispatch(editContact(contactData));
     } else {
       dispatch(addContact(contactData));

@@ -24,8 +24,6 @@ export const geocodeLatLong = async (lat: number, lon: number) => {
   //     params: { lat, lon, format: "json", zoon: "18", addressdetails: "1" },
   //   });
 
-  console.log(res);
-
   if (!(res.data && res.data.display_name)) {
     return `Lat: ${lat}, Lng: ${lon},`;
   } else {
@@ -37,8 +35,6 @@ export const geocodeAddress = async (address: string) => {
   const res = await axios.get(`${GEOCODE_API_URL2}/search`, {
     params: { format: "json", polygon: 1, addressdetails: 1, q: address },
   });
-
-  console.log(res);
 
   validateResponseData(res);
 

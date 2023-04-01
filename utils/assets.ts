@@ -1,6 +1,85 @@
 import moment from "moment";
-import { DynamicAsset, StaticAsset } from "../types";
+import { AssetSolution, DynamicAsset, StaticAsset } from "../types";
+import { MaterialIcon } from "../types/styles";
 import { Constants } from "./constants";
+
+export const getAssetSolutionName = (solution: AssetSolution): string => {
+  switch (solution.Code) {
+    case "Loc8":
+      return "Locate";
+    case "QProtect":
+      return "Protect";
+    default:
+      return solution.Name;
+  }
+};
+
+export const sortAssetTypes = (types: string[]) => {
+  const preferredOrder = [
+    "Car",
+    "Truck",
+    "Plant and Equipment",
+    "Trailer",
+    "SUV",
+  ];
+
+  const blacklist = ["Jetski", "Pick-up", "WiTi"];
+
+  return types
+    .filter((type) => !blacklist.includes(type))
+    .sort((a, b) => {
+      if (a === "Other") {
+        return 1;
+      } else if (b === "Other") {
+        return -1;
+      }
+      const orderA = preferredOrder.indexOf(a);
+      const orderB = preferredOrder.indexOf(b);
+
+      return orderB === -1 ? -1 : orderA === -1 ? 1 : orderA - orderB;
+    });
+};
+
+export const getAssetTypeIcon = (type: string): MaterialIcon => {
+  switch (type) {
+    case "Car":
+      return "car";
+    case "Truck":
+      return "truck-flatbed";
+    case "Plant and Equipment":
+      return "excavator";
+    case "Trailer":
+      return "truck-trailer";
+    case "SUV":
+      return "car-estate";
+    case "Pet":
+      return "dog-side";
+    case "Dump Truck":
+      return "dump-truck";
+    case "Bus":
+      return "bus-side";
+    case "Boat":
+      return "sail-boat";
+    case "Personal":
+      return "account";
+    case "Forklift":
+      return "forklift";
+    case "Bike":
+      return "motorbike";
+    case "Caravan":
+      return "caravan";
+    case "Containor":
+      return "truck-cargo-container";
+    case "Other":
+      return "crosshairs-gps";
+    default:
+      return "car";
+  }
+};
+
+export const getAssetTypeName = (type: string): string => {
+  return type;
+};
 
 export const assetHasIcon = (staticAsset: StaticAsset): boolean => {
   const pattern = /^IMEI_/i;

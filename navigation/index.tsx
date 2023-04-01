@@ -22,7 +22,6 @@ import ContactsScreen from "../screens/ContactsScreen";
 import UserGuideScreen from "../screens/UserGuideScreen";
 import SupportScreen from "../screens/SupportScreen";
 import AddContactScreen from "../screens/AddContactScreen";
-import { EditContactData } from "../types";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import CreateReportScreen from "../screens/CreateReportScreen";
 import ShareNewAssetScreen from "../screens/ShareNewAssetScreen";
@@ -31,6 +30,9 @@ import { IconSet } from "../utils/enums";
 import ManageAssetAlarmsScreen from "../screens/ManageAssetAlarmsScreen";
 import { getDefaultDrawerOptions, getDefaultStackOptions } from "./utils";
 import { View } from "react-native";
+import SignUpScreen from "../screens/SignUpScreen";
+import AddAssetsScreen from "../screens/AddAssetsScreen";
+import SubscribeAssetsScreen from "../screens/SubscribeAssetsScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -47,10 +49,40 @@ const AuthStack = () => {
         component={LoginScreen}
       />
       <Stack.Screen
+        name="signup"
+        options={{ title: "Sign Up" }}
+        // @ts-ignore
+        component={SignUpScreen}
+      />
+      <Stack.Screen
         name="forgot-password"
         options={{ title: "Forgot Password" }}
         // @ts-ignore
         component={ForgotPasswordScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const RegistrationStack = () => {
+  const { theme, colors } = useTheme();
+  const defaultOptions = getDefaultStackOptions(theme, colors);
+  return (
+    <Stack.Navigator
+      screenOptions={defaultOptions}
+      initialRouteName="add-assets"
+    >
+      <Stack.Screen
+        name="add-assets"
+        options={{ title: "Add Assets" }}
+        // @ts-ignore
+        component={AddAssetsScreen}
+      />
+      <Stack.Screen
+        name="activate-assets"
+        options={{ title: "Activate Assets" }}
+        // @ts-ignore
+        component={SubscribeAssetsScreen}
       />
     </Stack.Navigator>
   );
@@ -254,11 +286,18 @@ const MainStack = () => {
 };
 
 const NavigationStack = () => {
-  const { isLoggedIn } = useAppSelector((state) => ({
+  const { isLoggedIn, registering } = useAppSelector((state) => ({
     isLoggedIn: state.auth.minorToken,
+    registering: state.auth.registering,
   }));
 
-  return isLoggedIn ? <MainStack /> : <AuthStack />;
+  return registering ? (
+    <RegistrationStack />
+  ) : isLoggedIn ? (
+    <MainStack />
+  ) : (
+    <AuthStack />
+  );
 };
 
 export default NavigationStack;

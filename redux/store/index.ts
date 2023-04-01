@@ -13,7 +13,10 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logger from "redux-logger";
 
-import authReducer, { AuthState } from "../reducers/auth";
+import authReducer, {
+  AuthState,
+  transform as authTransform,
+} from "../reducers/auth";
 import assetsReducer, {
   AssetsState,
   transform as assetsTransform,
@@ -42,7 +45,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig: PersistConfig<RootState> = {
-  key: "v13",
+  key: "v14",
   version: 1,
   storage: AsyncStorage,
   transforms: [
@@ -50,6 +53,7 @@ const persistConfig: PersistConfig<RootState> = {
     activeUserTransform,
     contactsTransform,
     geofencesTransform,
+    authTransform,
   ],
   blacklist: ["sharedAssets", "geofences"],
 };

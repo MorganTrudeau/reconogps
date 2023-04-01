@@ -1,0 +1,103 @@
+[debug] [2023-04-01T01:21:52.086Z] ----------------------------------------------------------------------
+[debug] [2023-04-01T01:21:52.087Z] Command:       /Users/morgantrudeau/.nvm/versions/node/v14.18.2/bin/node /Users/morgantrudeau/.nvm/versions/node/v14.18.2/bin/firebase emulators:start --only functions
+[debug] [2023-04-01T01:21:52.088Z] CLI Version:   11.19.0
+[debug] [2023-04-01T01:21:52.088Z] Platform:      darwin
+[debug] [2023-04-01T01:21:52.088Z] Node Version:  v14.18.2
+[debug] [2023-04-01T01:21:52.089Z] Time:          Fri Mar 31 2023 18:21:52 GMT-0700 (Pacific Daylight Time)
+[debug] [2023-04-01T01:21:52.089Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-04-01T01:21:52.169Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-01T01:21:52.170Z] > authorizing via signed-in user (morgantrudeau@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2023-04-01T01:21:52.759Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-04-01T01:21:52.759Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-04-01T01:21:52.772Z] [hub] writing locator at /var/folders/7l/50fxw1192011nfd1jz8m99pw0000gn/T/hub-reconogps.json
+[debug] [2023-04-01T01:21:53.168Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-04-01T01:21:53.169Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-04-01T01:21:53.170Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
+[warn] ⚠  Your requested "node" version "16" doesn't match your global version "14". Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"16\" doesn't match your global version \"14\". Using node@14 from host."}}
+[debug] [2023-04-01T01:21:53.190Z] defaultcredentials: writing to file /Users/morgantrudeau/.config/firebase/morgantrudeau_gmail_com_application_default_credentials.json
+[debug] [2023-04-01T01:21:53.193Z] Setting GAC to /Users/morgantrudeau/.config/firebase/morgantrudeau_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/morgantrudeau/.config/firebase/morgantrudeau_gmail_com_application_default_credentials.json"}}
+[debug] [2023-04-01T01:21:53.194Z] > refreshing access token with scopes: []
+[debug] [2023-04-01T01:21:53.195Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-04-01T01:21:53.195Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-01T01:21:53.624Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-04-01T01:21:53.625Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-01T01:21:53.649Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reconogps/adminSdkConfig [none]
+[debug] [2023-04-01T01:21:54.032Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/reconogps/adminSdkConfig 200
+[debug] [2023-04-01T01:21:54.033Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/reconogps/adminSdkConfig {"projectId":"reconogps","storageBucket":"reconogps.appspot.com"}
+[debug] [2023-04-01T01:21:54.067Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-04-01T01:21:54.067Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-04-01T01:21:54.067Z] Starting Emulator UI with command {"binary":"node","args":["/Users/morgantrudeau/.cache/firebase/emulators/ui-v1.11.1/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/morgantrudeau/.cache/firebase/emulators/ui-v1.11.1/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-04-01T01:21:54.200Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2023-04-01T01:21:54.201Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "/Users/morgantrudeau/projects/recono/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/morgantrudeau/projects/recono/functions\" for Cloud Functions..."}}
+[debug] [2023-04-01T01:21:54.358Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2023-04-01T01:21:54.951Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "axios": "^1.3.4",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0",
+    "form-data": "^4.0.0",
+    "stripe": "^11.17.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.5.4"
+  },
+  "private": true
+}
+[debug] [2023-04-01T01:21:54.952Z] Building nodejs source
+[debug] [2023-04-01T01:21:54.954Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-04-01T01:21:55.151Z] Serving at port 9012
+
+[debug] [2023-04-01T01:21:55.262Z] Got response from /__/functions.yaml {"endpoints":{"loadAssetActivationInfo":{"platform":"gcfv1","labels":{},"callableTrigger":{},"entryPoint":"loadAssetActivationInfo"},"createAccount":{"platform":"gcfv1","labels":{},"callableTrigger":{},"entryPoint":"createAccount"},"fetchSubscriptionProducts":{"platform":"gcfv1","labels":{},"callableTrigger":{},"entryPoint":"fetchSubscriptionProducts"},"createSubscriptionPaymentIntent":{"platform":"gcfv1","labels":{},"callableTrigger":{},"entryPoint":"createSubscriptionPaymentIntent"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-04-01T01:21:55.272Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: loadAssetActivationInfo, createAccount, fetchSubscriptionProducts, createSubscriptionPaymentIntent. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: loadAssetActivationInfo, createAccount, fetchSubscriptionProducts, createSubscriptionPaymentIntent."}}
+[info] ✔  functions[us-central1-loadAssetActivationInfo]: http function initialized (http://127.0.0.1:5001/reconogps/us-central1/loadAssetActivationInfo). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/reconogps/us-central1/loadAssetActivationInfo)."}}
+[info] ✔  functions[us-central1-createAccount]: http function initialized (http://127.0.0.1:5001/reconogps/us-central1/createAccount). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/reconogps/us-central1/createAccount)."}}
+[info] ✔  functions[us-central1-fetchSubscriptionProducts]: http function initialized (http://127.0.0.1:5001/reconogps/us-central1/fetchSubscriptionProducts). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/reconogps/us-central1/fetchSubscriptionProducts)."}}
+[info] ✔  functions[us-central1-createSubscriptionPaymentIntent]: http function initialized (http://127.0.0.1:5001/reconogps/us-central1/createSubscriptionPaymentIntent). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/reconogps/us-central1/createSubscriptionPaymentIntent)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 

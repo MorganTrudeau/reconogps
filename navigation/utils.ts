@@ -1,10 +1,11 @@
 import { DrawerNavigationOptions } from "@react-navigation/drawer";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import { EditContactData } from "../types";
+import { AssetActivationEntry, EditContactData } from "../types";
 import { Colors, Theme } from "../types/styles";
 
 export type RootStackParamList = {
   login: undefined;
+  signup: undefined;
   "forgot-password": undefined;
   home: undefined;
   profile: undefined;
@@ -28,6 +29,8 @@ export type RootStackParamList = {
   };
   assets: undefined;
   "asset-details": { assetId: string };
+  "add-assets": { registering: boolean };
+  "activate-assets": { activationEntries: AssetActivationEntry[] };
 };
 
 export const getDefaultStackOptions = (

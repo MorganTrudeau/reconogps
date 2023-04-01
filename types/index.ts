@@ -206,3 +206,108 @@ export type Geofence = {
     Week: number;
   }[];
 };
+
+export type AssetProduct = {
+  Code: string;
+  Name: string;
+  Features: string;
+};
+
+export type AssetServiceProfile = {
+  Code: string;
+  Name: string;
+  Frequency: string;
+};
+
+export type AssetSolution = {
+  Code: string;
+  Name: string;
+  Features: string;
+  parameters: string[];
+};
+
+export type AssetSSP = {
+  AssetGroups: string[];
+  AssetTypes: string[];
+  Products: AssetProduct[];
+  ServiceProfiles: AssetServiceProfile[];
+  Solutions: AssetSolution[];
+};
+
+export type AssetInfo = {
+  AssetType: string;
+  Color: string;
+  CsCode: string;
+  CsName: string;
+  DisconnectPower: string;
+  Email: string;
+  FitmentOptions: string;
+  FuelEconomy: string;
+  IMEI: string;
+  IMSI: string;
+  InitAccHours: string;
+  InitMileage: string;
+  Input1Icon: null;
+  Input1Mask: string;
+  Input1Name: string;
+  Input1Type: string;
+  Input2Icon: null;
+  Input2Mask: string;
+  Input2Name: string;
+  Input2Type: string;
+  Input3Icon: null;
+  Input3Mask: string;
+  Input3Name: string;
+  Input3Type: string;
+  Input4Icon: null;
+  Input4Mask: string;
+  Input4Name: string;
+  Input4Type: string;
+  InstallLocation: string;
+  LicenceDiscExpiryDate: string;
+  LicenceDisk: string;
+  LoginName: string;
+  LowPower: string;
+  Make: string;
+  Model: string;
+  Name: string;
+  Notes: string;
+  Output1Icon: null;
+  Output1Mask: string;
+  Output1Name: string;
+  Output1Type: string;
+  Output2Icon: null;
+  Output2Mask: string;
+  Output2Name: string;
+  Output2Type: string;
+  PowerOn: string;
+  Product: string;
+  ProductCode: string;
+  Registration: string;
+  ServicePlanCode: string;
+  Solution: "NonActivated" | "Activated";
+  StockNumber: string;
+  VinNumber: string;
+  Voucher: string;
+  Year: string;
+};
+
+export type AssetActivationInfo = {
+  asset: AssetInfo;
+  ssp: AssetSSP;
+};
+
+export type AssetActivationFormData = {
+  name: string;
+  solution: string;
+  make: string;
+  model: string;
+  color: string;
+  year: string;
+  type: string;
+};
+
+export type AssetActivationEntry = {
+  info: AssetActivationInfo;
+  formData: AssetActivationFormData;
+};

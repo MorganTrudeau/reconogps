@@ -21,8 +21,6 @@ export const loadGeofences = async (
     }
   );
 
-  console.log(res);
-
   validateResponseData(res);
 
   if (!(res.data.Data && typeof res.data.Data === "object")) {

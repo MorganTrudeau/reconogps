@@ -116,8 +116,6 @@ export const extendSharedAssetExpiry = async (
     }
   );
 
-  console.log(res);
-
   validateResponseData(res);
 
   return res.data.Data;
