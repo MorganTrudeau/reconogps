@@ -20,12 +20,22 @@ export const useHeaderRightSave = ({
   onPress,
   style,
   disabled,
+  renderActionButton,
+  hidden,
 }: {
   loading?: boolean;
   navigation: Navigation;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  hidden?: boolean;
+  renderActionButton?: ({
+    color,
+    onPress,
+  }: {
+    color: string;
+    onPress: () => void;
+  }) => React.ReactElement;
 }) => {
   const onPressRef = useRef(onPress);
   onPressRef.current = onPress;
@@ -33,13 +43,16 @@ export const useHeaderRightSave = ({
   const { colors } = useTheme();
 
   const renderSaveButton = () => {
+    const onPress = () => onPressRef.current();
+    const color = disabled ? colors.empty : colors.primary;
+
+    if (typeof renderActionButton === "function") {
+      return renderActionButton({ color, onPress });
+    }
+
     return (
-      <Pressable style={style} onPress={() => onPressRef.current()}>
-        <AppIcon
-          color={disabled ? colors.empty : colors.primary}
-          name={"check-circle"}
-          size={iconSize("md")}
-        />
+      <Pressable style={style} onPress={onPress}>
+        <AppIcon color={color} name={"check-circle"} size={iconSize("md")} />
       </Pressable>
     );
   };
@@ -60,12 +73,18 @@ export const useHeaderRightSave = ({
     navigation.setOptions({ headerRight: renderLoading });
   };
 
+  const setHeaderRightHidden = () => {
+    navigation.setOptions({ headerRight: undefined });
+  };
+
   useEffect(() => {
     setHeaderRightSaveButton();
   }, []);
 
   useEffect(() => {
-    if (loading) {
+    if (hidden) {
+      setHeaderRightHidden();
+    } else if (loading) {
       setHeaderRightLoading();
     } else {
       setHeaderRightSaveButton();

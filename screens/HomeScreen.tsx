@@ -36,7 +36,7 @@ import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 
-const HomeScreen = ({}: NavigationProps) => {
+const HomeScreen = ({ navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const { height } = useWindowDimensions();
 
@@ -225,6 +225,7 @@ const HomeScreen = ({}: NavigationProps) => {
         onAssetSelected={handleAssetPress}
         onHeightChange={handleModalHeightChange}
         ref={bottomSheetRef}
+        navigation={navigation}
       />
     </View>
   );

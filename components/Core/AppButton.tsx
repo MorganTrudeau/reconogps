@@ -10,7 +10,9 @@ import {
   ViewStyle,
 } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
-import { spacing } from "../../styles";
+import { iconSize, spacing } from "../../styles";
+import { MaterialIcon } from "../../types/styles";
+import AppIcon from "./AppIcon";
 import AppText from "./AppText";
 
 type Props = {
@@ -19,6 +21,7 @@ type Props = {
   titleProps?: TextProps;
   loading?: boolean;
   style?: ViewStyle;
+  icon?: MaterialIcon;
 } & PressableProps;
 
 const AppButton = ({
@@ -27,11 +30,20 @@ const AppButton = ({
   titleStyle,
   titleProps = defaultTitleProps,
   loading,
+  icon,
   ...rest
 }: Props) => {
   const { theme, colors } = useTheme();
   return (
     <Pressable {...rest} style={[theme.button, style]}>
+      {!!icon && (
+        <AppIcon
+          name={icon}
+          color={colors.black}
+          size={iconSize("md")}
+          style={styles.icon}
+        />
+      )}
       <AppText
         {...{ theme, colors, ...titleProps }}
         style={[theme.buttonTitle, titleStyle]}
@@ -49,6 +61,7 @@ const defaultTitleProps = {};
 
 const styles = StyleSheet.create({
   loading: { position: "absolute", right: spacing("lg") },
+  icon: { position: "absolute", left: spacing("lg") },
 });
 
 export default AppButton;

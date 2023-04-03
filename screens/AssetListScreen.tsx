@@ -5,8 +5,10 @@ import {
   FlatListProps,
   RefreshControl,
   StyleSheet,
+  View,
 } from "react-native";
 import AssetItem from "../components/Assets/AssetItem";
+import AppButton from "../components/Core/AppButton";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
@@ -23,7 +25,12 @@ type Props = { onAssetPress?: (asset: CombinedAsset) => void } & Omit<
 > &
   NavigationProps;
 
-const AssetListScreen = ({ onAssetPress, navigation, ...rest }: Props) => {
+const AssetListScreen = ({
+  onAssetPress,
+  navigation,
+  route,
+  ...rest
+}: Props) => {
   const { theme, colors } = useTheme();
 
   const { assets, ids, loading } = useAppSelector((state) => ({
@@ -57,6 +64,18 @@ const AssetListScreen = ({ onAssetPress, navigation, ...rest }: Props) => {
     );
   };
 
+  const renderListEmptyComponent = () => {
+    return (
+      <View style={{ paddingHorizontal: spacing("lg") }}>
+        <AppButton
+          icon={"plus"}
+          title={"Add your first asset"}
+          onPress={() => route.params.onAddAssets()}
+        />
+      </View>
+    );
+  };
+
   return (
     <FlatList
       data={assets}
@@ -64,6 +83,7 @@ const AssetListScreen = ({ onAssetPress, navigation, ...rest }: Props) => {
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
       style={{ backgroundColor: colors.background }}
       contentContainerStyle={styles.listContent}
+      ListEmptyComponent={renderListEmptyComponent}
       {...rest}
     />
   );

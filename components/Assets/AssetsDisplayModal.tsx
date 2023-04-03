@@ -47,12 +47,13 @@ export type AssetsDisplayModalRef = {
 type Props = {
   onAssetSelected?: (assetId: string | null) => void;
   onHeightChange?: (height: number) => void;
+  navigation: NavigationProp;
 };
 
 const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
-  ({ onAssetSelected, onHeightChange }, ref) => {
+  ({ onAssetSelected, onHeightChange, navigation }, ref) => {
     const { colors, theme } = useTheme();
-    const navigation = useNavigation<NavigationProp>();
+
     const { height } = useWindowDimensions();
     const insets = useSafeAreaInsets();
 
@@ -153,6 +154,10 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
       }
     };
 
+    const handleAddAssets = () => {
+      navigation.navigate("add-assets");
+    };
+
     const handleOpenModal = () => {
       bottomSheetRef.current?.snapToIndex(0);
     };
@@ -216,7 +221,7 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
           }}
           handleIndicatorStyle={{ backgroundColor: colors.white }}
         >
-          <AssetStack />
+          <AssetStack onAddAssets={handleAddAssets} />
         </BottomSheet>
       </>
     );

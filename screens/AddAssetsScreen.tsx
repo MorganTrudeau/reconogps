@@ -22,6 +22,9 @@ import AppIcon from "../components/Core/AppIcon";
 import { getAssetTypeIcon } from "../utils/assets";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppButton from "../components/Core/AppButton";
+import { endRegistration } from "../redux/reducers/auth";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "add-assets">;
 
@@ -29,6 +32,9 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const Toast = useToast();
   const insets = useSafeAreaInsets();
+
+  const registering = useAppSelector((state) => state.auth.registering);
+  const dispatch = useAppDispatch();
 
   const [assetImei, setAssetImei] = useState("0868450045012661");
   const [loading, setLoading] = useState(false);
@@ -97,12 +103,36 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
     setActivationInfo(null);
   };
 
-  // useHeaderRightSave({
-  //   navigation,
-  //   onPress: startActivation,
-  //   disabled: !assetImei.length,
-  //   loading,
-  // });
+  const handleSkip = () => {
+    if (registering) {
+      dispatch(endRegistration());
+    } else {
+      navigation.navigate("home");
+    }
+  };
+
+  const renderSkipButton = ({
+    onPress,
+    color,
+  }: {
+    onPress: () => void;
+    color: string;
+  }) => {
+    return (
+      <Pressable onPress={onPress} hitSlop={10}>
+        <AppText style={{ color }}>Skip</AppText>
+      </Pressable>
+    );
+  };
+
+  useHeaderRightSave({
+    navigation,
+    onPress: handleSkip,
+    disabled: !assetImei.length,
+    loading,
+    renderActionButton: renderSkipButton,
+    hidden: !registering,
+  });
 
   return (
     <AppScrollView

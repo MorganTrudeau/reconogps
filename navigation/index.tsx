@@ -236,6 +236,18 @@ const MainStack = () => {
         component={DrawerStack}
       />
       <Stack.Screen
+        name="add-assets"
+        options={{ title: "Add Assets" }}
+        // @ts-ignore
+        component={AddAssetsScreen}
+      />
+      <Stack.Screen
+        name="activate-assets"
+        options={{ title: "Activate Assets" }}
+        // @ts-ignore
+        component={SubscribeAssetsScreen}
+      />
+      <Stack.Screen
         name="manage-contact"
         options={{
           title: "Add Contact",
