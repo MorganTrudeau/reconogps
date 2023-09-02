@@ -29,3 +29,12 @@ export const userFromUpdateApiResponse = (
 
   return { ...userResponse, TimeZone: timeZone, TimeZoneID: timeZoneId };
 };
+
+export const userHasAllPermissions = (user: User): boolean =>
+  user.Role == 1 ||
+  user.Role == 2 ||
+  user.Role == 3 ||
+  user.Role == 4 ||
+  user.Role == 8
+    ? true
+    : false;

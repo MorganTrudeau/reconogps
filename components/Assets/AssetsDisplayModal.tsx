@@ -33,9 +33,11 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Constants } from "../../utils/constants";
 
-export const BOTTOM_SHEET_SNAP_POINTS = [0.3, 0.65, 0.87];
-const SNAP_POINTS = BOTTOM_SHEET_SNAP_POINTS.map((num) => `${num * 100}%`);
+const SNAP_POINTS = Constants.BOTTOM_SHEET_SNAP_POINTS.map(
+  (num) => `${num * 100}%`
+);
 
 const initialIndex = 0;
 
@@ -51,9 +53,9 @@ type Props = {
 };
 
 const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
-  ({ onAssetSelected, onHeightChange, navigation }, ref) => {
+  ({ onAssetSelected, onHeightChange }, ref) => {
     const { colors, theme } = useTheme();
-
+    const navigation = useNavigation<NavigationProp>();
     const { height } = useWindowDimensions();
     const insets = useSafeAreaInsets();
 
@@ -137,7 +139,7 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
         if (closed) {
           setClosed(false);
         }
-        const snapPoint = BOTTOM_SHEET_SNAP_POINTS[_index];
+        const snapPoint = Constants.BOTTOM_SHEET_SNAP_POINTS[_index];
         const modalHeight = height * snapPoint;
         onHeightChange && onHeightChange(modalHeight);
         index.current = _index;

@@ -1,6 +1,6 @@
 import { SolutionTypes } from "../utils/enums";
 
-export type SolutionType = typeof SolutionTypes[keyof typeof SolutionTypes];
+export type SolutionType = (typeof SolutionTypes)[keyof typeof SolutionTypes];
 
 export type LatLng = {
   latitude: number;
@@ -44,6 +44,8 @@ export type Permissions = string[];
 
 export type Permissions2 = { autoMonthlyReport?: number };
 
+export type SpeedUnit = "KT" | "KPH" | "MPS" | "MPH";
+
 export type User = {
   Address0: string;
   Address1: string;
@@ -70,11 +72,11 @@ export type StaticAsset = {
   id: string;
   imei: string; //imei
   name: string; //asset name
-  a1: string; //tag name, just additional value
+  tagName: string; //tag name, just additional value
   icon: string; //icon/photo
-  speedUnit: string; //unit of speed
-  initialMileage: string; //Initial mileage
-  initialAccHours: string; //Initial AccOn Hours
+  speedUnit: SpeedUnit; //unit of speed
+  initialMileage: number; //Initial mileage
+  initialAccHours: number; //Initial AccOn Hours
   state: string; //asset state
   activationDate: string; //ActivateDate
   subscriptionInterval: string; //Service plan
@@ -86,38 +88,67 @@ export type StaticAsset = {
   color: string; //color
   year: string; //year
   installLocation: string; //address of installation
-  a2: string; // additional value
-  a3: string; // additional value
-  a4: string; // additional value
-  a5: string; // additional value
+  fieldFloat1: string; // additional value
+  fieldFloat2: string; // additional value
+  fieldFloat7: string; // additional value
+  describe7: string; // additional value
   alarmOptions: string; //Alarm options
   doorStateBitSum: string; //bit sum value for current states of door unlock/immobilising/ignition
-  a6: string; // additional value
+  statusNew: string;
   imsi: string; //imsi
-  a7: string; // additional value
+  fieldInt2: string; // additional value
   groupCode: string; //GroupCode
   solutionType: SolutionType; //SolutionType
-  a8: string; // additional value
-  a9: string; // additional value
+  registration: string; // additional value
+  stockNumber: string; // additional value
+  maxSpeed: number;
   maxSpeedAlertMode: string; //MaxSpeedAlertMode
-  daysInventory: string; //DaysInInventory
+  daysInventory: number; //DaysInInventory
   storageTime: string; //StorageTime
   activationTime: string; //ActivationTime
   businessExpense: string; //BusinessExpense
-  fuelEconomy: string; //FuelEconomy
-  engineCapacity: string; //EngineCapacity
+  fuelEconomy: number; //FuelEconomy
+  engineCapacity: number; //EngineCapacity
   offroadTaxCredit: string; //OffroadTaxCredit
   assetType: string; //AssetType
   alarmOptions2: string; //AlarmOptions2
   driverCode: string; //DriverCode
-  roadSpeed: string; //RoadSpeed
+  roadSpeed: number; //RoadSpeed
   onWifi: string; //LBS WIFI (using lbs/wifi data if mobile coverage down)
   onStaticDrift: string; //STATIC DRIFT (ignoring of change assets coordinates if ignition off)
   input1: string; //input 1 name
   input2: string; //input 2 name
-  shared: string; //is asset shared to another account
+  shared: boolean; //is asset shared to another account
   suspendDate: string; //SuspendDate
-  a10: string; // additional value
+  undefined1: string;
+  undefined2: string;
+  undefined3: string;
+  input1Type: string; //ignore
+  input1Name: string;
+  input1Mask: string; //ignore
+  input1Icon: string;
+  input2Type: string; //ignore
+  input2Name: string;
+  input2Mask: string; //ignore
+  input2Icon: string;
+  input3Type: string; //ignore
+  input3Name: string;
+  input3Mask: string; //ignore
+  input3Icon: string;
+  input4Type: string; //ignore
+  input4Name: string;
+  input4Mask: string; //ignore
+  input4Icon: string;
+  output1Type: string; //ignore
+  output1Name: string;
+  output1Mask: string; //ignore
+  output1Icon: string;
+  output2Type: string; //ignore
+  output2Name: string;
+  output2Mask: string; //ignore
+  output2Icon: string;
+  subscriptionId: string;
+  lifeIsLive: string;
 };
 
 export type DynamicAsset = {
@@ -310,4 +341,28 @@ export type AssetActivationFormData = {
 export type AssetActivationEntry = {
   info: AssetActivationInfo;
   formData: AssetActivationFormData;
+};
+
+export type AlarmSettings = {
+  Email: string[];
+  Push: string[];
+};
+
+export type AvailableAlarms = {
+  AlertTypes: number;
+  BeginTime: "00:00";
+  CustomEmails: string;
+  CustomPhones: null;
+  EmailAlertTypes: number;
+  EndTime: "00:00";
+  HolderContact: string;
+  IMEI: string;
+  InputInterval: number;
+  IsEmailNotification: boolean;
+  IsIgnore: number;
+  IsPushNotification: boolean;
+  MaxSpeed: number;
+  OfflineHours: string;
+  SpeedingMode: number;
+  Weeks: string;
 };

@@ -1,17 +1,28 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { refreshToken } from "../redux/thunks/auth";
+import { login } from "../redux/thunks/auth";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const AuthManager = () => {
+  const { account, password } = useAppSelector((state) => ({
+    account: state.auth.account,
+    password: state.auth.password,
+  }));
   const dispatch = useAppDispatch();
 
-  const handleRefreshToken = () => {
-    dispatch(refreshToken());
-  };
-
   useEffect(() => {
-    handleRefreshToken();
+    if (account && password) {
+      dispatch(login({ account, password }));
+    }
   }, []);
+
+  // const handleRefreshToken = () => {
+  //   dispatch(refreshToken());
+  // };
+
+  // useEffect(() => {
+  //   handleRefreshToken();
+  // }, []);
 
   return null;
 };

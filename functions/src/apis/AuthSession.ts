@@ -62,7 +62,7 @@ class AuthSession {
   async getSession() {
     if (!(this.MajorToken && this.MinorToken)) {
       await this.startSession();
-    } 
+    }
     // else if (Date.now() > this.Expiry) {
     //   try {
 

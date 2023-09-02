@@ -4,9 +4,41 @@ import {
   CameraStop,
 } from "@rnmapbox/maps/javascript/components/Camera";
 import { Dimensions } from "react-native";
-import { BOTTOM_SHEET_SNAP_POINTS } from "../components/Assets/AssetsDisplayModal";
 import { spacing } from "../styles";
 import { DynamicAsset, LatLng } from "../types";
+import { Translations } from "./translations";
+import { Constants } from "./constants";
+
+export const getDirectionCardinal = (degrees: number) => {
+  let ret: string = Translations.direction.unknown;
+  switch (true) {
+    case degrees >= 338 || degrees <= 22:
+      ret = Translations.direction.north;
+      break;
+    case degrees >= 23 && degrees <= 75:
+      ret = Translations.direction.north_east;
+      break;
+    case degrees >= 76 && degrees <= 112:
+      ret = Translations.direction.east;
+      break;
+    case degrees >= 113 && degrees <= 157:
+      ret = Translations.direction.south_east;
+      break;
+    case degrees >= 158 && degrees <= 202:
+      ret = Translations.direction.south;
+      break;
+    case degrees >= 203 && degrees <= 247:
+      ret = Translations.direction.south_west;
+      break;
+    case degrees >= 248 && degrees <= 292:
+      ret = Translations.direction.west;
+      break;
+    case degrees >= 293 && degrees <= 337:
+      ret = Translations.direction.north_west;
+      break;
+  }
+  return ret;
+};
 
 export const getCoordinatesFromDynamicAssets = (
   dynamicAssets: DynamicAsset[]
@@ -39,7 +71,7 @@ export const createCameraPadding = (
 };
 
 export const defaultCameraPadding = createCameraPadding({
-  paddingBottom: DEVICE_HEIGHT * BOTTOM_SHEET_SNAP_POINTS[0],
+  paddingBottom: DEVICE_HEIGHT * Constants.BOTTOM_SHEET_SNAP_POINTS[0],
 });
 export const defaultBounds = {
   ne: [-123.55, 49.0],

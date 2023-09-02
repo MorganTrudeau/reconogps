@@ -1,20 +1,12 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
 import { StatusBar, useWindowDimensions, View } from "react-native";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { loadStaticAssets } from "../redux/thunks/assets";
 import AppMap from "../components/Core/AppMap";
 import AssetsDisplayModal, {
   AssetsDisplayModalRef,
-  BOTTOM_SHEET_SNAP_POINTS,
 } from "../components/Assets/AssetsDisplayModal";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { getCombinedAssets, getDynamicAssets } from "../redux/selectors/assets";
@@ -33,6 +25,7 @@ import {
   getBoundsFromCoordinates,
 } from "../utils/maps";
 import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
+import { Constants } from "../utils/constants";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 
@@ -59,9 +52,9 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   } | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<DynamicAsset | null>(null);
 
-  useEffect(() => {
-    dispatch(loadStaticAssets());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadStaticAssets());
+  // }, []);
 
   const handleMarkerPress = useCallback(
     (marker: { id: string; longitude: number; latitude: number }) => {
@@ -183,6 +176,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   };
 
   const handleAssetPress = (assetId: string | null) => {
+    console.log(assetId);
     if (!assetId) {
       return deselectAll();
     }
@@ -190,7 +184,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     const asset = dynamicAssets.find((asset) => asset.id === assetId);
 
     if (asset) {
-      selectAsset(asset, height * BOTTOM_SHEET_SNAP_POINTS[1]);
+      selectAsset(asset, height * Constants.BOTTOM_SHEET_SNAP_POINTS[1]);
     }
   };
 
@@ -227,6 +221,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
         ref={bottomSheetRef}
         navigation={navigation}
       />
+      <StatusBar barStyle={"dark-content"} />
     </View>
   );
 };

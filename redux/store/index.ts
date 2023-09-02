@@ -55,7 +55,7 @@ const persistConfig: PersistConfig<RootState> = {
     geofencesTransform,
     authTransform,
   ],
-  blacklist: ["sharedAssets", "geofences"],
+  blacklist: ["sharedAssets", "geofences", "alarms"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -67,7 +67,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
+    }),
+  // .concat(logger),
 });
 export const persistor = persistStore(store);
 

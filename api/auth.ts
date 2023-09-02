@@ -20,7 +20,7 @@ export const login = async (account: string, password: string) => {
 
   validateResponseData(res);
 
-  return res.data.Data;
+  return { account, password, data: res.data.Data };
 };
 
 export const logout = async (minorToken: string, deviceToken: string) => {

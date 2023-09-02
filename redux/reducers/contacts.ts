@@ -51,7 +51,7 @@ export const contactsSlice = createSlice({
   extraReducers: (builder) => {
     // Login data
     builder.addCase(login.fulfilled, (state, action) => {
-      contactsAdapter.setAll(state.data, action.payload.ContactList);
+      contactsAdapter.setAll(state.data, action.payload.data.ContactList);
     });
     // Load contacts
     createSimpleLoadingState("loadRequest", builder, loadContacts);

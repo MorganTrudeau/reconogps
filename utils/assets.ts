@@ -1,7 +1,101 @@
 import moment from "moment";
-import { AssetSolution, DynamicAsset, StaticAsset } from "../types";
+import {
+  AssetSolution,
+  DynamicAsset,
+  SolutionType,
+  SpeedUnit,
+  StaticAsset,
+} from "../types";
 import { MaterialIcon } from "../types/styles";
 import { Constants } from "./constants";
+import { getDirectionCardinal } from "./maps";
+
+export const isDoorLocked = (staticAsset: StaticAsset) => {
+  return (
+    !!staticAsset.statusNew && (parseInt(staticAsset.statusNew, 10) & 4) > 0
+  );
+};
+
+export const isImmobilized = (staticAsset: StaticAsset) => {
+  return (
+    !!staticAsset.statusNew && (parseInt(staticAsset.statusNew, 10) & 2) > 0
+  );
+};
+
+export const isGeolocked = (staticAsset: StaticAsset) => {
+  return (
+    !!staticAsset.statusNew && (parseInt(staticAsset.statusNew, 10) & 1) > 0
+  );
+};
+
+export const IsImmobilisationSupported = (staticAsset: StaticAsset) =>
+  (parseInt(staticAsset.fieldInt2) & 1) > 0;
+
+export const IsLockDoorSupported = (staticAsset: StaticAsset) =>
+  (parseInt(staticAsset.fieldInt2) & 512) > 0;
+
+export const getAssetDirection = (dynamicAsset: DynamicAsset) => {
+  return (
+    getDirectionCardinal(dynamicAsset.direct) +
+    " (" +
+    dynamicAsset.direct +
+    `\u00b0)`
+  );
+};
+
+const getMileageValue = (speedUnit: SpeedUnit, mileage: number) => {
+  let ret = 0;
+  switch (speedUnit) {
+    case "KT":
+      ret = mileage * 0.53995680345572;
+      break;
+    case "KPH":
+      ret = mileage;
+      break;
+    case "MPS":
+      ret = mileage * 1000;
+      break;
+    case "MPH":
+      ret = mileage * 0.62137119223733;
+      break;
+    default:
+      break;
+  }
+  return ret;
+};
+
+export const getMileageUnit = (speedUnit: SpeedUnit) => {
+  let ret = "";
+  switch (speedUnit) {
+    case "KT":
+      ret = "mile";
+      break;
+    case "KPH":
+      ret = "km";
+      break;
+    case "MPS":
+      ret = "m";
+      break;
+    case "MPH":
+      ret = "mile";
+      break;
+    default:
+      break;
+  }
+  return ret;
+};
+
+export const getMileage = (
+  dynamicAsset: DynamicAsset,
+  staticAsset: StaticAsset
+) => {
+  console.log(staticAsset, dynamicAsset);
+  return (
+    Number(staticAsset.initialMileage) +
+    getMileageValue(staticAsset.speedUnit, dynamicAsset.mileage) +
+    getMileageUnit(staticAsset.speedUnit)
+  );
+};
 
 export const getAssetSolutionName = (solution: AssetSolution): string => {
   switch (solution.Code) {
@@ -86,69 +180,97 @@ export const assetHasIcon = (staticAsset: StaticAsset): boolean => {
   return !!staticAsset.icon && pattern.test(staticAsset.icon);
 };
 
-export const getAssetKeyFromIndex = (index: number): keyof StaticAsset => {
-  const indexKeyMap: { [num: number]: keyof StaticAsset | "" } = {
-    0: "id",
-    1: "imei", //imei
-    2: "name", //asset name
-    3: "", //tag name, just additional value
-    4: "icon", //icon/photo
-    5: "speedUnit", //unit of speed
-    6: "initialMileage", //Initial mileage
-    7: "initialAccHours", //Initial AccOn Hours
-    8: "state", //asset state
-    9: "activationDate", //ActivateDate
-    10: "subscriptionInterval", //Service plan
-    11: "productName", //Product name
-    12: "productFeatureBitSum", //Product features bit sum
-    13: "alertSettingsBitSum", //Alarm settings bit sum (you can ignore it)
-    14: "model", // model
-    15: "make", //make
-    16: "color", //color
-    17: "year", //year
-    18: "installLocation", //address of installation
-    19: "", // additional value
-    20: "", // additional value
-    21: "", // additional value
-    22: "", // additional value
-    23: "alarmOptions", //Alarm options
-    24: "doorStateBitSum", //bit sum value for current states of door unlock/immobilising/ignition
-    25: "", // additional value
-    26: "imsi", //imsi
-    27: "", // additional value
-    28: "groupCode", //GroupCode
-    29: "solutionType", //SolutionType
-    30: "", // additional value
-    31: "", // additional value
-    32: "maxSpeedAlertMode", //MaxSpeedAlertMode
-    33: "daysInventory", //DaysInInventory
-    34: "storageTime", //StorageTime
-    35: "activationTime", //ActivationTime
-    36: "businessExpense", //BusinessExpense
-    37: "fuelEconomy", //FuelEconomy
-    38: "engineCapacity", //EngineCapacity
-    39: "offroadTaxCredit", //OffroadTaxCredit
-    40: "assetType", //AssetType
-    41: "alarmOptions2", //AlarmOptions2
-    42: "driverCode", //DriverCode
-    43: "roadSpeed", //RoadSpeed
-    44: "onWifi", //LBS WIFI (using lbs/wifi data if mobile coverage down)
-    45: "onStaticDrift", //STATIC DRIFT (ignoring of change assets coordinates if ignition off)
-    46: "input1", //input 1 name
-    47: "input2", // input 2 name
-    48: "shared", //is asset shared to another account
-    49: "suspendDate", //SuspendDate
-    50: "", // additional value
+const mapAssetArray = (assetValues: string[]) => {
+  let index = 0;
+  const staticAsset: StaticAsset = {
+    id: assetValues[index++],
+    imei: assetValues[index++],
+    name: assetValues[index++],
+    tagName: assetValues[index++],
+    icon: assetValues[index++],
+    speedUnit: assetValues[index++] as SpeedUnit,
+    initialMileage: Number(assetValues[index++]),
+    initialAccHours: Number(assetValues[index++]),
+    state: assetValues[index++],
+    activationDate: assetValues[index++],
+    subscriptionInterval: assetValues[index++],
+    productName: assetValues[index++],
+    productFeatureBitSum: assetValues[index++],
+    alertSettingsBitSum: assetValues[index++],
+    model: assetValues[index++],
+    make: assetValues[index++],
+    color: assetValues[index++],
+    year: assetValues[index++],
+    installLocation: assetValues[index++],
+    fieldFloat1: assetValues[index++],
+    fieldFloat2: assetValues[index++],
+    fieldFloat7: assetValues[index++],
+    describe7: assetValues[index++],
+    alarmOptions: assetValues[index++],
+    statusNew: assetValues[index++],
+    doorStateBitSum: assetValues[index++],
+    imsi: assetValues[index++],
+    fieldInt2: assetValues[index++],
+    groupCode: assetValues[index++],
+    solutionType: assetValues[index++] as SolutionType,
+    registration: assetValues[index++],
+    stockNumber: assetValues[index++],
+    maxSpeed: Number(assetValues[index++]),
+    maxSpeedAlertMode: assetValues[index++],
+    daysInventory: moment
+      .utc()
+      .diff(
+        moment.utc(assetValues[index], Constants.MOMENT_TIMEFORMAT4),
+        "days"
+      ),
+    storageTime: assetValues[index++],
+    activationTime: assetValues[index++],
+    businessExpense: assetValues[index++],
+    fuelEconomy: Number(assetValues[index++]),
+    engineCapacity: Number(assetValues[index++]),
+    offroadTaxCredit: assetValues[index++],
+    assetType: assetValues[index++],
+    alarmOptions2: assetValues[index++],
+    driverCode: assetValues[index++],
+    roadSpeed: Number(assetValues[index++]),
+    onWifi: assetValues[index++],
+    onStaticDrift: assetValues[index++],
+    input1: assetValues[index++],
+    input2: assetValues[index++],
+    shared: assetValues[index++].toLowerCase() === "true",
+    suspendDate: assetValues[index++],
+    undefined1: assetValues[index++],
+    undefined2: assetValues[index++],
+    undefined3: assetValues[index++],
+    input1Type: assetValues[index++], //ignore
+    input1Name: assetValues[index++],
+    input1Mask: assetValues[index++], //ignore
+    input1Icon: assetValues[index++],
+    input2Type: assetValues[index++], //ignore
+    input2Name: assetValues[index++],
+    input2Mask: assetValues[index++], //ignore
+    input2Icon: assetValues[index++],
+    input3Type: assetValues[index++], //ignore
+    input3Name: assetValues[index++],
+    input3Mask: assetValues[index++], //ignore
+    input3Icon: assetValues[index++],
+    input4Type: assetValues[index++], //ignore
+    input4Name: assetValues[index++],
+    input4Mask: assetValues[index++], //ignore
+    input4Icon: assetValues[index++],
+    output1Type: assetValues[index++], //ignore
+    output1Name: assetValues[index++],
+    output1Mask: assetValues[index++], //ignore
+    output1Icon: assetValues[index++],
+    output2Type: assetValues[index++], //ignore
+    output2Name: assetValues[index++],
+    output2Mask: assetValues[index++], //ignore
+    output2Icon: assetValues[index++],
+    subscriptionId: assetValues[index++],
+    lifeIsLive: assetValues[index++],
   };
 
-  // @ts-ignore
-  return indexKeyMap[index] || `a${index}`;
-};
-
-const mapAssetArray = (assetArray: any[]): StaticAsset[] => {
-  return assetArray.reduce((acc, val, index) => {
-    return { ...acc, [getAssetKeyFromIndex(index)]: val };
-  }, {} as StaticAsset);
+  return staticAsset;
 };
 
 export const mapArrayOfAssetArrays = (assetArrays: any[][]): StaticAsset[] => {
@@ -160,13 +282,13 @@ export const mapArrayOfAssetArrays = (assetArrays: any[][]): StaticAsset[] => {
 };
 
 const CurrentTimeZone = moment().utcOffset() / 60;
-export const initDynamicAssetData = (data: any[]): DynamicAsset => {
+export const initDynamicAssetData = (data: string[]): DynamicAsset => {
   const dynamicAsset: DynamicAsset = {
     id: data[0],
     imei: data[1],
     protocolClass: data[2],
-    positionType: data[3],
-    dataType: data[4],
+    positionType: Number(data[3]),
+    dataType: Number(data[4]),
     positionTime:
       data[5] !== null
         ? moment(data[5].split(".")[0])
@@ -185,21 +307,21 @@ export const initDynamicAssetData = (data: any[]): DynamicAsset => {
             .add(CurrentTimeZone, "hours")
             .format(Constants.MOMENT_DATE_TIME_FORMAT)
         : null,
-    isRealTime: data[8],
-    isLocated: data[9],
-    satelliteSignal: data[10],
-    gsmSignal: data[11],
+    isRealTime: Boolean(data[8]),
+    isLocated: Boolean(data[9]),
+    satelliteSignal: Number(data[10]),
+    gsmSignal: Number(data[11]),
     lat: Number(data[12]),
     lng: Number(data[13]),
     alt: Number(data[14]),
-    direct: data[15],
-    speed: data[16],
-    mileage: data[17],
-    launchHours: data[18],
-    alerts: data[19],
-    status: data[20],
-    originalAlerts: data[21],
-    originalStatus: data[22],
+    direct: Number(data[15]),
+    speed: Number(data[16]),
+    mileage: Number(data[17]),
+    launchHours: Number(data[18]),
+    alerts: Number(data[19]),
+    status: Number(data[20]),
+    originalAlerts: Number(data[21]),
+    originalStatus: Number(data[22]),
   };
 
   return dynamicAsset;

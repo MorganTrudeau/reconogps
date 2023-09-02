@@ -22,4 +22,15 @@ export const Translations = {
     location_not_found_error_message:
       "Unable to retrieve location. Ensure GPS is enabled and connect to Wifi if available.",
   },
+  direction: {
+    north: "N",
+    north_east: "NE",
+    east: "E",
+    south_east: "SE",
+    south: "S",
+    south_west: "SW",
+    west: "W",
+    north_west: "NW",
+    unknown: "Unknown",
+  },
 } as const;

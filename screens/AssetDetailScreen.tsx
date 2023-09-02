@@ -1,11 +1,24 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 import React, { useCallback } from "react";
 import { useWindowDimensions, View } from "react-native";
-import { SceneMap, TabBar, TabBarProps, TabView } from "react-native-tab-view";
+import {
+  SceneMap,
+  SceneRendererProps,
+  TabBar,
+  TabBarProps,
+  TabView,
+} from "react-native-tab-view";
 import AssetItem from "../components/Assets/AssetItem";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation/utils";
+import { AssetDetail } from "../components/Assets/AssetDetail";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AssetAlarms } from "../components/Assets/AssetAlarms";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -25,10 +38,10 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "first", title: "Status", navigation },
-    { key: "second", title: "Alarm", navigation },
-    { key: "third", title: "Playback", navigation },
-    { key: "fourth", title: "Track", navigation },
+    { key: "status", title: "Status", navigation, assetId },
+    { key: "alarm", title: "Alarms", navigation, assetId },
+    { key: "playback", title: "Playback", navigation, assetId },
+    { key: "geofence", title: "Geofence", navigation, assetId },
   ]);
 
   const renderTabBar = useCallback(
@@ -64,15 +77,51 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   );
 };
 
-const DummyRoute = () => {
-  return null;
+type SceneProps = SceneRendererProps & {
+  route: {
+    key: "status" | "alarm" | "playback" | "geofence";
+    title: string;
+    navigation: NativeStackNavigationProp<
+      RootStackParamList,
+      "asset-details",
+      undefined
+    >;
+    assetId: string;
+  };
+};
+
+const DummyRoute = (props: SceneProps) => {
+  console.log("AssetDetailTabProps", props);
+
+  const insets = useSafeAreaInsets();
+
+  switch (props.route.key) {
+    case "status":
+      return (
+        <BottomSheetScrollView
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+        >
+          <AssetDetail assetId={props.route.assetId} />
+        </BottomSheetScrollView>
+      );
+    case "alarm":
+      return (
+        <BottomSheetScrollView
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+        >
+          <AssetAlarms assetId={props.route.assetId} />
+        </BottomSheetScrollView>
+      );
+    default:
+      return null;
+  }
 };
 
 const renderScene = SceneMap({
-  first: DummyRoute,
-  second: DummyRoute,
-  third: DummyRoute,
-  fourth: DummyRoute,
+  status: DummyRoute,
+  alarm: DummyRoute,
+  playback: DummyRoute,
+  geofence: DummyRoute,
 });
 
 export default AssetDetailScreen;

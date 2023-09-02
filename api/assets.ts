@@ -3,7 +3,48 @@ import { API_URL, DEALER_TOKEN } from "@env";
 import { validateResponseData } from "./utils";
 import { Errors } from "../utils/enums";
 import { initDynamicAssetData } from "../utils/assets";
-import { StaticAsset } from "../types";
+
+export const changeGeolockStatus = async (
+  MajorToken: string,
+  MinorToken: string,
+  assetCode: string,
+  state: "on" | "off"
+) => {
+  const res = await axios.get(
+    `https://newapi.quiktrak.co/Quikloc8/V1/asset/GeoLock`,
+    {
+      params: { MajorToken, MinorToken, code: assetCode, state },
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    }
+  );
+
+  console.log(res);
+
+  validateResponseData(res);
+
+  return res.data.Data;
+};
+
+export const changeRelayStatus = async (
+  MajorToken: string,
+  MinorToken: string,
+  assetCode: string,
+  state: "on" | "off"
+) => {
+  const res = await axios.get(
+    `https://newapi.quiktrak.co/Quikloc8/V1/asset/Relay`,
+    {
+      params: { MajorToken, MinorToken, code: assetCode, state },
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    }
+  );
+
+  console.log(res);
+
+  validateResponseData(res);
+
+  return res.data.Data;
+};
 
 export const loadDynamicAssets = async (
   majorToken: string,

@@ -38,11 +38,11 @@ export const activeUserSlice = createSlice({
   extraReducers: (builder) => {
     // Login data
     builder.addCase(login.fulfilled, (state, action) => {
-      state.data = action.payload.UserInfo;
-      state.permissions = action.payload.Permissions.split(",").filter(
+      state.data = action.payload.data.UserInfo;
+      state.permissions = action.payload.data.Permissions.split(",").filter(
         (p: string) => !!p
       );
-      state.permissions2 = action.payload.Permissions2;
+      state.permissions2 = action.payload.data.Permissions2;
     });
     createSimpleLoadingState("updateRequest", builder, updateUserInfo);
     // Update User Info

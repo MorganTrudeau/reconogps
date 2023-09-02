@@ -1,12 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
-import {
-  FlatList,
-  FlatListProps,
-  RefreshControl,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatListProps, RefreshControl, StyleSheet, View } from "react-native";
 import AssetItem from "../components/Assets/AssetItem";
 import AppButton from "../components/Core/AppButton";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -17,6 +11,7 @@ import { getStaticAssets } from "../redux/selectors/assets";
 import { loadDynamicAssets } from "../redux/thunks/assets";
 import { spacing } from "../styles";
 import { CombinedAsset, StaticAsset } from "../types";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "assets">;
 type Props = { onAssetPress?: (asset: CombinedAsset) => void } & Omit<
@@ -77,7 +72,7 @@ const AssetListScreen = ({
   };
 
   return (
-    <FlatList
+    <BottomSheetFlatList
       data={assets}
       renderItem={renderItem}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}

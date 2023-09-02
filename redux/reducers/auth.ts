@@ -8,6 +8,8 @@ export interface AuthState {
   majorToken: string | null;
   minorToken: string | null;
   deviceToken: string | null;
+  account: string | null;
+  password: string | null;
 
   registering: boolean;
 
@@ -20,6 +22,8 @@ const initialState: AuthState = {
   majorToken: null,
   minorToken: null,
   deviceToken: "asdf",
+  account: null,
+  password: null,
 
   registering: false,
 
@@ -43,12 +47,12 @@ export const authSlice = createSlice({
     // Login
     createSimpleLoadingState("loginRequest", builder, login);
     builder.addCase(login.fulfilled, (state, action) => {
-      state.majorToken = action.payload.MajorToken;
-      state.minorToken = action.payload.MinorToken;
+      state.majorToken = action.payload.data.MajorToken;
+      state.minorToken = action.payload.data.MinorToken;
 
       console.log(action.payload);
 
-      state.registering = action.payload.AssetArray.length === 0;
+      state.registering = action.payload.data.AssetArray.length === 0;
 
       state.loginRequest = SUCCESS_STATE;
     });
@@ -79,6 +83,8 @@ export const transform = createTransform(
     minorToken: state.minorToken,
     deviceToken: state.deviceToken,
     registering: state.registering,
+    account: state.account,
+    password: state.password
   }),
   (state: AuthState) => state,
   { whitelist: ["auth"] }
