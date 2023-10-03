@@ -49,6 +49,8 @@ export const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.majorToken = action.payload.data.MajorToken;
       state.minorToken = action.payload.data.MinorToken;
+      state.password = action.payload.password;
+      state.account = action.payload.account;
 
       console.log(action.payload);
 
@@ -84,7 +86,7 @@ export const transform = createTransform(
     deviceToken: state.deviceToken,
     registering: state.registering,
     account: state.account,
-    password: state.password
+    password: state.password,
   }),
   (state: AuthState) => state,
   { whitelist: ["auth"] }

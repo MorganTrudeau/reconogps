@@ -1,5 +1,14 @@
 import moment, { MomentInput } from "moment";
 
+export const formatDateRange = (start: string, end: string) => {
+  const startMoment = moment.utc(start).local();
+  const endMoment = moment.utc(end).local();
+
+  return `${startMoment.format("MMM D h:mma")} - ${endMoment.format(
+    startMoment.isSame(endMoment, "date") ? "h:mma" : "MMM D h:mma"
+  )}`;
+};
+
 export const formatDuration = (input: MomentInput) => {
   let ms = moment().diff(input, "milliseconds");
 

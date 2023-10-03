@@ -31,6 +31,13 @@ export type RootStackParamList = {
   "asset-details": { assetId: string };
   "add-assets": undefined;
   "activate-assets": { activationEntries: AssetActivationEntry[] };
+  playback: {
+    code: string;
+    from: string;
+    to: string;
+    isIgnore: boolean;
+    isOptimized: boolean;
+  };
 };
 
 export const getDefaultStackOptions = (

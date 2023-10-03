@@ -1,7 +1,6 @@
 import React, {
   forwardRef,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -17,11 +16,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { iconSize, spacing } from "../../styles";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { AssetStack } from "../../navigation/AssetStack";
-import {
-  NavigationContainer,
-  NavigationState,
-  useNavigation,
-} from "@react-navigation/native";
+import { NavigationState, useNavigation } from "@react-navigation/native";
 import AppIcon from "../Core/AppIcon";
 import { useUpdated } from "../../hooks/useUpdated";
 import { RootStackParamList } from "../../navigation/utils";
@@ -75,14 +70,17 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
       closeSharedValue.value = withTiming(isClosed ? 1 : 0);
     });
 
-    const [navigationState, setNavigationState] = useState<
-      NavigationState<RootStackParamList>
-    >(navigation.getState());
+    const [navigationState, setNavigationState] =
+      useState<NavigationState<RootStackParamList>>();
 
     const handleNavigationStateChange = (
       navigationState: NavigationState<RootStackParamList>
     ) => {
-      if (navigationState && typeof navigationState.index === "number") {
+      if (
+        navigationState &&
+        typeof navigationState.index === "number" &&
+        navigationState.type === "stack"
+      ) {
         setNavigationState(navigationState);
       }
     };
@@ -123,13 +121,6 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
         }
       }
     });
-
-    useEffect(() => {
-      const unsubscribe = navigation.addListener("state", () => {
-        handleNavigationStateChange(navigation.getState());
-      });
-      return unsubscribe;
-    }, [navigation]);
 
     const handleIndexChange = (_index: number) => {
       if (_index < 0) {
@@ -183,14 +174,14 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
     const renderHandle = useCallback(() => {
       return (
         <View style={styles.handle}>
-          <HeaderLeft />
+          <HeaderLeft navigationIndex={navigationState?.index || 0} />
           <View style={styles.logoContainer}>
             <MemoizedLogo />
           </View>
           {renderHeaderRight()}
         </View>
       );
-    }, []);
+    }, [navigationState?.index]);
 
     return (
       <>
@@ -223,7 +214,10 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
           }}
           handleIndicatorStyle={{ backgroundColor: colors.white }}
         >
-          <AssetStack onAddAssets={handleAddAssets} />
+          <AssetStack
+            onAddAssets={handleAddAssets}
+            onStateChange={handleNavigationStateChange}
+          />
         </BottomSheet>
       </>
     );
@@ -240,24 +234,9 @@ const MemoizedLogo = React.memo(() => {
   );
 });
 
-const HeaderLeft = () => {
+const HeaderLeft = ({ navigationIndex }: { navigationIndex: number }) => {
   const { colors, theme } = useTheme();
   const navigation = useNavigation();
-
-  const [navigationIndex, setNavigationIndex] = useState(0);
-
-  const handleNavigationStateChange = (navigationState: NavigationState) => {
-    if (navigationState && typeof navigationState.index === "number") {
-      setNavigationIndex(navigationState.index);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("state", () => {
-      handleNavigationStateChange(navigation.getState());
-    });
-    return unsubscribe;
-  }, [navigation]);
 
   if (navigationIndex && navigationIndex > 0) {
     return (
@@ -310,11 +289,7 @@ const NavigationContainedAssetDisplayModal = forwardRef<
   AssetsDisplayModalRef,
   Props
 >((props, ref) => {
-  return (
-    <NavigationContainer independent={true}>
-      <AssetsDisplayModal {...props} ref={ref} />
-    </NavigationContainer>
-  );
+  return <AssetsDisplayModal {...props} ref={ref} />;
 });
 
 export default NavigationContainedAssetDisplayModal;

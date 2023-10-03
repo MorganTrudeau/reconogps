@@ -20,6 +20,7 @@ const WeekDaySelectModal = forwardRef<Modalize, Props>((props, ref) => {
       ref={ref}
       data={weekDays}
       modalTitle={"Selected Weekdays"}
+      hideSearch={true}
       {...props}
     />
   );

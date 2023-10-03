@@ -366,3 +366,56 @@ export type AvailableAlarms = {
   SpeedingMode: number;
   Weeks: string;
 };
+
+export type PlaybackPoint = {
+  object: "playback-point";
+  id: string;
+  positionTime: number;
+  lat: number;
+  lng: number;
+  direct: number;
+  speed: number;
+  timeSpan: string;
+  mileage: number;
+  alerts: number;
+  status: string;
+};
+
+export type PlaybackEvent = {
+  object: "playback-event";
+  id: string;
+  assetID: number;
+  eventClass: number;
+  eventType: number;
+  state: number;
+  otherCode: string | null;
+  otherCode2: string | null;
+  contactCode: string | null;
+  beginTime: string;
+  endTime: string;
+  positionType: number;
+  positionTime: number;
+  lat: number;
+  lng: number;
+  alt: number;
+  alerts: number;
+  status: number;
+  content: null;
+};
+
+// 85705,
+//                 2,
+//                 1,
+//                 1,
+//                 "",
+//                 null,
+//                 "",
+//                 "2023-09-07T23:09:31",
+//                 "2023-09-07T23:30:43",
+//                 1,
+//                 49.167316666666665,
+//                 -122.59165333333333,
+//                 12.52,
+//                 0,
+//                 73,
+//                 null

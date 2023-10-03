@@ -4,15 +4,33 @@ import AddAssetsScreen from "../screens/AddAssetsScreen";
 import AssetDetailScreen from "../screens/AssetDetailScreen";
 import AssetListScreen from "../screens/AssetListScreen";
 import SubscribeAssetsScreen from "../screens/SubscribeAssetsScreen";
-import { getDefaultStackOptions } from "./utils";
+import { RootStackParamList, getDefaultStackOptions } from "./utils";
+import { NavigationState } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
-export const AssetStack = ({ onAddAssets }: { onAddAssets: () => void }) => {
+export const AssetStack = ({
+  onAddAssets,
+  onStateChange,
+}: {
+  onAddAssets: () => void;
+  onStateChange: (state: NavigationState<RootStackParamList>) => void;
+}) => {
   const { theme, colors } = useTheme();
   const defaultOptions = getDefaultStackOptions(theme, colors);
+
   return (
-    <Stack.Navigator screenOptions={defaultOptions}>
+    <Stack.Navigator
+      screenOptions={defaultOptions}
+      screenListeners={{
+        state: (e) => {
+          // Do something with the state
+          // console.log("state changed", e.data);
+          // @ts-ignore
+          onStateChange(e?.data?.state);
+        },
+      }}
+    >
       <Stack.Screen
         name="assets"
         options={{ headerShown: false }}

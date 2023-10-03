@@ -29,10 +29,14 @@ import SharedAssetDetailsScreen from "../screens/SharedAssetDetailsScreen";
 import { IconSet } from "../utils/enums";
 import ManageAssetAlarmsScreen from "../screens/ManageAssetAlarmsScreen";
 import { getDefaultDrawerOptions, getDefaultStackOptions } from "./utils";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import SignUpScreen from "../screens/SignUpScreen";
 import AddAssetsScreen from "../screens/AddAssetsScreen";
 import SubscribeAssetsScreen from "../screens/SubscribeAssetsScreen";
+import AssetPlaybackScreen from "../screens/AssetPlaybackScreen";
+import AppIcon from "../components/Core/AppIcon";
+import { iconSize } from "../styles";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -292,6 +296,37 @@ const MainStack = () => {
         options={{ title: "Manage Alarms" }}
         // @ts-ignore
         component={ManageAssetAlarmsScreen}
+      />
+      <Stack.Screen
+        name="playback"
+        options={{
+          title: "",
+          headerTransparent: true,
+          headerStyle: { backgroundColor: "transparent" },
+          headerLeft: (props) => {
+            const _navigation = useNavigation();
+            return (
+              <Pressable
+                {...props}
+                disabled={!props.canGoBack}
+                onPress={() => _navigation.goBack()}
+                style={{
+                  backgroundColor: colors.background,
+                  borderRadius: 5,
+                  padding: 2,
+                }}
+              >
+                <AppIcon
+                  name={"chevron-left"}
+                  color={colors.primary}
+                  size={iconSize("lg")}
+                />
+              </Pressable>
+            );
+          },
+        }}
+        // @ts-ignore
+        component={AssetPlaybackScreen}
       />
     </Stack.Navigator>
   );

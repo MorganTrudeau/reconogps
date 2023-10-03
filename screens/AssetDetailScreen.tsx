@@ -19,6 +19,8 @@ import { AssetDetail } from "../components/Assets/AssetDetail";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
+import { AssetPlayback } from "../components/Assets/AssetPlayback";
+import { StaticAsset } from "../types";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -38,10 +40,30 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "status", title: "Status", navigation, assetId },
-    { key: "alarm", title: "Alarms", navigation, assetId },
-    { key: "playback", title: "Playback", navigation, assetId },
-    { key: "geofence", title: "Geofence", navigation, assetId },
+    {
+      key: "status",
+      title: "Status",
+      navigation,
+      asset: staticAsset,
+    },
+    {
+      key: "alarm",
+      title: "Alarms",
+      navigation,
+      asset: staticAsset,
+    },
+    {
+      key: "playback",
+      title: "Playback",
+      navigation,
+      asset: staticAsset,
+    },
+    {
+      key: "geofence",
+      title: "Geofence",
+      navigation,
+      asset: staticAsset,
+    },
   ]);
 
   const renderTabBar = useCallback(
@@ -86,13 +108,11 @@ type SceneProps = SceneRendererProps & {
       "asset-details",
       undefined
     >;
-    assetId: string;
+    asset: StaticAsset;
   };
 };
 
 const DummyRoute = (props: SceneProps) => {
-  console.log("AssetDetailTabProps", props);
-
   const insets = useSafeAreaInsets();
 
   switch (props.route.key) {
@@ -101,7 +121,7 @@ const DummyRoute = (props: SceneProps) => {
         <BottomSheetScrollView
           contentContainerStyle={{ paddingBottom: insets.bottom }}
         >
-          <AssetDetail assetId={props.route.assetId} />
+          <AssetDetail assetId={props.route.asset.id} />
         </BottomSheetScrollView>
       );
     case "alarm":
@@ -109,7 +129,21 @@ const DummyRoute = (props: SceneProps) => {
         <BottomSheetScrollView
           contentContainerStyle={{ paddingBottom: insets.bottom }}
         >
-          <AssetAlarms assetId={props.route.assetId} />
+          <AssetAlarms
+            imeis={[props.route.asset.imei]}
+            loadSettingsForImei={props.route.asset.imei}
+          />
+        </BottomSheetScrollView>
+      );
+    case "playback":
+      return (
+        <BottomSheetScrollView
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+        >
+          <AssetPlayback
+            assetId={props.route.asset.id}
+            navigation={props.route.navigation}
+          />
         </BottomSheetScrollView>
       );
     default:

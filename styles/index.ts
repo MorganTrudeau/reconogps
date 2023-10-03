@@ -2,6 +2,7 @@ import { PixelRatio, Platform, StyleSheet } from "react-native";
 import { SpacingScale } from "../types/styles";
 
 export const BORDER_RADIUS_SM = 5;
+export const BORDER_RADIUS_MD = 15;
 
 export const iconSize = (sizeScale: SpacingScale): number => {
   switch (sizeScale) {
@@ -42,7 +43,7 @@ const FontSizes = {
   NORMAL: normalize(14),
   LARGE: normalize(18),
 };
-type FontSize = typeof FontSizes[keyof typeof FontSizes];
+type FontSize = (typeof FontSizes)[keyof typeof FontSizes];
 
 export const FontWeights = {
   THIN: "100",
@@ -55,7 +56,7 @@ export const FontWeights = {
   HEAVY: "800",
   BLACK: "900",
 } as const;
-export type FontWeight = typeof FontWeights[keyof typeof FontWeights];
+export type FontWeight = (typeof FontWeights)[keyof typeof FontWeights];
 
 export const FontFamilies = {
   thin: "AvenirNext-UltraLight",
@@ -68,7 +69,7 @@ export const FontFamilies = {
   heavy: "AvenirNext-Heavy",
   black: "AvenirNext-Heavy",
 } as const;
-export type FontFamily = typeof FontFamilies[keyof typeof FontFamilies];
+export type FontFamily = (typeof FontFamilies)[keyof typeof FontFamilies];
 
 const createFont = ({
   fontSize = FontSizes.NORMAL,
@@ -90,6 +91,7 @@ export const colors = {
   textMeta: "#939393",
 
   green: "#4cd964",
+  blue: "#2957fc",
   white: "#ffffff",
   black: "#000000",
   red: "#a32638",
@@ -108,9 +110,11 @@ export const styles = StyleSheet.create({
 
   drawerHeaderRight: { marginHorizontal: 11, padding: 3 },
 
+  modalContainer: { backgroundColor: colors.background },
   container: { flex: 1, backgroundColor: colors.background },
   contentContainer: { paddingHorizontal: spacing("lg") },
   row: { flexDirection: "row", alignItems: "center" },
+  flex: { flex: 1 },
 
   modalHeaderSelectAll: {
     marginHorizontal: 0,

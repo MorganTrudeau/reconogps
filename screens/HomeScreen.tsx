@@ -95,8 +95,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     }
 
     return dynamicAssets.map(createMarkerProps);
-
-    return [];
   }, [dynamicAssets, selectedAsset, createMarkerProps]);
 
   const defaultMapBounds = useMemo(() => {
@@ -221,7 +219,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
         ref={bottomSheetRef}
         navigation={navigation}
       />
-      <StatusBar barStyle={"dark-content"} />
     </View>
   );
 };

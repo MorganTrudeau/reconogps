@@ -51,8 +51,6 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
     }
   };
 
-  console.log(staticAsset);
-
   // Permissions
   const allPermissions = activeUser && userHasAllPermissions(activeUser);
   const immobilisationSupported =
@@ -69,8 +67,6 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
   const [immobilized, setImmobilized] = useState(
     immobilisationSupported && isImmobilized(staticAsset)
   );
-
-  console.log(assetId);
 
   // Toggle states
   const changingGeolock = useRef(false);

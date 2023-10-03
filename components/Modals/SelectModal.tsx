@@ -7,6 +7,8 @@ import { useSelectItems } from "../../hooks/useSelectItems";
 import SelectItem from "../SelectItem";
 import ModalHeader from "../Modals/ModalHeader";
 import SelectAllHeader from "../SelectAllHeader";
+import { spacing } from "../../styles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const defaultIdSelector = (data: any) => data.id;
 const defaultNameSelector = (data: any) => data.name;
@@ -45,6 +47,7 @@ const SelectModal = forwardRef<Modalize, Props>(
     ref
   ) => {
     const { theme, colors } = useTheme();
+    const insets = useSafeAreaInsets();
 
     const {
       selectedIds,
@@ -118,8 +121,9 @@ const SelectModal = forwardRef<Modalize, Props>(
       <Portal>
         <Modalize
           ref={ref}
-          modalStyle={theme.container}
+          modalStyle={theme.modalContainer}
           HeaderComponent={renderHeader()}
+          adjustToContentHeight
           flatListProps={{
             keyExtractor: (item, index) => `${idSelector(item)}-${index}`,
             data: filteredData,
@@ -136,6 +140,9 @@ const SelectModal = forwardRef<Modalize, Props>(
               />
             ),
             ListEmptyComponent,
+            contentContainerStyle: {
+              paddingBottom: spacing("md") + insets.bottom,
+            },
           }}
         />
       </Portal>

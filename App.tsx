@@ -14,6 +14,7 @@ import ToastProvider from "./context/ToastContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ToastManager from "./services/ToastManager";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import PopoverProvider from "./context/PopoverContext";
 
 export default function App() {
   return (
@@ -29,7 +30,9 @@ export default function App() {
                     urlScheme="reconogps" // required for 3D Secure and bank redirects
                     merchantIdentifier="merchant.com.reconogps.app.dev" // required for Apple Pay
                   >
-                    <NavigationStack />
+                    <PopoverProvider>
+                      <NavigationStack />
+                    </PopoverProvider>
                   </StripeProvider>
                 </PortalProvider>
                 <ToastManager />

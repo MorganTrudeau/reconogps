@@ -34,7 +34,22 @@ export const getAvailableAlarms = async (
     }
   );
 
-  console.log("Alarms settings:", res.data);
+  // console.log("Alarms settings:", res.data);
+
+  validateResponseData(res);
+
+  return res.data.Data;
+};
+
+export const setAlarmSetting = async () => {
+  const res = await axios.post(
+    `https://newapi.quiktrak.co/QuikTrak/V1/Device/AlertConfigureEdit`,
+    {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    }
+  );
+
+  // console.log("Alarms settings:", res.data);
 
   validateResponseData(res);
 

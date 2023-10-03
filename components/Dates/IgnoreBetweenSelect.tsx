@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useTheme } from "../../hooks/useTheme";
@@ -24,6 +24,7 @@ type Props = {
   onChangeWeekDays: (weekDays: WeekDayId[]) => void;
   style?: StyleProp<ViewStyle>;
   title?: string;
+  headerStyle?: ViewStyle;
 };
 
 const IgnoreBetweenSelect = ({
@@ -37,6 +38,7 @@ const IgnoreBetweenSelect = ({
   onChangeWeekDays,
   style,
   title = "Ignore Between",
+  headerStyle,
 }: Props) => {
   const { theme, colors } = useTheme();
 
@@ -65,15 +67,16 @@ const IgnoreBetweenSelect = ({
   }, [weekDays]);
 
   return (
-    <View style={style}>
+    <>
       <ItemHeader
         title={title}
         enabled={enabled}
         onToggleEnabled={onToggleEnabled}
+        style={headerStyle}
         {...{ theme, colors }}
       />
       <View
-        style={enabled === false ? theme.disabledOpacity : undefined}
+        style={[style, enabled === false ? theme.disabledOpacity : undefined]}
         pointerEvents={enabled === false ? "none" : "auto"}
       >
         <View style={theme.row}>
@@ -130,7 +133,7 @@ const IgnoreBetweenSelect = ({
         onSelect={handleChangeWeekDays}
         initialSelectedIds={weekDays}
       />
-    </View>
+    </>
   );
 };
 
