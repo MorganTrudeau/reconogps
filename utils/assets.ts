@@ -85,11 +85,31 @@ export const getMileageUnit = (speedUnit: SpeedUnit) => {
   return ret;
 };
 
+export const getSpeedUnit = (speedUnit: SpeedUnit) => {
+  let ret = "";
+  switch (speedUnit) {
+    case "KT":
+      ret = "kt";
+      break;
+    case "KPH":
+      ret = "km/h";
+      break;
+    case "MPS":
+      ret = "m/s";
+      break;
+    case "MPH":
+      ret = "mile/h";
+      break;
+    default:
+      break;
+  }
+  return ret;
+};
+
 export const getMileage = (
   dynamicAsset: DynamicAsset,
   staticAsset: StaticAsset
 ) => {
-  console.log(staticAsset, dynamicAsset);
   return (
     Number(staticAsset.initialMileage) +
     getMileageValue(staticAsset.speedUnit, dynamicAsset.mileage) +

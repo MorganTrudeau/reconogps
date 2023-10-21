@@ -52,8 +52,6 @@ export const authSlice = createSlice({
       state.password = action.payload.password;
       state.account = action.payload.account;
 
-      console.log(action.payload);
-
       state.registering = action.payload.data.AssetArray.length === 0;
 
       state.loginRequest = SUCCESS_STATE;

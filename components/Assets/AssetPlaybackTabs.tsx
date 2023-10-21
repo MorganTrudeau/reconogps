@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useWindowDimensions, View } from "react-native";
 import {
   SceneMap,
@@ -9,14 +9,24 @@ import {
 } from "react-native-tab-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/useTheme";
-import { PlaybackEvent, PlaybackPoint, StaticAsset } from "../../types";
+import {
+  PlaybackEvent,
+  PlaybackPoint,
+  PlaybackTrip,
+  StaticAsset,
+} from "../../types";
 import { PlaybackEventList } from "../Playback/PlaybackEventList";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { PlaybackTrips } from "../Playback/PlaybackTrips";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAlert } from "../../hooks/useAlert";
+import { getTripReport } from "../../api/playback";
+import { PlaybackSummary } from "../Playback/PlackbackSummary";
 
 type Props = {
   playbackEvents: PlaybackEvent[];
   playbackPoints: PlaybackPoint[];
+  trips: PlaybackTrip | null | undefined;
   onEventPress: (event: PlaybackEvent) => void;
   from: string;
   to: string;
@@ -26,6 +36,7 @@ type Props = {
 export const AssetPlaybackTabs = ({
   playbackEvents,
   playbackPoints,
+  trips,
   onEventPress,
   from,
   to,
@@ -46,6 +57,7 @@ export const AssetPlaybackTabs = ({
         from,
         to,
         assetId,
+        trips,
       },
       {
         key: "trips",
@@ -56,6 +68,7 @@ export const AssetPlaybackTabs = ({
         from,
         to,
         assetId,
+        trips,
       },
       {
         key: "summary",
@@ -66,6 +79,7 @@ export const AssetPlaybackTabs = ({
         from,
         to,
         assetId,
+        trips,
       },
     ],
     [playbackEvents, playbackPoints, onEventPress, from, to, assetId]
@@ -92,6 +106,7 @@ export const AssetPlaybackTabs = ({
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
         renderTabBar={renderTabBar}
+        lazy={true}
       />
     </View>
   );
@@ -107,28 +122,27 @@ type SceneProps = SceneRendererProps & {
 const MasterRoute = (props: SceneProps) => {
   const insets = useSafeAreaInsets();
 
+  const { playbackEvents, onEventPress, from, to, assetId, trips } =
+    props.route;
+
   switch (props.route.key) {
     case "activity":
       return (
         <PlaybackEventList
-          events={props.route.playbackEvents}
-          onEventPress={props.route.onEventPress}
+          events={playbackEvents}
+          onEventPress={onEventPress}
         />
       );
     case "trips":
+      return <PlaybackTrips trips={trips} assetId={assetId} />;
+    case "summary":
       return (
         <BottomSheetScrollView
           contentContainerStyle={{ paddingBottom: insets.bottom }}
         >
-          <PlaybackTrips />
+          <PlaybackSummary assetId={assetId} trip={trips} from={from} to={to} />
         </BottomSheetScrollView>
       );
-    // case "summary":
-    //   return (
-    //     <BottomSheetScrollView
-    //       contentContainerStyle={{ paddingBottom: insets.bottom }}
-    //     ></BottomSheetScrollView>
-    //   );
     default:
       return null;
   }

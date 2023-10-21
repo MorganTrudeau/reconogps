@@ -25,7 +25,6 @@ export const AssetStack = ({
       screenListeners={{
         state: (e) => {
           // Do something with the state
-          // console.log("state changed", e.data);
           // @ts-ignore
           onStateChange(e?.data?.state);
         },

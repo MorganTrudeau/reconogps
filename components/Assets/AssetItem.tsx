@@ -66,7 +66,11 @@ const AssetItem = ({
         <AppText>{asset.name}</AppText>
         {!dynamicData ? (
           <>
-            <Placeholder loading={true} style={styles.placeholder1} />
+            <Placeholder
+              loading={true}
+              {...{ height: 6, width: 150 }}
+              style={styles.placeholder1}
+            />
           </>
         ) : (
           <View style={{ paddingTop: spacing("xs") }}>
@@ -129,7 +133,11 @@ const AssetItem = ({
               </AppText>
             </View>
           ) : (
-            <Placeholder loading={true} style={styles.placeholder2} />
+            <Placeholder
+              loading={true}
+              style={styles.placeholder2}
+              {...{ height: 6, width: 120 }}
+            />
           )
         ) : null}
       </View>
@@ -159,12 +167,8 @@ const styles = StyleSheet.create({
   },
   placeholder1: {
     marginTop: spacing("md"),
-    height: 6,
-    width: 150,
   },
   placeholder2: {
-    height: 6,
-    width: 120,
     marginTop: 4,
   },
   infoIcon: { marginRight: 5 },

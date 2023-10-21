@@ -35,7 +35,7 @@ const DismissView = (
       () =>
         Animated.timing(animation, {
           toValue: 1,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true,
         }).start(() => {
           animating.current = false;
@@ -49,7 +49,7 @@ const DismissView = (
     animating.current = true;
     Animated.timing(animation, {
       toValue: 0,
-      duration: 300,
+      duration: 150,
       useNativeDriver: true,
     }).start(() => {
       animating.current = false;

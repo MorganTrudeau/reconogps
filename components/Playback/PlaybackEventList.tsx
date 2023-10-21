@@ -28,8 +28,6 @@ export const PlaybackEventList = ({
   }) => {
     const eventInfo = getEventInfo(item);
 
-    console.log(item);
-
     return (
       <Pressable
         onPress={() => onEventPress(item)}

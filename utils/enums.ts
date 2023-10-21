@@ -18,30 +18,34 @@ export const Errors = {
   InvalidData: "invalid_data",
 };
 
-export const IconSet: {
-  asset: MaterialIcon;
-  geofences: MaterialIcon;
-  time: MaterialIcon;
-  speedSlow: MaterialIcon;
-  speedFast: MaterialIcon;
-  voltage: MaterialIcon;
-  location: MaterialIcon;
-} = {
+export const IconSet = {
   asset: "car",
   geofences: "texture-box",
   time: "clock-time-four",
   speedSlow: "speedometer-slow",
   speedFast: "speedometer",
   voltage: "lightning-bolt",
-  location: "map-marker",
-};
+  dateFrom: "calendar-start",
+  dateTo: "calendar-end",
+  mileage: "road-variant",
+  engineHours: "engine",
+  battery: "battery-charging",
+  timeStopped: "pause-octagon",
+  location: "map-marker-radius",
+  doorLock: "car-door-lock",
+  immobilize: "lock",
+  averageSpeed: "speedometer-medium",
+  maxSpeed: "speedometer",
+  fuel: "gas-station",
+  color: "invert-colors",
+} as const;
 
 export const SolutionTypes = {
-  loc8: "loc8",
-  protect: "protect",
-  track: "track",
-  watch: "watch",
-  life: "life",
+  loc8: "Loc8",
+  protect: "Protect",
+  track: "Track",
+  watch: "Watch",
+  life: "Life",
 } as const;
 
 export const WeekDays = {

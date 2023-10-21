@@ -2,7 +2,13 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
-import { StatusBar, useWindowDimensions, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StatusBar,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import AppMap from "../components/Core/AppMap";
 import AssetsDisplayModal, {
@@ -10,7 +16,7 @@ import AssetsDisplayModal, {
 } from "../components/Assets/AssetsDisplayModal";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { getCombinedAssets, getDynamicAssets } from "../redux/selectors/assets";
-import MapboxGL, { RegionPayload } from "@rnmapbox/maps";
+import MapboxGL, { RegionPayload, ShapeSource } from "@rnmapbox/maps";
 import { DynamicAsset } from "../types";
 import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
 import AssetMarkerView, {
@@ -26,17 +32,28 @@ import {
 } from "../utils/maps";
 import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 import { Constants } from "../utils/constants";
+import AppText from "../components/Core/AppText";
+import { Colors, Theme } from "../types/styles";
+import { BORDER_RADIUS_SM, iconSize, spacing } from "../styles";
+import { useSelector } from "react-redux";
+import AppButton from "../components/Core/AppButton";
+import AppIcon from "../components/Core/AppIcon";
+import { IconSet } from "../utils/enums";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
+type MarkerData = { id: string; longitude: number; latitude: number };
 
 const HomeScreen = ({ navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const { height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
   const bottomSheetRef = useRef<AssetsDisplayModalRef>(null);
   const modalHeightRef = useRef<number>(height * 0.23);
   const mapCamera = useRef<CameraRef>(null);
   const zoomRef = useRef(0);
+  const shapeSource = useRef<ShapeSource>(null);
 
   const combinedAssets = useAppSelector((state) => getCombinedAssets(state));
   const dynamicAssets = useAppSelector((state) => getDynamicAssets(state));
@@ -73,7 +90,19 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   );
 
   const createMarkerProps = useCallback(
-    (dynamicAsset: DynamicAsset): MarkerProps => {
+    (
+      dynamicAsset: DynamicAsset
+    ): Pick<
+      MarkerProps,
+      | "longitude"
+      | "latitude"
+      | "title"
+      | "theme"
+      | "colors"
+      | "selectedId"
+      | "id"
+      | "onPress"
+    > => {
       const staticAsset = staticAssetEntities[dynamicAsset.id];
       return {
         longitude: dynamicAsset.lng,
@@ -89,7 +118,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     [selectedAsset, selectedMarker, theme, colors, handleMarkerPress]
   );
 
-  const markerProps: MarkerProps[] = useMemo(() => {
+  const markerProps = useMemo(() => {
     if (selectedAsset) {
       return [createMarkerProps(selectedAsset)];
     }
@@ -134,12 +163,13 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   };
 
   const deselectAll = () => {
+    bottomSheetRef.current?.snapToIndex(0);
     mapCamera.current?.setCamera({
       animationDuration: defaultCameraAnimationDuration,
       bounds: {
         ...defaultMapBounds,
         ...createCameraPadding({
-          paddingBottom: modalHeightRef.current,
+          paddingBottom: height * Constants.BOTTOM_SHEET_SNAP_POINTS[0],
         }),
       },
     });
@@ -193,8 +223,40 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   };
 
   const handleMapPress = useCallback(() => {
+    setSelectedMarker(null);
     // bottomSheetRef.current?.snapToIndex(0);
   }, []);
+
+  const eventShapes = useMemo(() => {
+    const shape: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features:
+        // (focusedPoint ? [focusedPoint] : playbackEvents).map(
+        markerProps.map((props) => {
+          const feature: GeoJSON.FeatureCollection["features"][number] = {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [props.longitude, props.latitude],
+            },
+            /**
+             * A value that uniquely identifies this feature in a
+             * https://tools.ietf.org/html/rfc7946#section-3.2.
+             */
+            id: props.id,
+            /**
+             * Properties associated with this feature.
+             */
+            properties: {
+              icon: "pin",
+            },
+          };
+          return feature;
+        }),
+    };
+
+    return shape;
+  }, [markerProps]);
 
   return (
     <View style={theme.container}>
@@ -203,15 +265,152 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
         onPress={handleMapPress}
         onRegionIsChanging={handleRegionIsChange}
       >
+        <MapboxGL.Images images={{ pin: require("../assets/pin.png") }} />
+
+        {selectedMarker && (
+          <MapboxGL.MarkerView
+            anchor={{
+              x: 0.5,
+              y: 1,
+            }}
+            coordinate={[selectedMarker.longitude, selectedMarker.latitude]}
+          >
+            <Pressable onPress={() => handleMarkerPress(selectedMarker)}>
+              {!selectedAsset && (
+                <CustomCalloutView
+                  colors={colors}
+                  markerData={selectedMarker}
+                  onViewDetails={handleMarkerPress}
+                />
+              )}
+            </Pressable>
+          </MapboxGL.MarkerView>
+        )}
+
         <MapboxGL.Camera
           defaultSettings={defaultCameraConfig}
           ref={mapCamera}
           animationDuration={defaultCameraAnimationDuration}
           bounds={defaultMapBounds}
         />
-        {markerProps.map((props, index) => (
+
+        <MapboxGL.ShapeSource
+          ref={shapeSource}
+          shape={eventShapes}
+          id="a-symbolLocationSource"
+          hitbox={{ width: 18, height: 18 }}
+          onPress={async (point) => {
+            if (point.features[0].properties?.cluster) {
+              const collection: GeoJSON.FeatureCollection =
+                await shapeSource.current?.getClusterLeaves(
+                  point.features[0],
+                  point.features[0].properties.point_count,
+                  0
+                );
+              // Do what you want if the user clicks the cluster
+              if (collection?.features) {
+                const coords = collection.features.map((feature) => {
+                  // @ts-ignore
+                  return feature.geometry.coordinates;
+                });
+
+                const bounds = getBoundsFromCoordinates(
+                  coords,
+                  (point) => ({
+                    latitude: point[1],
+                    longitude: point[0],
+                  }),
+                  0
+                );
+
+                mapCamera.current?.fitBounds(
+                  bounds.ne,
+                  bounds.sw,
+                  [insets.top + 50, 30, modalHeightRef.current + 30, 30],
+                  400
+                );
+              }
+            } else {
+              const index = markerProps.findIndex(
+                (val) => val.id === point.features[0].id
+              );
+
+              if (index > -1) {
+                const props = markerProps[index];
+                props?.onPress?.(markerProps[index]);
+              }
+
+              mapCamera.current?.moveTo(
+                // @ts-ignore
+                point.features[0].geometry.coordinates,
+                400
+              );
+            }
+          }}
+          cluster
+        >
+          <MapboxGL.SymbolLayer
+            id="pointCount"
+            // @ts-ignore
+            style={layerStyles.clusterCount}
+          />
+
+          <MapboxGL.CircleLayer
+            id="clusteredPoints"
+            belowLayerID="pointCount"
+            filter={["has", "point_count"]}
+            style={{
+              circlePitchAlignment: "map",
+              circleColor: colors.primary,
+              circleRadius: [
+                "step",
+                ["get", "point_count"],
+                20,
+                100,
+                25,
+                250,
+                30,
+                750,
+                40,
+              ],
+              circleOpacity: 0.95,
+              circleStrokeWidth: 0,
+              circleStrokeColor: colors.primary,
+            }}
+          />
+
+          <MapboxGL.SymbolLayer
+            id="singlePoint"
+            filter={["!", ["has", "point_count"]]}
+            style={{
+              iconImage: ["get", "icon"],
+              iconSize: 1,
+              iconHaloColor: "black",
+              iconHaloWidth: 10,
+              iconColor: "white",
+              iconAllowOverlap: true,
+              iconAnchor: "bottom",
+            }}
+          />
+
+          {/* <MapboxGL.SymbolLayer
+            id="singlePoint"
+            filter={["!", ["has", "point_count"]]}
+            style={{
+              iconImage: ["get", "icon"],
+              iconSize: 1,
+              iconHaloColor: "black",
+              iconHaloWidth: 10,
+              iconColor: "white",
+              iconAllowOverlap: true,
+              iconAnchor: "bottom",
+            }}
+          /> */}
+        </MapboxGL.ShapeSource>
+
+        {/* {markerProps.map((props, index) => (
           <AssetMarkerView {...props} key={`${props.id}-${index}`} />
-        ))}
+        ))} */}
       </AppMap>
       <AssetsDisplayModal
         onAssetSelected={handleAssetPress}
@@ -224,3 +423,55 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 };
 
 export default HomeScreen;
+
+const layerStyles = {
+  lineLayer: {
+    lineColor: "#3e8feb",
+    lineCap: "round",
+    lineJoin: "round",
+    lineWidth: 3,
+  },
+  singlePoint: {
+    circleColor: "green",
+    circleOpacity: 0.84,
+    circleStrokeWidth: 2,
+    circleStrokeColor: "white",
+    circleRadius: 5,
+    circlePitchAlignment: "map",
+  },
+  clusteredPoints: {},
+  clusterCount: {
+    textField: "{point_count}",
+    textSize: 12,
+    textPitchAlignment: "map",
+  },
+};
+
+type CustomCalloutViewProps = {
+  colors: Colors;
+  markerData: MarkerData;
+  onViewDetails: (markerData: MarkerData) => void;
+};
+
+const CustomCalloutView = ({
+  colors,
+  markerData,
+  onViewDetails,
+}: CustomCalloutViewProps) => {
+  const staticAsset = useAppSelector(
+    (state) => state.assets.staticData.entities[markerData.id]
+  );
+
+  return (
+    <View
+      style={{
+        backgroundColor: colors.background,
+        padding: spacing("md"),
+        borderRadius: BORDER_RADIUS_SM,
+        marginBottom: 35,
+      }}
+    >
+      <AppText>{staticAsset?.name}</AppText>
+    </View>
+  );
+};

@@ -403,19 +403,34 @@ export type PlaybackEvent = {
   content: null;
 };
 
-// 85705,
-//                 2,
-//                 1,
-//                 1,
-//                 "",
-//                 null,
-//                 "",
-//                 "2023-09-07T23:09:31",
-//                 "2023-09-07T23:30:43",
-//                 1,
-//                 49.167316666666665,
-//                 -122.59165333333333,
-//                 12.52,
-//                 0,
-//                 73,
-//                 null
+export type PlaybackTripDetail = {
+  AvgSpeed: number;
+  Distance: string;
+  Duration: string;
+  EndDistance: string;
+  EndEngineHours: string;
+  EndLat: string;
+  EndLng: string;
+  EndTime: string;
+  Expense: number;
+  Fuel: string;
+  MaxSpeed: number;
+  StartDistance: string;
+  StartEngineHours: string;
+  StartLat: string;
+  StartLng: string;
+  StartTime: string;
+  Voltage: number;
+};
+export type PlaybackTripTotal = {
+  Distance: number;
+  Duration: string;
+  Fuel: number;
+};
+export type PlaybackTrip = {
+  Details: PlaybackTripDetail[];
+  ID: string;
+  IMEI: string;
+  Name: string;
+  Total: PlaybackTripTotal;
+};

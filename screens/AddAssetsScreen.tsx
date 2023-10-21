@@ -62,8 +62,6 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
         imei: assetImei,
       });
 
-      console.log(res.data);
-
       if (res && res.data && res.data.ssp && res.data.asset) {
         setActivationInfo(res.data);
       } else {

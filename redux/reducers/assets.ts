@@ -35,7 +35,6 @@ export const assetsSlice = createSlice({
   extraReducers: (builder) => {
     // Login data
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log("LOGIN");
       const staticAssets = mapArrayOfAssetArrays(
         action.payload.data.AssetArray
       );

@@ -2,7 +2,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useWindowDimensions, View } from "react-native";
 import {
   SceneMap,
@@ -39,32 +39,39 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   }));
 
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    {
-      key: "status",
-      title: "Status",
-      navigation,
-      asset: staticAsset,
-    },
-    {
-      key: "alarm",
-      title: "Alarms",
-      navigation,
-      asset: staticAsset,
-    },
-    {
-      key: "playback",
-      title: "Playback",
-      navigation,
-      asset: staticAsset,
-    },
-    {
-      key: "geofence",
-      title: "Geofence",
-      navigation,
-      asset: staticAsset,
-    },
-  ]);
+  const routes = useMemo(() => {
+    const _routes = [
+      {
+        key: "status",
+        title: "Status",
+        navigation,
+        asset: staticAsset,
+      },
+      {
+        key: "alarm",
+        title: "Alarms",
+        navigation,
+        asset: staticAsset,
+      },
+      {
+        key: "geofence",
+        title: "Geofence",
+        navigation,
+        asset: staticAsset,
+      },
+    ];
+
+    if (staticAsset?.solutionType === "Track") {
+      _routes.splice(2, 0, {
+        key: "playback",
+        title: "Playback",
+        navigation,
+        asset: staticAsset,
+      });
+    }
+
+    return _routes;
+  }, [staticAsset]);
 
   const renderTabBar = useCallback(
     (props: TabBarProps<any>) => (

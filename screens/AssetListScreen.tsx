@@ -12,6 +12,7 @@ import { loadDynamicAssets } from "../redux/thunks/assets";
 import { spacing } from "../styles";
 import { CombinedAsset, StaticAsset } from "../types";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "assets">;
 type Props = { onAssetPress?: (asset: CombinedAsset) => void } & Omit<
@@ -72,15 +73,20 @@ const AssetListScreen = ({
   };
 
   return (
-    <BottomSheetFlatList
-      data={assets}
-      renderItem={renderItem}
-      refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
-      style={{ backgroundColor: colors.background }}
-      contentContainerStyle={styles.listContent}
-      ListEmptyComponent={renderListEmptyComponent}
-      {...rest}
-    />
+    <>
+      <FocusAwareStatusBar style="dark" />
+      <BottomSheetFlatList
+        data={assets}
+        renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={load} />
+        }
+        style={{ backgroundColor: colors.background }}
+        contentContainerStyle={styles.listContent}
+        ListEmptyComponent={renderListEmptyComponent}
+        {...rest}
+      />
+    </>
   );
 };
 

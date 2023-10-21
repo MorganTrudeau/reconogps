@@ -3,13 +3,11 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import {
-  FlatList,
   Image,
   LayoutChangeEvent,
   Pressable,
@@ -22,12 +20,16 @@ import { useAlert } from "../hooks/useAlert";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import {
-  combinePlaybackPointsAndEvents,
   getEventInfo,
   parsePlaybackEvents,
   parsePlaybackHistory,
 } from "../utils/playback";
-import { PlaybackEvent, PlaybackPoint } from "../types";
+import {
+  PlaybackEvent,
+  PlaybackPoint,
+  PlaybackTrip,
+  PlaybackTripDetail,
+} from "../types";
 import AppMap from "../components/Core/AppMap";
 import MapboxGL from "@rnmapbox/maps";
 import { IconSet } from "../utils/enums";
@@ -46,7 +48,11 @@ import {
   getBoundsFromCoordinates,
 } from "../utils/maps";
 import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
-import { loadPlayback, optimizePlaybackHistory } from "../api/playback";
+import {
+  getTripReport,
+  loadPlayback,
+  optimizePlaybackHistory,
+} from "../api/playback";
 import { EventIcons } from "../utils/constants";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../hooks/useTheme";
@@ -56,7 +62,6 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import Slider from "@react-native-community/slider";
 import AppIconButton from "../components/Core/AppIconButton";
 import moment from "moment";
-import { formatDateRange } from "../utils/dates";
 import AppPopover from "../components/Core/AppPopover";
 import { PopoverContext } from "../context/PopoverContext";
 import AssetPlaybackTabs from "../components/Assets/AssetPlaybackTabs";
@@ -84,7 +89,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
     eventPlaybackLayout
       ? `${
           Math.min(
-            (eventPlaybackLayout.height + insets.bottom + 30) / height,
+            (eventPlaybackLayout.height + 73 + insets.bottom) / height,
             0.35
           ) * 100
         }%`
@@ -101,8 +106,10 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
 
   const Alert = useAlert();
 
-  const { minorToken } = useSelector((state: RootState) => ({
+  const { majorToken, minorToken, imei } = useSelector((state: RootState) => ({
+    majorToken: state.auth.majorToken as string,
     minorToken: state.auth.minorToken as string,
+    imei: state.assets.staticData.entities[code]?.imei,
   }));
 
   const [playbackHistory, setPlaybackHistory] = useState<PlaybackPoint[]>([]);
@@ -190,8 +197,31 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
     lastFocusedPoint.current = focusedPoint;
   }, [focusedPoint]);
 
+  const [trips, setTrips] = useState<PlaybackTrip | null>();
+
+  useEffect(() => {
+    const loadTrips = async () => {
+      try {
+        if (!(imei && majorToken && minorToken)) {
+          return;
+        }
+        const _trips = await getTripReport({
+          MajorToken: majorToken,
+          MinorToken: minorToken,
+          DateFrom: from,
+          DateTo: to,
+          Imeis: [imei],
+        });
+        setTrips(_trips[0] || null);
+      } catch (error) {
+        console.log("Load trips error:", error);
+      }
+    };
+    loadTrips();
+  }, []);
+
   const loadPlaybackData = async () => {
-    if (playbackEvents.length && playbackEvents.length) {
+    if (playbackEvents.length && playbackHistory.length) {
       return;
     }
     try {
@@ -202,8 +232,6 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         to,
         isIgnore
       );
-
-      console.log("EVENT DATA", _playbackData.HisEvents[0]);
 
       const formattedPlaybackHistory = parsePlaybackHistory(
         _playbackData.HisArry
@@ -339,11 +367,6 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
           />
           <View>
             <AppText style={theme.titleLarge}>{eventInfo.title}</AppText>
-            {/* {focusedPoint.object === "playback-event" && (
-              <AppText style={theme.textMeta}>
-                {formatDateRange(focusedPoint.beginTime, focusedPoint.endTime)}
-              </AppText>
-            )} */}
           </View>
         </View>
         <AppText style={{ marginTop: spacing("sm") }}>
@@ -423,6 +446,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
               onValueChange={handleSliderChange}
               onSlidingComplete={handleSliderEnd}
               disabled={!playbackData.length}
+              thumbTintColor="white"
               tapToSeek
             />
             {typeof slidingValue === "number" && (
@@ -475,7 +499,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
 
         <MapboxGL.Images images={EventIcons} />
 
-        {playbackHistory.length > 2 && (
+        {coordinates.length >= 2 && (
           <MapboxGL.ShapeSource
             id="lineSource"
             lineMetrics={true}
@@ -506,8 +530,6 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
                   0
                 );
               // Do what you want if the user clicks the cluster
-              // console.log("Collection Press", collection);
-
               if (collection?.features) {
                 const coords = collection.features.map((feature) => {
                   // @ts-ignore
@@ -595,7 +617,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
           />
         </MapboxGL.ShapeSource>
 
-        {focusedPoint && (
+        {/* {focusedPoint && (
           <MapboxGL.MarkerView
             allowOverlap={true}
             coordinate={[focusedPoint.lng, focusedPoint.lat]}
@@ -606,7 +628,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
               color={colors.black}
             />
           </MapboxGL.MarkerView>
-        )}
+        )} */}
       </AppMap>
 
       <BottomSheet
@@ -626,6 +648,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         <AssetPlaybackTabs
           playbackEvents={playbackEvents}
           playbackPoints={playbackHistory}
+          trips={trips}
           onEventPress={(playbackEvent) => {
             const index = playbackData.findIndex(
               (d) => d.id === playbackEvent.id

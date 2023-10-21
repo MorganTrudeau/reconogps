@@ -33,4 +33,5 @@ export const Translations = {
     north_west: "NW",
     unknown: "Unknown",
   },
+  common: { na: "n/a" },
 } as const;

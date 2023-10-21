@@ -86,7 +86,6 @@ const PopoverProvider = ({ children }: Props) => {
     top?: number;
     right?: number;
   } = useMemo(() => {
-    console.log(height, measurement);
     if (!(popoverLayout && measurement)) {
       return { postion: "absolute" };
     }

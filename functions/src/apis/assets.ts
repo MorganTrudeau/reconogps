@@ -16,8 +16,6 @@ export const loadAssetSSP = async (imei: string, productCode: string) => {
   formData.append("IMEI", imei);
   formData.append("ProductCode", productCode);
 
-  console.log(dealer_token, imei, productCode);
-
   const res = await axios.post(
     `https://newapi.quiktrak.co/Common/v1/Activation/SSP`,
     { DealerToken: dealer_token, IMEI: imei, ProductCode: productCode },
@@ -27,8 +25,6 @@ export const loadAssetSSP = async (imei: string, productCode: string) => {
       },
     }
   );
-
-  console.log("loadAssetActivationInfo", res.data);
 
   validateResponseData(res);
 
@@ -40,8 +36,6 @@ export const loadAssetInfo = async (majorToken: string, imeis: string[]) => {
     `https://testapi.quiktrak.co/Common/v1/Activation/GetAssetsInfo`,
     { params: { majortoken: majorToken, imeis: imeis.join(",") } }
   );
-
-  console.log("loadAssetInfo", res.data);
 
   if (res.data.MajorCode === "100") {
     throw new functions.https.HttpsError(
