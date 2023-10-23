@@ -227,7 +227,7 @@ export const AssetAlarms = ({
             <AppIcon
               name="check-circle"
               color={colors.primary}
-              size={iconSize("lg")}
+              size={iconSize("md")}
             />
           </Pressable>
         ),

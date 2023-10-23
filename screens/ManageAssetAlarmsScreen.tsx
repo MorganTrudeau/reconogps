@@ -8,6 +8,8 @@ import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation/utils";
 import { spacing } from "../styles";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
+import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
+import { FormContext } from "../context/FormContext";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -44,13 +46,26 @@ const ManageAssetAlarmsScreen = ({ navigation, route }: NavigationProps) => {
     }
   }, []);
 
+  // useHeaderRightSave({
+  //   navigation,
+  //   onPress: manageAlarms,
+  //   style: theme.drawerHeaderRight,
+  //   disabled: !selectedAssets.length,
+  // });
+
+  const setSaveButton = (button: React.FC<any>) => {
+    navigation.setOptions({ headerRight: button });
+  };
+
   return (
-    <AppScrollView
-      style={theme.container}
-      contentContainerStyle={{ paddingBottom: spacing("md") + insets.bottom }}
-    >
-      <AssetAlarms imeis={imeis} />
-    </AppScrollView>
+    <FormContext.Provider value={{ setSaveButton }}>
+      <AppScrollView
+        style={theme.container}
+        contentContainerStyle={{ paddingBottom: spacing("md") + insets.bottom }}
+      >
+        <AssetAlarms imeis={imeis} />
+      </AppScrollView>
+    </FormContext.Provider>
   );
 };
 
