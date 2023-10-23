@@ -131,6 +131,7 @@ const IgnoreBetweenSelect = ({
       <WeekDaySelectModal
         ref={workDaySelectModal}
         onSelect={handleChangeWeekDays}
+        initialSelectedIds={weekDays}
       />
     </>
   );

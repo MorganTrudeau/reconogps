@@ -22,10 +22,7 @@ import { AssetAlarms } from "../components/Assets/AssetAlarms";
 import { AssetPlayback } from "../components/Assets/AssetPlayback";
 import { StaticAsset } from "../types";
 import { spacing } from "../styles";
-
-export const AssetDetailContext = React.createContext<{
-  setActionButton: React.Dispatch<React.SetStateAction<React.FC<any>>>;
-}>({ setActionButton: () => {} });
+import { FormContext } from "../context/FormContext";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -90,12 +87,17 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
     [colors]
   );
 
-  const [ActionButton, setActionButton] = useState<React.FC<any>>(
-    () => () => null
-  );
+  const [SaveButtons, setSaveButtons] = useState<{
+    [index: number]: React.FC<any>;
+  }>({});
+
+  const setSaveButton = (button: React.FC<any>) => {
+    setSaveButtons((s) => ({ ...s, [index]: button }));
+  };
+  const SaveButton = SaveButtons[index];
 
   return (
-    <AssetDetailContext.Provider value={{ setActionButton }}>
+    <FormContext.Provider value={{ setSaveButton }}>
       <View style={theme.container}>
         <View style={theme.row}>
           {staticAsset && (
@@ -106,7 +108,11 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
               style={{ flex: 1 }}
             />
           )}
-          <ActionButton />
+          {SaveButton && (
+            <View style={{ paddingHorizontal: spacing("lg") }}>
+              <SaveButton />
+            </View>
+          )}
         </View>
         <TabView
           navigationState={{ index, routes }}
@@ -116,7 +122,7 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
           renderTabBar={renderTabBar}
         />
       </View>
-    </AssetDetailContext.Provider>
+    </FormContext.Provider>
   );
 };
 

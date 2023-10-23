@@ -1,5 +1,7 @@
 import { AlarmSettings, AlarmUserConfiguration } from "../types";
 
+const ALL_ALARMS_OFF = 2147483647;
+
 export const getDefaultOfflineAlarmOptions = () => {
   return [
     { name: "24 Hours", id: "24" },
@@ -25,3 +27,9 @@ export const overspeedAlarmsSupported = (alarmSettings?: AlarmSettings) =>
 
 export const overspeedAlarmsEnabled = (userConfig?: AlarmUserConfiguration) =>
   !!userConfig?.AlertTypes && !(userConfig.AlertTypes & 32);
+
+export const getEnabledAlarmsValue = (allAlarms: number[], alarms: number[]) =>
+  ALL_ALARMS_OFF +
+  allAlarms
+    .filter((a) => !alarms.includes(a))
+    .reduce((acc, alarm) => acc + alarm, 0);

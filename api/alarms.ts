@@ -1,6 +1,7 @@
 import axios from "axios";
 import { validateResponseData } from "./utils";
 import { AlarmSettings, AlarmUserConfiguration } from "../types";
+import queryString from "query-string";
 
 export const getAlarmSettings = async (
   MajorToken: string,
@@ -42,11 +43,14 @@ export const getAvailableAlarms = async (
   return res.data.Data;
 };
 
-export const setAlarmSetting = async () => {
+export const setAlarmSetting = async (data: Object) => {
+  console.log(data);
+
   const res = await axios.post(
-    `https://newapi.quiktrak.co/QuikTrak/V1/Device/AlertConfigureEdit`,
+    `https://testapi.quiktrak.co/QuikTrak/V1/Device/AlertConfigureEdit1`,
+    queryString.stringify(data),
     {
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }
   );
 

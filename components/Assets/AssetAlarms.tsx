@@ -1,10 +1,21 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useToast } from "../../hooks/useToast";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useTheme } from "../../hooks/useTheme";
-import { getAlarmSettings, getAvailableAlarms } from "../../api/alarms";
+import {
+  getAlarmSettings,
+  getAvailableAlarms,
+  setAlarmSetting,
+} from "../../api/alarms";
 import { AlarmUserConfiguration, Contact, WeekDayId } from "../../types";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import AppText from "../Core/AppText";
 import IgnoreBetweenSelect from "../Dates/IgnoreBetweenSelect";
 import SelectList from "../SelectList";
@@ -21,7 +32,7 @@ import {
   validateNumber,
 } from "../../utils";
 import ContactSelectModal from "../Contacts/ContactSelectModal";
-import { spacing } from "../../styles";
+import { iconSize, spacing } from "../../styles";
 import { Translations } from "../../utils/translations";
 import { buildContactName } from "../../utils/contacts";
 import { Modalize } from "react-native-modalize";
@@ -31,18 +42,16 @@ import { IconSet } from "../../utils/enums";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   getDefaultOfflineAlarmOptions,
+  getEnabledAlarmsValue,
   getOfflineAlarmOptions,
   overspeedAlarmsEnabled,
   overspeedAlarmsSupported,
 } from "../../utils/alarms";
-import AppButton from "../Core/AppButton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AssetDetailContext } from "../../screens/AssetDetailScreen";
 import AppIconButton from "../Core/AppIconButton";
+import { FormContext } from "../../context/FormContext";
+import AppIcon from "../Core/AppIcon";
 
-type ContactData = Pick<Contact, "Mobile" | "EMail" | "FirstName" | "SubName">;
-
-const ALL_ALARMS_OFF = 2147483647;
+const formId = "asset-alarms";
 
 export const AssetAlarms = ({
   imeis,
@@ -53,12 +62,11 @@ export const AssetAlarms = ({
 }) => {
   const { theme, colors } = useTheme();
   const Toast = useToast();
-  const insets = useSafeAreaInsets();
 
   const contactSelectModal = useRef<Modalize>(null);
 
-  const { asset, activeUserContact, majorToken, minorToken } = useAppSelector(
-    (state) => {
+  const { asset, activeUserContact, majorToken, minorToken, contacts } =
+    useAppSelector((state) => {
       const activeUser = state.activeUser.data;
 
       return {
@@ -72,11 +80,14 @@ export const AssetAlarms = ({
               (c) => c?.EMail === activeUser.Email
             )
           : null,
+        contacts: state.contacts.data,
       };
-    }
-  );
+    });
 
   const alarmType = getAlarmListTypeForSolution(asset?.solutionType);
+
+  const redPushRef = useRef(0);
+  const redEmailRef = useRef(0);
 
   const [state, setState] = useState<{
     alarmOptions: { name: string; id: number }[];
@@ -94,7 +105,7 @@ export const AssetAlarms = ({
     loading: false,
   });
 
-  const [userConfigState, setUserConfigState] = useState({
+  const savedUserConfig = useRef({
     ignoreEnabled: false,
     ignoreFrom: moment().hour(17).minute(0).millisecond(0).toDate(),
     ignoreTo: moment().hour(5).minute(0).millisecond(0).toDate(),
@@ -109,28 +120,123 @@ export const AssetAlarms = ({
     selectedContacts: activeUserContact ? [activeUserContact] : [],
   });
 
-  const assetDisplayContext = useContext(AssetDetailContext);
+  const [userConfigState, setUserConfigState] = useState(
+    savedUserConfig.current
+  );
+  const [loading, setLoading] = useState(false);
+
+  // const [externalEmail, setExternalEmail] = useState("");
+  // const [contactEmails, setContactEmails] = useState<ContactData[]>(
+  //   activeUserContact ? [activeUserContact] : []
+  // );
+
+  const selectedContactNames = useMemo(() => {
+    return userConfigState.selectedContacts
+      .map((contact) => buildContactName(contact))
+      .join(", ");
+  }, [userConfigState.selectedContacts]);
+
+  const formContext = useContext(FormContext);
 
   const changeSetting = (arg: Parameters<typeof setUserConfigState>[0]) => {
-    // assetDisplayContext.setActionButton(() => () => (
-    //   <AppIconButton
-    //     name="check-circle"
-    //     {...{ theme, colors }}
-    //   />
-    // ));
     setUserConfigState(arg);
   };
 
-  const [externalEmail, setExternalEmail] = useState("");
-  const [selectedContacts, setSelectedContacts] = useState<ContactData[]>(
-    activeUserContact ? [activeUserContact] : []
-  );
+  const saveSettings = useCallback(async () => {
+    const pushAlarmValue =
+      getEnabledAlarmsValue(
+        state.alarmOptions.map((a) => a.id),
+        userConfigState.selectedAlarms.map((a) => a.id)
+      ) - redPushRef.current;
+    const emailAlarmValue =
+      getEnabledAlarmsValue(
+        state.emailAlarmOptions.map((a) => a.id),
+        userConfigState.selectedEmailAlarms.map((a) => a.id)
+      ) - redEmailRef.current;
 
-  const selectedContactNames = useMemo(() => {
-    return selectedContacts
-      .map((contact) => buildContactName(contact))
-      .join(", ");
-  }, [selectedContacts]);
+    let params = {
+      MinorToken: minorToken,
+      MajorToken: majorToken,
+      imeis: imeis.join(","),
+      IsEmailNotification: true,
+      IsPushNotification: true,
+      HolderContact: minorToken,
+      CustomEmails:
+        userConfigState.selectedContacts.map((c) => c.EMail).join(",") +
+        (userConfigState.externalEmail
+          ? `,${userConfigState.externalEmail}`
+          : ""),
+      alarmOptions: pushAlarmValue,
+      alarmEmailOptions: emailAlarmValue,
+      AlertTypes: pushAlarmValue,
+      EmailAlertTypes: emailAlarmValue,
+      IsIgnore: userConfigState.ignoreEnabled ? 1 : 0,
+      Weeks: userConfigState.ignoreOnDays.join(","),
+      DateFrom: moment.utc(userConfigState.ignoreFrom).format("HH:mm"),
+      DateTo: moment.utc(userConfigState.ignoreTo).format("HH:mm"),
+      MaxSpeed:
+        !userConfigState.overRoadSpeedEnabled && userConfigState.overspeedAmount
+          ? Number(userConfigState.overspeedAmount)
+          : 0,
+      OfflineHours: userConfigState.offlineOptions.map((o) => o.id).join(","),
+      SpeedingMode: !userConfigState.overspeedEnabled
+        ? 0
+        : userConfigState.overRoadSpeedEnabled
+        ? 1
+        : !userConfigState.overRoadSpeedEnabled &&
+          userConfigState.overspeedAmount
+        ? 2
+        : 0,
+    };
+
+    try {
+      setLoading(true);
+      await setAlarmSetting(params);
+      savedUserConfig.current = userConfigState;
+      Toast.show("Alarm settings updated");
+      formContext?.setSaveButton(() => null, formId);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  }, [userConfigState]);
+
+  const saveSettingsRef = useRef(saveSettings);
+
+  useEffect(() => {
+    saveSettingsRef.current = saveSettings;
+  }, [saveSettings]);
+
+  useEffect(() => {
+    if (loading) {
+      formContext?.setSaveButton(
+        () => <ActivityIndicator color={colors.primary} />,
+        formId
+      );
+    } else if (
+      JSON.stringify(userConfigState) !==
+      JSON.stringify(savedUserConfig.current)
+    ) {
+      formContext?.setSaveButton(
+        () => (
+          <Pressable
+            onPress={() => saveSettingsRef.current()}
+            hitSlop={spacing("md")}
+          >
+            <AppIcon
+              name="check-circle"
+              color={colors.primary}
+              size={iconSize("lg")}
+            />
+          </Pressable>
+        ),
+        formId
+      );
+    } else {
+      formContext.setSaveButton(() => null, formId);
+    }
+  }, [userConfigState, loading]);
 
   const loadAlarms = async (userConfig?: AlarmUserConfiguration) => {
     const AlertTypes = userConfig?.AlertTypes;
@@ -170,9 +276,8 @@ export const AssetAlarms = ({
       let redEmail = 0;
       let _offlineOptions: { name: string; id: string }[] = [];
       let _showOfflineOptions = false;
-      let _offlineValue = false;
 
-      if (alarmResponse.Push.indexOf("67108864") !== -1) {
+      if (alarmResponse.Push.includes("67108864")) {
         redPush += 67108864;
         _showOfflineOptions = true;
 
@@ -180,12 +285,6 @@ export const AssetAlarms = ({
           _offlineOptions = getOfflineAlarmOptions(userConfig);
         } else {
           _offlineOptions = getOfflineAlarmOptions();
-        }
-
-        if (AlertTypes && AlertTypes & 67108864) {
-          _offlineValue = false;
-        } else {
-          _offlineValue = true;
         }
       }
 
@@ -215,13 +314,7 @@ export const AssetAlarms = ({
       emailAlarms = emailAlarms.filter(
         (el) => el.id != 32 && el.id != 67108864
       );
-      // if(AlarmSolution.toLowerCase().indexOf('witi') !== -1){
-      // alarmList = alarmList.map(el => el).filter(el => el.val == 8 || el.val == 1024 || el.val == 16 || el.val == 512 || el.val == 4 || el.val == 131072 );
-      // alarmEmailList = alarmEmailList.map(el => el).filter(el => el.val == 8 || el.val == 1024 || el.val == 16 || el.val == 512 || el.val == 4 || el.val == 131072 );
-      // }else{
-      // alarmList = alarmList.map(el => el).filter(el => el.val == 65536 || el.val == 32768 || el.val == 1048576 || el.val == 131072 || el.val == 1024 || el.val == 8 || el.val == 16 || el.val == 128 || el.val == 512 || el.val == 4 || el.val == 2 || el.val == 256 || el.val == 33554432 || el.val == 2097152 || el.val == 16777216)
-      // alarmEmailList = alarmEmailList.map(el => el).filter(el => el.val == 8 || el.val == 1024 || el.val == 16 || el.val == 512 || el.val == 4 || el.val == 131072 || el.val == 1048576 )
-      // }
+
       for (var i = pushAlarms.length - 1; i >= 0; i--) {
         redPush += pushAlarms[i].id;
       }
@@ -229,51 +322,8 @@ export const AssetAlarms = ({
         redEmail += emailAlarms[i].id;
       }
 
-      // self.$setState({
-      //   ALL_JUST_CUSTOM_PUSH_ALARMS_OFF: redPush,
-      //   ALL_JUST_CUSTOM_EMAIL_ALARMS_OFF: redEmail,
-      //   ShowAlarmList: true,
-      //   Alarms: pushAlarms,
-      //   AlarmsEmail: emailAlarms,
-      //   IgnoreBetweenState: !!(
-      //     LiveAssetSettings && LiveAssetSettings.IsIgnore == 1
-      //   ),
-      //   SpeedingMode:
-      //     LiveAssetSettings && LiveAssetSettings.SpeedingMode
-      //       ? LiveAssetSettings.SpeedingMode
-      //       : 1,
-      // });
-
-      // if(data.LiveAssetSettings?.HolderContact){
-      // let index = self.ContactList.findIndex((item) => item.Code === data.LiveAssetSettings?.HolderContact)
-      // self.ContactList[ index === -1 ? 0 : index ].Selected = true
-      // }
-      if (userConfig?.CustomEmails) {
-        let arrEmails = userConfig?.CustomEmails?.split(",");
-        for (let i = arrEmails.length - 1; i >= 0; i--) {
-          // let index = self.ContactList.findIndex(
-          //   (item) => item.EMail === arrEmails[i]
-          // );
-          // self.ContactList[index === -1 ? 0 : index].Selected = true;
-        }
-      }
-
-      // self.$setState({
-      //   OfflineOptions: offlineOptions,
-      //   EmailsToSend: arrEmails,
-      // });
-
-      // if (AlarmListType == 2) {
-      //   self.$app.utils.nextFrame(() => {
-      //     self.initIgnoreBetweenBlock(LiveAssetSettings);
-      //   });
-      // }
-
-      // self.$app.utils.nextFrame(() => {
-      //   self.initToggleAllAlarms(AlarmOptions);
-      // });
-
-      console.log(alarmType, alarmResponse.Push);
+      redPushRef.current = redPush;
+      redEmailRef.current = redEmail;
 
       const userSettings = {
         ignoreEnabled: userConfigState.ignoreEnabled,
@@ -290,6 +340,7 @@ export const AssetAlarms = ({
         overspeedEnabled: overspeedEnabled,
         overRoadSpeedEnabled: userConfigState.overRoadSpeedEnabled,
         overspeedAmount: String(overspeedAmount),
+        selectedContacts: userConfigState.selectedContacts,
       };
 
       if (userConfig) {
@@ -299,18 +350,27 @@ export const AssetAlarms = ({
 
         userSettings.ignoreEnabled = userConfig.IsIgnore === 1;
         userSettings.ignoreFrom = moment()
+          .utc()
           .hour(Number(beginHours))
           .minute(Number(beginMinutes))
           .millisecond(0)
           .toDate();
         userSettings.ignoreTo = moment()
+          .utc()
           .hour(Number(endHours))
           .minute(Number(endMinutes))
           .millisecond(0)
           .toDate();
         userSettings.ignoreOnDays = userConfig.Weeks.split(",") as WeekDayId[];
         userSettings.overRoadSpeedEnabled = userConfig.SpeedingMode === 1;
+        userSettings.selectedContacts = userConfig.CustomEmails.split(",")
+          .map((email) =>
+            Object.values(contacts.entities).find((c) => c?.EMail === email)
+          )
+          .filter((c) => c) as Contact[];
       }
+
+      savedUserConfig.current = { ...savedUserConfig.current, ...userSettings };
 
       setUserConfigState((s) => ({ ...s, ...userSettings }));
 
@@ -318,7 +378,7 @@ export const AssetAlarms = ({
         ...s,
         alarmOptions: pushAlarms,
         emailAlarmOptions: emailAlarms,
-        showOfflineOptions: alarmResponse.Push.includes("67108864"),
+        showOfflineOptions: _showOfflineOptions,
         showOverspeedOptions: showOverspeedOptions,
         loading: false,
       }));
@@ -337,15 +397,7 @@ export const AssetAlarms = ({
 
       const settings = await getAlarmSettings(majorToken, minorToken, imei);
 
-      // AlarmListType: alarmType, //live
-      // AssetType: asset.assetType,
-      // AlarmOptions: settings.AlertTypes,
-      // AlarmEmailOptions: settings.EmailAlertTypes,
-      // LiveAssetSettings: settings,
-
       loadAlarms(settings);
-
-      console.log(settings);
     } catch (error) {
       console.log(error);
     }
@@ -393,9 +445,9 @@ export const AssetAlarms = ({
             headerStyle={styles.ignoreBetweenHeader}
             style={styles.ignoreBetweenSelect}
             weekDays={userConfigState.ignoreOnDays}
-            onChangeWeekDays={(ignoreOnDays) =>
-              changeSetting((s) => ({ ...s, ignoreOnDays }))
-            }
+            onChangeWeekDays={(ignoreOnDays) => {
+              changeSetting((s) => ({ ...s, ignoreOnDays }));
+            }}
             enabled={userConfigState.ignoreEnabled}
             title={"Ignore Alarms Schedule"}
             onToggleEnabled={(ignoreEnabled) =>
@@ -411,7 +463,6 @@ export const AssetAlarms = ({
           onSelect={(selectedAlarms) =>
             changeSetting((s) => ({ ...s, selectedAlarms }))
           }
-          autoSelectAll={!loadSettingsForImei}
           style={styles.optionsList}
           initialSelectedIds={userConfigState.selectedAlarms.map((a) => a.id)}
         />
@@ -480,7 +531,7 @@ export const AssetAlarms = ({
                 onFocus={() =>
                   changeSetting((s) => ({
                     ...s,
-                    overRoadSpeedEnabled: !s.overRoadSpeedEnabled,
+                    overRoadSpeedEnabled: false,
                   }))
                 }
                 containerStyle={[
@@ -511,9 +562,11 @@ export const AssetAlarms = ({
           />
 
           <AppTextInput
-            value={externalEmail}
+            value={userConfigState.externalEmail}
             placeholder={"External Email"}
-            onChangeText={setExternalEmail}
+            onChangeText={(externalEmail) =>
+              setUserConfigState((s) => ({ ...s, externalEmail }))
+            }
             validation={validateEmail}
             keyboardType={"email-address"}
             autoCapitalize={"none"}
@@ -523,12 +576,12 @@ export const AssetAlarms = ({
 
         <ContactSelectModal
           ref={contactSelectModal}
-          onSelect={(contacts) => {
-            setSelectedContacts(contacts);
+          onSelect={(selectedContacts) => {
+            setUserConfigState((s) => ({ ...s, selectedContacts }));
           }}
-          initialSelectedIds={
-            activeUserContact ? [activeUserContact.Code] : undefined
-          }
+          initialSelectedIds={userConfigState.selectedContacts.map(
+            (c) => c.Code
+          )}
         />
       </KeyboardAwareScrollView>
     </>
