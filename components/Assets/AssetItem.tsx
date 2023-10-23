@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { iconSize, spacing } from "../../styles";
 import { CombinedAsset, StaticAsset } from "../../types";
 import AppText from "../Core/AppText";
@@ -16,6 +16,7 @@ type Props = {
   asset: StaticAsset;
   onPress?: (asset: CombinedAsset) => void;
   showDetails?: boolean;
+  style?: ViewStyle;
 } & ThemeProps;
 
 const AssetItem = ({
@@ -24,6 +25,7 @@ const AssetItem = ({
   theme,
   colors,
   showDetails = true,
+  style,
 }: Props) => {
   const dynamicData = useAppSelector(
     (state) => state.assets.dynamicData.entities[asset.id]
@@ -53,7 +55,7 @@ const AssetItem = ({
 
   return (
     <Pressable
-      style={styles.container}
+      style={[styles.container, style]}
       disabled={!onPress}
       onPress={() =>
         onPress &&

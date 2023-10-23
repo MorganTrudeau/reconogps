@@ -343,11 +343,6 @@ export type AssetActivationEntry = {
   formData: AssetActivationFormData;
 };
 
-export type AlarmSettings = {
-  Email: string[];
-  Push: string[];
-};
-
 export type AvailableAlarms = {
   AlertTypes: number;
   BeginTime: "00:00";
@@ -433,4 +428,48 @@ export type PlaybackTrip = {
   IMEI: string;
   Name: string;
   Total: PlaybackTripTotal;
+};
+
+export type AlarmUserConfiguration = {
+  AlertTypes: number;
+  BeginTime: string;
+  CustomEmails: string;
+  CustomPhones: string;
+  EmailAlertTypes: number;
+  EndTime: string;
+  HolderContact: string;
+  IMEI: string;
+  InputInterval: number;
+  IsEmailNotification: boolean;
+  IsIgnore: number;
+  IsPushNotification: boolean;
+  MaxSpeed: number;
+  OfflineHours: string;
+  SpeedingMode: number;
+  Weeks: string;
+};
+
+export type AlarmSettings = {
+  Email: ["4", "8", "16", "512", "1024", "131072", "1048576"];
+  Push: [
+    "2",
+    "4",
+    "8",
+    "16",
+    "32",
+    "128",
+    "256",
+    "512",
+    "1024",
+    "32768",
+    "65536",
+    "131072",
+    "262144",
+    "524288",
+    "1048576",
+    "2097152",
+    "16777216",
+    "33554432",
+    "67108864"
+  ];
 };

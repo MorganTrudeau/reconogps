@@ -13,7 +13,7 @@ import AppCheckBox from "./Core/AppCheckBox";
 import AppText from "./Core/AppText";
 
 type Props = {
-  data: { id: string; name: string };
+  data: { id: string | number; name: string };
   isSelected: boolean;
   onSelect: (data: any) => void;
   style?: StyleProp<ViewStyle>;

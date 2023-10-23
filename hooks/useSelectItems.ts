@@ -3,8 +3,8 @@ import { useUpdated } from "./useUpdated";
 
 export const useSelectItems = (
   data: any[],
-  initalSelectedIds?: string[],
-  idSelector: (val: any) => string = (val: any) => val.id,
+  initalSelectedIds?: (string | number)[],
+  idSelector: (val: any) => string | number = (val: any) => val.id,
   singleSelect?: boolean,
   autoSelectAll?: boolean
 ) => {
@@ -12,7 +12,7 @@ export const useSelectItems = (
     return data.map(idSelector);
   }, [data]);
 
-  const [selectedIds, setSelectedIds] = useState<string[]>(
+  const [selectedIds, setSelectedIds] = useState<(string | number)[]>(
     initalSelectedIds ? initalSelectedIds : autoSelectAll ? ids : []
   );
 
@@ -27,7 +27,7 @@ export const useSelectItems = (
     allSelected ? setSelectedIds([]) : setSelectedIds([...ids]);
   };
 
-  const selectId = (id: string) => {
+  const selectId = (id: string | number) => {
     if (singleSelect) {
       setSelectedIds([id]);
     } else {
@@ -39,7 +39,7 @@ export const useSelectItems = (
     }
   };
 
-  const isSelected = (id: string) => {
+  const isSelected = (id: string | number) => {
     return selectedIds.includes(id);
   };
 

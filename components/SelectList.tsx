@@ -14,8 +14,8 @@ const defaultNameSelector = (data: any) => data.name;
 export type Props = {
   data: any[];
   onSelect: (selectedAssetData: any[]) => void;
-  initialSelectedIds?: string[];
-  idSelector?: (data: any) => string;
+  initialSelectedIds?: (string | number)[];
+  idSelector?: (data: any) => string | number;
   nameSelector?: (data: any) => string;
   customItemContent?: (data: any) => React.ReactElement;
   ListEmptyComponent?: React.ReactElement;

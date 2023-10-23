@@ -1,11 +1,12 @@
 import axios from "axios";
 import { validateResponseData } from "./utils";
+import { AlarmSettings, AlarmUserConfiguration } from "../types";
 
 export const getAlarmSettings = async (
   MajorToken: string,
   MinorToken: string,
   IMEI: string
-) => {
+): Promise<AlarmUserConfiguration> => {
   const res = await axios.post(
     `https://testapi.quiktrak.co/QuikTrak/V1/Device/GetAlertConfigure1`,
     undefined,
@@ -15,7 +16,7 @@ export const getAlarmSettings = async (
     }
   );
 
-  console.log("Available alarms:", res.data);
+  console.log("User alarm config:", res.data);
 
   validateResponseData(res);
 
@@ -25,7 +26,7 @@ export const getAlarmSettings = async (
 export const getAvailableAlarms = async (
   SolutionCode: string,
   ProductName: string
-) => {
+): Promise<AlarmSettings> => {
   const res = await axios.get(
     `https://testapi.quiktrak.co/QuikTrak/V1/User/GetAlarmOptionsBySolution`,
     {
@@ -34,7 +35,7 @@ export const getAvailableAlarms = async (
     }
   );
 
-  // console.log("Alarms settings:", res.data);
+  console.log("Alarm settings:", res.data);
 
   validateResponseData(res);
 

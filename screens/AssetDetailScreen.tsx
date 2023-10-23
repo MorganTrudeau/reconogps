@@ -2,7 +2,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useWindowDimensions, View } from "react-native";
 import {
   SceneMap,
@@ -21,6 +21,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
 import { AssetPlayback } from "../components/Assets/AssetPlayback";
 import { StaticAsset } from "../types";
+import { spacing } from "../styles";
+
+export const AssetDetailContext = React.createContext<{
+  setActionButton: React.Dispatch<React.SetStateAction<React.FC<any>>>;
+}>({ setActionButton: () => {} });
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -79,30 +84,39 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
         {...props}
         indicatorStyle={{ backgroundColor: colors.primary }}
         style={{ backgroundColor: colors.background }}
-        //   tabStyle={{ height: 45 }}
         labelStyle={{ textTransform: undefined }}
       />
     ),
     [colors]
   );
 
+  const [ActionButton, setActionButton] = useState<React.FC<any>>(
+    () => () => null
+  );
+
   return (
-    <View style={theme.container}>
-      {staticAsset && (
-        <AssetItem
-          asset={staticAsset}
-          {...{ theme, colors }}
-          showDetails={false}
+    <AssetDetailContext.Provider value={{ setActionButton }}>
+      <View style={theme.container}>
+        <View style={theme.row}>
+          {staticAsset && (
+            <AssetItem
+              asset={staticAsset}
+              {...{ theme, colors }}
+              showDetails={false}
+              style={{ flex: 1 }}
+            />
+          )}
+          <ActionButton />
+        </View>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+          renderTabBar={renderTabBar}
         />
-      )}
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
-        renderTabBar={renderTabBar}
-      />
-    </View>
+      </View>
+    </AssetDetailContext.Provider>
   );
 };
 
@@ -126,7 +140,9 @@ const DummyRoute = (props: SceneProps) => {
     case "status":
       return (
         <BottomSheetScrollView
-          contentContainerStyle={{ paddingBottom: insets.bottom }}
+          contentContainerStyle={{
+            paddingBottom: insets.bottom + spacing("md"),
+          }}
         >
           <AssetDetail assetId={props.route.asset.id} />
         </BottomSheetScrollView>
@@ -134,7 +150,9 @@ const DummyRoute = (props: SceneProps) => {
     case "alarm":
       return (
         <BottomSheetScrollView
-          contentContainerStyle={{ paddingBottom: insets.bottom }}
+          contentContainerStyle={{
+            paddingBottom: insets.bottom + spacing("md"),
+          }}
         >
           <AssetAlarms
             imeis={[props.route.asset.imei]}
@@ -145,7 +163,9 @@ const DummyRoute = (props: SceneProps) => {
     case "playback":
       return (
         <BottomSheetScrollView
-          contentContainerStyle={{ paddingBottom: insets.bottom }}
+          contentContainerStyle={{
+            paddingBottom: insets.bottom + spacing("md"),
+          }}
         >
           <AssetPlayback
             assetId={props.route.asset.id}

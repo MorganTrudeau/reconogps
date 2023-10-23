@@ -126,12 +126,12 @@ export const getAlarmListTypeForSolution = (
   const lowercaseSolution = solutionType?.toLowerCase() as SolutionType;
 
   if (
-    lowercaseSolution === SolutionTypes.track ||
-    lowercaseSolution === SolutionTypes.watch ||
-    lowercaseSolution === SolutionTypes.life
+    lowercaseSolution === SolutionTypes.track.toLowerCase() ||
+    lowercaseSolution === SolutionTypes.watch.toLowerCase() ||
+    lowercaseSolution === SolutionTypes.life.toLowerCase()
   ) {
     return 2;
-  } else if (lowercaseSolution === SolutionTypes.protect) {
+  } else if (lowercaseSolution === SolutionTypes.protect.toLowerCase()) {
     return 1;
   }
 
