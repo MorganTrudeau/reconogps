@@ -473,3 +473,24 @@ export type AlarmSettings = {
     "67108864"
   ];
 };
+
+export type Notification = {
+  title: string;
+  alarm: string;
+  type: number;
+  imei: string;
+  name: string;
+  lat: number;
+  lng: number;
+  speed: number;
+  direct: number;
+  time: string;
+  PositionTime: string;
+  AssetName: string;
+  Lat: number;
+  Lng: number;
+  Imei: string;
+  Speed: number;
+  Direct: number;
+  BatteryVoltage: number;
+};

@@ -34,6 +34,10 @@ import geofencesSlice, {
   GeofencesState,
   transform as geofencesTransform,
 } from "../reducers/geofences";
+import notificationsSlice, {
+  NotificationsState,
+  transform as notificationsTransform,
+} from "../reducers/notifications";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -42,6 +46,7 @@ const rootReducer = combineReducers({
   contacts: contactsReducer,
   sharedAssets: sharedAssetsSlice,
   geofences: geofencesSlice,
+  notifications: notificationsSlice,
 });
 
 const persistConfig: PersistConfig<RootState> = {
@@ -54,6 +59,7 @@ const persistConfig: PersistConfig<RootState> = {
     contactsTransform,
     geofencesTransform,
     authTransform,
+    notificationsTransform,
   ],
   blacklist: ["sharedAssets", "geofences", "alarms"],
 };
@@ -67,8 +73,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
-  // .concat(logger),
+    }).concat(logger),
 });
 export const persistor = persistStore(store);
 
@@ -80,6 +85,7 @@ export type RootState = {
   contacts: ContactsState;
   sharedAssets: SharedAssetsState;
   geofences: GeofencesState;
+  notifications: NotificationsState;
 };
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

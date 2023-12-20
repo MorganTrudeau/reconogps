@@ -16,6 +16,7 @@ import ToastManager from "./services/ToastManager";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import PopoverProvider from "./context/PopoverContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import NotificationsManager from "./services/NotificationsManager";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
                   <ToastManager />
                 </ToastProvider>
                 <AuthManager />
+                <NotificationsManager />
                 <StatusBar style="light" />
               </ThemeProvider>
             </SafeAreaProvider>

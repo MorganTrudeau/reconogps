@@ -21,16 +21,6 @@ const AssetAvatar = ({
     style,
   ];
 
-  // @todo remove
-  return (
-    <Avatar
-      firstName={asset.name.charAt(0)}
-      lastName={asset.name.charAt(1)}
-      size={size}
-      style={iconStyle}
-    />
-  );
-
   return !assetHasIcon(asset) ? (
     <Avatar
       firstName={asset.name.charAt(0)}

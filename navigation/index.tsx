@@ -37,6 +37,7 @@ import AssetPlaybackScreen from "../screens/AssetPlaybackScreen";
 import AppIcon from "../components/Core/AppIcon";
 import { iconSize } from "../styles";
 import { useNavigation } from "@react-navigation/native";
+import NotificationsScreen from "../screens/NotificationsScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -296,6 +297,12 @@ const MainStack = () => {
         options={{ title: "Manage Alarms" }}
         // @ts-ignore
         component={ManageAssetAlarmsScreen}
+      />
+      <Stack.Screen
+        name="notifications"
+        options={{ title: "Notifications" }}
+        // @ts-ignore
+        component={NotificationsScreen}
       />
       <Stack.Screen
         name="playback"

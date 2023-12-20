@@ -88,13 +88,13 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   );
 
   const [SaveButtons, setSaveButtons] = useState<{
-    [index: number]: React.FC<any>;
+    [index: string]: React.FC<any>;
   }>({});
 
-  const setSaveButton = (button: React.FC<any>) => {
-    setSaveButtons((s) => ({ ...s, [index]: button }));
+  const setSaveButton = (button: React.FC<any>, id: string) => {
+    setSaveButtons((s) => ({ ...s, [id]: button }));
   };
-  const SaveButton = SaveButtons[index];
+  const SaveButton = SaveButtons[routes[index].key];
 
   return (
     <FormContext.Provider value={{ setSaveButton }}>

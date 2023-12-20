@@ -38,6 +38,7 @@ export type RootStackParamList = {
     isIgnore: boolean;
     isOptimized: boolean;
   };
+  notifications: undefined;
 };
 
 export const getDefaultStackOptions = (

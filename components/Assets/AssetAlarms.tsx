@@ -47,11 +47,10 @@ import {
   overspeedAlarmsEnabled,
   overspeedAlarmsSupported,
 } from "../../utils/alarms";
-import AppIconButton from "../Core/AppIconButton";
 import { FormContext } from "../../context/FormContext";
 import AppIcon from "../Core/AppIcon";
 
-const formId = "asset-alarms";
+const formId = "alarm";
 
 export const AssetAlarms = ({
   imeis,
@@ -361,7 +360,11 @@ export const AssetAlarms = ({
           .minute(Number(endMinutes))
           .millisecond(0)
           .toDate();
-        userSettings.ignoreOnDays = userConfig.Weeks.split(",") as WeekDayId[];
+        if (userConfig.Weeks) {
+          userSettings.ignoreOnDays = userConfig.Weeks.split(
+            ","
+          ) as WeekDayId[];
+        }
         userSettings.overRoadSpeedEnabled = userConfig.SpeedingMode === 1;
         userSettings.selectedContacts = userConfig.CustomEmails.split(",")
           .map((email) =>
