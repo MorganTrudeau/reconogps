@@ -31,23 +31,38 @@ const SelectAllHeader = ({
   title,
   titleStyle,
 }: Props) => {
+  if (!title) {
+  }
   return (
     <Pressable
       onPress={onPress}
       style={[theme.row, styles.container, theme.borderBottom, style]}
     >
-      <View style={styles.titleContainer}>
-        {!!title && (
-          <AppText style={[theme.title, titleStyle]}>{title}</AppText>
-        )}
-      </View>
+      {!title && (
+        <>
+          <AppCheckBox
+            value={isSelected}
+            {...{ theme, colors }}
+            style={styles.checkboxLeft}
+          />
+          <AppText style={[theme.title, textStyle]}>Select All</AppText>
+        </>
+      )}
 
-      <AppText style={[theme.title, textStyle]}>Select All</AppText>
-      <AppCheckBox
-        value={isSelected}
-        {...{ theme, colors }}
-        style={styles.checkbox}
-      />
+      {!!title && (
+        <>
+          <View style={styles.titleContainer}>
+            <AppText style={[theme.title, titleStyle]}>{title}</AppText>
+          </View>
+
+          <AppText style={[theme.title, textStyle]}>Select All</AppText>
+          <AppCheckBox
+            value={isSelected}
+            {...{ theme, colors }}
+            style={styles.checkboxRight}
+          />
+        </>
+      )}
     </Pressable>
   );
 };
@@ -58,7 +73,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing("md"),
   },
   titleContainer: { flex: 1 },
-  checkbox: { marginLeft: spacing("lg") },
+  checkboxRight: { marginLeft: spacing("lg") },
+  checkboxLeft: { marginRight: spacing("lg") },
 });
 
 export default SelectAllHeader;

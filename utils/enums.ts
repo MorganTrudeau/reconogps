@@ -1,4 +1,7 @@
-import { MaterialIcon } from "../types/styles";
+export const GeoTypes = {
+  CIRCLE: 1,
+  POLYGON: 2,
+};
 
 export const CustomerTypes = {
   Agent: 2,

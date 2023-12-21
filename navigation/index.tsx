@@ -38,6 +38,8 @@ import AppIcon from "../components/Core/AppIcon";
 import { iconSize } from "../styles";
 import { useNavigation } from "@react-navigation/native";
 import NotificationsScreen from "../screens/NotificationsScreen";
+import ManageGeofenceScreen from "../screens/ManageGeofenceScreen";
+import { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -232,6 +234,34 @@ const DrawerStack = () => {
 const MainStack = () => {
   const { theme, colors } = useTheme();
   const defaultOptions = getDefaultStackOptions(theme, colors);
+
+  const transparentHeaderConfig = React.useRef({
+    title: "",
+    headerTransparent: true,
+    headerStyle: { backgroundColor: "transparent" },
+    headerLeft: (props: HeaderBackButtonProps) => {
+      const _navigation = useNavigation();
+      return (
+        <Pressable
+          {...props}
+          disabled={!props.canGoBack}
+          onPress={() => _navigation.goBack()}
+          style={{
+            backgroundColor: colors.background,
+            borderRadius: 5,
+            padding: 2,
+          }}
+        >
+          <AppIcon
+            name={"chevron-left"}
+            color={colors.primary}
+            size={iconSize("lg")}
+          />
+        </Pressable>
+      );
+    },
+  }).current;
+
   return (
     <Stack.Navigator screenOptions={defaultOptions}>
       <Stack.Screen
@@ -239,6 +269,12 @@ const MainStack = () => {
         options={{ headerShown: false }}
         // @ts-ignore
         component={DrawerStack}
+      />
+      <Stack.Screen
+        name="manage-geofence"
+        options={transparentHeaderConfig}
+        // @ts-ignore
+        component={ManageGeofenceScreen}
       />
       <Stack.Screen
         name="add-assets"
@@ -306,32 +342,7 @@ const MainStack = () => {
       />
       <Stack.Screen
         name="playback"
-        options={{
-          title: "",
-          headerTransparent: true,
-          headerStyle: { backgroundColor: "transparent" },
-          headerLeft: (props) => {
-            const _navigation = useNavigation();
-            return (
-              <Pressable
-                {...props}
-                disabled={!props.canGoBack}
-                onPress={() => _navigation.goBack()}
-                style={{
-                  backgroundColor: colors.background,
-                  borderRadius: 5,
-                  padding: 2,
-                }}
-              >
-                <AppIcon
-                  name={"chevron-left"}
-                  color={colors.primary}
-                  size={iconSize("lg")}
-                />
-              </Pressable>
-            );
-          },
-        }}
+        options={transparentHeaderConfig}
         // @ts-ignore
         component={AssetPlaybackScreen}
       />

@@ -17,7 +17,7 @@ export type Props = {
   modalTitle?: string;
   data: any[];
   onSelect: (selectedAssetData: any[]) => void;
-  initialSelectedIds?: string[];
+  initialSelectedIds?: (string | number)[];
   idSelector?: (data: any) => string;
   nameSelector?: (data: any) => string;
   customItemContent?: (data: any) => React.ReactElement;

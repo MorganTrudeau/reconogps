@@ -204,7 +204,7 @@ export type Geofence = {
   BeginDate: string | null;
   BeginTime: string;
   Code: string;
-  ContactList: { Code: string; Mail: string }[];
+  ContactList: { Code: string; Mail: string | null }[];
   Content: string;
   CustomerCode: string;
   CycleType: number;

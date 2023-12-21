@@ -33,6 +33,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Constants } from "../../utils/constants";
+import { AppBottomSheet } from "../Core/AppBottomSheet";
 
 const SNAP_POINTS = Constants.BOTTOM_SHEET_SNAP_POINTS.map(
   (num) => `${num * 100}%`
@@ -56,23 +57,10 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
     const { colors, theme } = useTheme();
     const navigation = useNavigation<NavigationProp>();
     const { height } = useWindowDimensions();
-    const insets = useSafeAreaInsets();
 
     const index = useRef(initialIndex);
 
     const bottomSheetRef = useRef<BottomSheet>(null);
-
-    const [closed, setClosed] = useState(false);
-
-    const closeSharedValue = useSharedValue(closed ? 1 : 0);
-    const closeButtonStyles = useAnimatedStyle(() => ({
-      opacity: closeSharedValue.value,
-      transform: [{ scale: closeSharedValue.value }],
-    }));
-
-    useUpdated(closed, (isClosed) => {
-      closeSharedValue.value = withTiming(isClosed ? 1 : 0);
-    });
 
     const [navigationState, setNavigationState] =
       useState<NavigationState<RootStackParamList>>();
@@ -129,11 +117,7 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
     const handleIndexChange = (_index: number) => {
       if (_index < 0) {
         onHeightChange && onHeightChange(0);
-        setClosed(true);
       } else {
-        if (closed) {
-          setClosed(false);
-        }
         const snapPoint = Constants.BOTTOM_SHEET_SNAP_POINTS[_index];
         const modalHeight = height * snapPoint;
         onHeightChange && onHeightChange(modalHeight);
@@ -146,17 +130,12 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
       if (nextIndex >= 0) {
         bottomSheetRef.current?.snapToIndex(nextIndex);
       } else {
-        setClosed(true);
         bottomSheetRef.current?.close();
       }
     };
 
     const handleAddAssets = () => {
       navigation.navigate("add-assets");
-    };
-
-    const handleOpenModal = () => {
-      bottomSheetRef.current?.snapToIndex(0);
     };
 
     const renderHeaderRight = useCallback(() => {
@@ -188,42 +167,18 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
     }, [navigationState?.index]);
 
     return (
-      <>
-        <Animated.View
-          style={[
-            styles.openButton,
-            { bottom: insets.bottom + spacing("lg") },
-            closeButtonStyles,
-          ]}
-        >
-          <AppIconButton
-            onPress={handleOpenModal}
-            name={"chevron-up"}
-            {...{ theme, colors }}
-          />
-        </Animated.View>
-
-        <BottomSheet
-          enablePanDownToClose
-          ref={bottomSheetRef}
-          onChange={handleIndexChange}
-          index={initialIndex}
-          snapPoints={SNAP_POINTS}
-          backgroundStyle={{ backgroundColor: colors.background }}
-          handleComponent={renderHandle}
-          style={{
-            backgroundColor: colors.background,
-            borderTopRightRadius: BORDER_RADIUS,
-            borderTopLeftRadius: BORDER_RADIUS,
-          }}
-          handleIndicatorStyle={{ backgroundColor: colors.white }}
-        >
-          <AssetStack
-            onAddAssets={handleAddAssets}
-            onStateChange={handleNavigationStateChange}
-          />
-        </BottomSheet>
-      </>
+      <AppBottomSheet
+        ref={bottomSheetRef}
+        onChange={handleIndexChange}
+        index={initialIndex}
+        snapPoints={SNAP_POINTS}
+        handleComponent={renderHandle}
+      >
+        <AssetStack
+          onAddAssets={handleAddAssets}
+          onStateChange={handleNavigationStateChange}
+        />
+      </AppBottomSheet>
     );
   }
 );

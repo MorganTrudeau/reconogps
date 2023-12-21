@@ -2,6 +2,7 @@ import { DrawerNavigationOptions } from "@react-navigation/drawer";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { AssetActivationEntry, EditContactData } from "../types";
 import { Colors, Theme } from "../types/styles";
+import { Dimensions, Platform } from "react-native";
 
 export type RootStackParamList = {
   login: undefined;
@@ -39,6 +40,7 @@ export type RootStackParamList = {
     isOptimized: boolean;
   };
   notifications: undefined;
+  "manage-geofence": { geofenceCode: string };
 };
 
 export const getDefaultStackOptions = (
@@ -69,4 +71,26 @@ export const getDefaultDrawerOptions = (
     drawerActiveTintColor: colors.black,
     drawerInactiveTintColor: colors.text,
   };
+};
+
+export const getHeaderHeight = (): number => {
+  const { width, height } = Dimensions.get("window");
+
+  const isLandscape = width > height;
+
+  let headerHeight;
+
+  if (Platform.OS === "ios") {
+    if (isLandscape && !Platform.isPad) {
+      headerHeight = 44;
+    } else {
+      headerHeight = 44;
+    }
+  } else if (Platform.OS === "android") {
+    headerHeight = 56;
+  } else {
+    headerHeight = 55;
+  }
+
+  return headerHeight;
 };

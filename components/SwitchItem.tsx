@@ -4,6 +4,7 @@ import { Colors, MaterialIcon, Theme } from "../types/styles";
 import AppIcon from "./Core/AppIcon";
 import AppText from "./Core/AppText";
 import { iconSize, spacing } from "../styles";
+import AppSwitch from "./Core/AppSwitch";
 
 export const SwitchItem = ({
   theme,
@@ -18,21 +19,23 @@ export const SwitchItem = ({
   value: boolean;
   onChange: (enabled: boolean) => void;
   title: string;
-  icon: MaterialIcon;
+  icon?: MaterialIcon;
 }) => {
   return (
     <Pressable
       style={[theme.row, styles.container]}
       onPress={() => onChange(!value)}
     >
-      <AppIcon
-        name={icon}
-        color={colors.primary}
-        style={styles.icon}
-        size={iconSize("sm")}
-      />
+      {!!icon && (
+        <AppIcon
+          name={icon}
+          color={colors.primary}
+          style={styles.icon}
+          size={iconSize("sm")}
+        />
+      )}
       <AppText style={theme.flex}>{title}</AppText>
-      <Switch
+      <AppSwitch
         trackColor={{ true: colors.primary, false: colors.surface }}
         value={value}
         onValueChange={(active) => onChange(active)}
