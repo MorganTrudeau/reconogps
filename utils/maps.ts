@@ -120,3 +120,190 @@ export const getBoundsFromCoordinates = <T>(
     sw: [west - offset, south - offset],
   };
 };
+
+export const distanceBetweenCoords = (coords1: number[], coords2: number[]) => {
+  const [lng1, lat1] = coords1;
+  const [lng2, lat2] = coords2;
+
+  const earthRadius = 6371000; // Earth's radius in meters
+  const degToRad = (degrees: number) => (degrees * Math.PI) / 180;
+
+  // Convert latitude and longitude from degrees to radians
+  const phi1 = degToRad(lat1);
+  const phi2 = degToRad(lat2);
+  const deltaPhi = degToRad(lat2 - lat1);
+  const deltaLambda = degToRad(lng2 - lng1);
+
+  // Haversine formula
+  const a =
+    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+    Math.cos(phi1) *
+      Math.cos(phi2) *
+      Math.sin(deltaLambda / 2) *
+      Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  // Calculate distance
+  const distance = earthRadius * c;
+
+  return distance;
+};
+
+export const createCircleCoords = (coords: number[], radius: number) => {
+  const [lng, lat] = coords;
+
+  const degreesBetweenPoints = 8; //45 sides
+  const numberOfPoints = Math.floor(360 / degreesBetweenPoints);
+  const distRadians = radius / 6371000; // earth radius in meters
+  const centerLatRadians = (lat * Math.PI) / 180;
+  const centerLonRadians = (lng * Math.PI) / 180;
+  const points: number[][] = [];
+
+  for (let i = 0; i < numberOfPoints; i++) {
+    const degrees = i * degreesBetweenPoints;
+    const degreeRadians = (degrees * Math.PI) / 180;
+    const pointLatRadians = Math.asin(
+      Math.sin(centerLatRadians) * Math.cos(distRadians) +
+        Math.cos(centerLatRadians) *
+          Math.sin(distRadians) *
+          Math.cos(degreeRadians)
+    );
+    const pointLonRadians =
+      centerLonRadians +
+      Math.atan2(
+        Math.sin(degreeRadians) *
+          Math.sin(distRadians) *
+          Math.cos(centerLatRadians),
+        Math.cos(distRadians) -
+          Math.sin(centerLatRadians) * Math.sin(pointLatRadians)
+      );
+    const pointLat = (pointLatRadians * 180) / Math.PI;
+    const pointLon = (pointLonRadians * 180) / Math.PI;
+    const point = [pointLon, pointLat];
+    points.push(point);
+  }
+
+  return points;
+};
+
+export const createSquareCoords = (coord1: number[], coord2: number[]) => {
+  const [lng1, lat1] = coord1;
+  const [lng2, lat2] = coord2;
+
+  const coord1Position = findCoordBearingPosition(coord1, coord2);
+
+  if (coord1Position === "SW") {
+    return [
+      coord1, // SW
+      [lng1, lat2], // NW
+      coord2, // NE
+      [lng2, lat1], // SE
+    ];
+  } else if (coord1Position === "NW") {
+    return [
+      [lng1, lat2], // SW
+      coord1, // NW
+      [lng2, lat1], // NE
+      coord2, // SE
+    ];
+  } else if (coord1Position === "NE") {
+    return [
+      coord2, // SW
+      [lng2, lat1], // NW
+      coord1, // NE
+      [lng1, lat2], // SE
+    ];
+  } else if (coord1Position === "SE") {
+    return [
+      [lng2, lat1], // SW
+      coord2, // NW
+      [lng1, lat2], // NE
+      coord1, // SE
+    ];
+  }
+};
+
+const findCoordBearingPosition = (coord1: number[], coord2: number[]) => {
+  const [lng1, lat1] = coord1;
+  const [lng2, lat2] = coord2;
+
+  if (lng1 <= lng2 && lat1 <= lat2) {
+    return "SW";
+  } else if (lng1 <= lng2 && lat1 >= lat2) {
+    return "NW";
+  } else if (lng1 >= lng2 && lat1 <= lat2) {
+    return "SE";
+  } else if (lng1 >= lng2 && lat1 >= lat2) {
+    return "NE";
+  } else if (lng1 === lng2 && lat1 < lat2) {
+    return "S";
+  } else if (lng1 === lng2 && lat1 > lat2) {
+    return "N";
+  } else if (lng1 < lng2 && lat1 === lat2) {
+    return "E";
+  } else if (lng1 > lng2 && lat1 === lat2) {
+    return "W";
+  } else {
+    return undefined;
+  }
+};
+
+const calculateCoordinateDiff = (coord1: number[], coord2: number[]) => {
+  const [lng1, lat1] = coord1;
+  const [lng2, lat2] = coord2;
+  // Calculate the absolute differences between x and y coordinates
+  const longitudeDiff = Math.abs(lng2 - lng1);
+  const latitudeDiff = Math.abs(lat2 - lat1);
+
+  return { longitudeDiff, latitudeDiff };
+};
+
+export const calculateNewCoordinate = (
+  coord: number[],
+  distance: number,
+  bearing: number
+) => {
+  const [lng, lat] = coord;
+
+  // Function to convert degrees to radians
+  const toRadians = (degrees: number) => {
+    return degrees * (Math.PI / 180);
+  };
+
+  // Function to convert radians to degrees
+  const toDegrees = (radians: number) => {
+    return radians * (180 / Math.PI);
+  };
+
+  const earthRadius = 6371000; // approximate radius of Earth in meters
+
+  // Convert latitude and longitude from degrees to radians
+  const latRad = toRadians(lat);
+  const lonRad = toRadians(lng);
+
+  // Convert bearing from degrees to radians
+  const bearingRad = toRadians(bearing);
+
+  // Convert distance from meters to radians
+  const distanceRad = distance / earthRadius;
+
+  // Calculate new latitude using the Haversine formula
+  const newLatRad = Math.asin(
+    Math.sin(latRad) * Math.cos(distanceRad) +
+      Math.cos(latRad) * Math.sin(distanceRad) * Math.cos(bearingRad)
+  );
+
+  // Calculate new longitude using the Haversine formula
+  const newLonRad =
+    lonRad +
+    Math.atan2(
+      Math.sin(bearingRad) * Math.sin(distanceRad) * Math.cos(latRad),
+      Math.cos(distanceRad) - Math.sin(latRad) * Math.sin(newLatRad)
+    );
+
+  // Convert new latitude and longitude from radians to degrees
+  const newLat = toDegrees(newLatRad);
+  const newLon = toDegrees(newLonRad);
+
+  return [newLat, newLon];
+};

@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
-import { GeofenceMap } from "../components/Geofences/GeofenceMap";
 import { StatusBar } from "expo-status-bar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/utils";
 import { useAppSelector } from "../hooks/useAppSelector";
-import BottomSheet from "@gorhom/bottom-sheet";
 import { BORDER_RADIUS_MD, iconSize, spacing } from "../styles";
 import AppTextInput from "../components/Core/AppTextInput";
 import AppField from "../components/Core/AppField";
 import SelectModal from "../components/Modals/SelectModal";
-import { Geofence, StaticAsset, WeekDayId } from "../types";
+import { Geofence, StaticAsset } from "../types";
 import {
   geofenceAlertName,
   getInitialGeofenceIgnoreBetweenState,
@@ -26,7 +24,7 @@ import AppText from "../components/Core/AppText";
 import AppIcon from "../components/Core/AppIcon";
 import { GeoTypes } from "../utils/enums";
 import { AppBottomSheet } from "../components/Core/AppBottomSheet";
-import { EditGeofenceLayer } from "../components/Geofences/EditGeofenceLayer";
+import { GeofenceEditor } from "../components/Geofences/GeofenceEditor";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -114,9 +112,7 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      {geofence && <GeofenceMap geofence={geofenceState} />}
-      <EditGeofenceLayer />
-      <StatusBar style="dark" />
+      {geofenceState && <GeofenceEditor geofence={geofenceState} />}
       {geofenceState && (
         <AppBottomSheet
           // ref={bottomSheet}
@@ -245,6 +241,7 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
           </View>
         </AppBottomSheet>
       )}
+      <StatusBar style="dark" />
     </View>
   );
 };

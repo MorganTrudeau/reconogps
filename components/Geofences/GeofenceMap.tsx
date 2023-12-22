@@ -1,5 +1,12 @@
-import MapboxGL, { FillLayerStyle, LineLayerStyle } from "@rnmapbox/maps";
-import React, { useMemo } from "react";
+import MapboxGL, {
+  CircleLayerStyle,
+  FillLayerStyle,
+  LineLayerStyle,
+  MapView,
+  MarkerView,
+  SymbolLayerStyle,
+} from "@rnmapbox/maps";
+import React, { useMemo, useRef, useState } from "react";
 import AppMap from "../Core/AppMap";
 import { Geofence } from "../../types";
 import {
@@ -7,13 +14,27 @@ import {
   createCameraPadding,
   defaultCameraConfig,
   defaultCameraAnimationDuration,
+  distanceBetweenCoords,
+  createCircleCoords,
+  createSquareCoords,
 } from "../../utils/maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import { DrawGeofenceTool } from "../../types/geofences";
+import { DrawGeofenceTools } from "../../utils/enums";
 
-export const GeofenceMap = ({ geofence }: { geofence: Geofence }) => {
+export const GeofenceMap = ({
+  geofence,
+  activeDrawTool,
+}: {
+  geofence: Geofence;
+  activeDrawTool?: DrawGeofenceTool;
+}) => {
   const insets = useSafeAreaInsets();
 
   const { Lat: lat, Lng: lng } = geofence;
+
+  const map = useRef<MapView>(null);
 
   const defaultMapBounds = useMemo(() => {
     const bounds = getBoundsFromCoordinates(
@@ -29,10 +50,7 @@ export const GeofenceMap = ({ geofence }: { geofence: Geofence }) => {
     };
   }, [lat, lng]);
 
-  const geofenceShape: {
-    type: "FeatureCollection";
-    features: GeoJSON.FeatureCollection["features"];
-  } = useMemo(() => {
+  const geofenceCoords = useMemo(() => {
     const inputString = geofence.GeoPolygon;
 
     const pattern =
@@ -40,8 +58,6 @@ export const GeofenceMap = ({ geofence }: { geofence: Geofence }) => {
     const match = inputString.match(pattern);
 
     if (match) {
-      const name = match[1]; // Extracting the name dynamically
-
       const coordPattern = /([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)/g;
       let coordMatch;
       const coords = [];
@@ -50,63 +66,143 @@ export const GeofenceMap = ({ geofence }: { geofence: Geofence }) => {
         coords.push([parseFloat(coordMatch[1]), parseFloat(coordMatch[2])]);
       }
 
-      const result = {
-        name: name,
-        coords: coords,
-      };
-
-      return {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "Polygon",
-              // (result.name.charAt(0) +
-              //   result.name.substring(1).toLowerCase()) as "Polygon",
-              coordinates: [coords],
-            },
-          },
-          {
-            type: "Feature",
-            geometry: {
-              type: "LineString",
-              coordinates: coords,
-            },
-            properties: {},
-          },
-        ],
-      } as const;
+      return coords;
     } else {
-      return {
-        type: "FeatureCollection",
-        features: [],
-      };
+      return [];
     }
-  }, [geofence]);
+  }, []);
 
-  const handlePress = (e) => {
-    console.log("PRESS", e);
-  };
+  const firstDrawPoint = useRef<number[]>();
+  const [points, setPoints] = useState<number[][]>([]);
 
-  const handleTouchStart = (e) => {
-    console.log("TOUCH START", e);
+  const geofenceShape: {
+    type: "FeatureCollection";
+    features: GeoJSON.FeatureCollection["features"];
+  } = useMemo(() => {
+    const coords = points.length ? points : geofenceCoords;
+
+    const feature: {
+      type: "FeatureCollection";
+      features: GeoJSON.FeatureCollection["features"];
+    } = {
+      type: "FeatureCollection",
+      features: [],
+    };
+
+    if (coords.length < 2) {
+      feature.features.push({
+        type: "Feature",
+        geometry: {
+          type: "MultiPoint",
+          coordinates: coords,
+        },
+        properties: {},
+      });
+    } else if (coords.length < 4) {
+      feature.features.push({
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: coords,
+        },
+        properties: {},
+      });
+    } else {
+      feature.features.push({
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [coords],
+        },
+      });
+    }
+
+    return feature;
+  }, [points, geofenceCoords, activeDrawTool]);
+
+  // const handlePress = (feature: GeoJSON.Feature) => {
+  //   if (feature.geometry.type === "Point") {
+  //     const coords = feature.geometry.coordinates;
+  //     setPoints((p) => [...p, coords]);
+  //   }
+  // };
+
+  const handleTouchStart = async ({ nativeEvent }: GestureResponderEvent) => {
+    console.log(nativeEvent);
+    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+      return;
+    }
+    const point = await map.current?.getCoordinateFromView([
+      nativeEvent.locationX,
+      nativeEvent.locationY,
+    ]);
+
+    if (point) {
+      if (
+        activeDrawTool === DrawGeofenceTools.CIRCLE ||
+        activeDrawTool === DrawGeofenceTools.SQUARE
+      ) {
+        firstDrawPoint.current = point;
+      } else {
+        setPoints((p) => [...p, point]);
+      }
+    }
   };
-  const handleTouchMove = (e) => {
-    console.log("TOUCH MOVE", e);
+  const handleTouchMove = async ({ nativeEvent }: GestureResponderEvent) => {
+    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+      return;
+    }
+    const point = await map.current?.getCoordinateFromView([
+      nativeEvent.locationX,
+      nativeEvent.locationY,
+    ]);
+    if (point) {
+      if (
+        activeDrawTool === DrawGeofenceTools.CIRCLE ||
+        activeDrawTool === DrawGeofenceTools.SQUARE
+      ) {
+        if (activeDrawTool === DrawGeofenceTools.CIRCLE) {
+          const coord1 = firstDrawPoint.current;
+          if (coord1) {
+            const radius = distanceBetweenCoords(coord1, point);
+            const circleCoords = createCircleCoords(coord1, radius);
+            setPoints(circleCoords);
+          }
+        } else {
+          const coord1 = firstDrawPoint.current;
+          if (coord1) {
+            const squareCoords = createSquareCoords(coord1, point);
+            console.log(squareCoords);
+            if (squareCoords) {
+              setPoints(squareCoords);
+            }
+          }
+        }
+      } else {
+        setPoints((p) => {
+          const newPoints = p.length > 1 ? p.slice(0, p.length - 1) : p;
+          return [...newPoints, point];
+        });
+      }
+    }
   };
-  const handleTouchEnd = (e) => {
-    console.log("TOUCH END", e);
+  const handleTouchEnd = ({ nativeEvent }: GestureResponderEvent) => {
+    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+      return;
+    }
+    if (nativeEvent.touches.length > 1) {
+      return;
+    }
   };
 
   return (
     <AppMap
-      onPress={handlePress}
+      ref={map}
+      scrollEnabled={!activeDrawTool}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-
     >
       <MapboxGL.Camera
         defaultSettings={defaultCameraConfig}
@@ -116,12 +212,18 @@ export const GeofenceMap = ({ geofence }: { geofence: Geofence }) => {
       <MapboxGL.ShapeSource id="geofenceShape" shape={geofenceShape}>
         <MapboxGL.FillLayer id="fill" style={layerStyles.fill} />
         <MapboxGL.LineLayer id="line" style={layerStyles.line} />
+        <MapboxGL.CircleLayer id="circle" style={layerStyles.circle} />
       </MapboxGL.ShapeSource>
     </AppMap>
   );
 };
 
-const layerStyles: { fill: FillLayerStyle; line: LineLayerStyle } = {
+const layerStyles: {
+  fill: FillLayerStyle;
+  line: LineLayerStyle;
+  points: SymbolLayerStyle;
+  circle: CircleLayerStyle;
+} = {
   fill: {
     fillAntialias: true,
     fillColor: "red",
@@ -129,4 +231,14 @@ const layerStyles: { fill: FillLayerStyle; line: LineLayerStyle } = {
     fillOpacity: 0.1,
   },
   line: { lineWidth: 3, lineColor: "red" },
+  points: {
+    iconImage: require("../../assets/pin.png"),
+  },
+  circle: {
+    circleColor: "red",
+  },
 };
+
+const styles = StyleSheet.create({
+  marker: { height: 10, width: 10, borderRaidus: 5, backgroundColor: "red" },
+});

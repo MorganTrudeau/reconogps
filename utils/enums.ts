@@ -3,6 +3,14 @@ export const GeoTypes = {
   POLYGON: 2,
 };
 
+export const DrawGeofenceTools = {
+  CIRCLE: "circle",
+  POLYGON: "polygon",
+  SQUARE: "square",
+  EDIT: "edit",
+  ERASE: "erase",
+};
+
 export const CustomerTypes = {
   Agent: 2,
   Enterprise: 4,

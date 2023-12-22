@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { iconSize, spacing } from "../../styles";
 import AppIconButton from "../Core/AppIconButton";
@@ -6,26 +6,38 @@ import { useTheme } from "../../hooks/useTheme";
 import { getHeaderHeight } from "../../navigation/utils";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MaterialIcon } from "../../types/styles";
+import { DrawGeofenceTool } from "../../types/geofences";
 
-type Vector = "polygon" | "square" | "circle";
-
-const getVectorIconName = (vector: Vector): MaterialIcon => {
-  if (vector === "polygon") {
-    return "vector-polygon";
-  } else if (vector === "square") {
-    return "vector-square";
-  } else {
-    return "vector-circle";
+const getVectorIconName = (drawTool: DrawGeofenceTool): MaterialIcon => {
+  switch (drawTool) {
+    case "polygon":
+      return "vector-polygon";
+    case "square":
+      return "vector-square";
+    case "circle":
+      return "vector-circle";
+    case "edit":
+      return "pencil";
+    case "erase":
+      return "trash-can-outline";
+    default:
+      return "crosshairs-question";
   }
 };
 
-export const EditGeofenceLayer = () => {
+type Props = {
+  activeDrawTool: DrawGeofenceTool | undefined;
+  onDrawToolPress: (tool: DrawGeofenceTool) => void;
+};
+
+export const EditGeofenceLayer = ({
+  activeDrawTool,
+  onDrawToolPress,
+}: Props) => {
   const { theme, colors } = useTheme();
   const insets = useSafeAreaInsets();
 
-  const [activeVector, setActiveVector] = useState<Vector>();
-
-  const getButtonProps = (vector: Vector) => {
+  const getButtonProps = (vector: DrawGeofenceTool) => {
     return {
       theme,
       colors,
@@ -33,11 +45,10 @@ export const EditGeofenceLayer = () => {
       size: iconSize("xs"),
       style: [
         styles.iconButton,
-        vector === activeVector && { backgroundColor: colors.primary },
+        vector === activeDrawTool && { backgroundColor: colors.primary },
       ],
-      color: vector === activeVector ? colors.background : colors.primary,
-      onPress: () =>
-        setActiveVector((v) => (v === vector ? undefined : vector)),
+      color: vector === activeDrawTool ? colors.background : colors.primary,
+      onPress: () => onDrawToolPress(vector),
     };
   };
 
@@ -60,18 +71,8 @@ export const EditGeofenceLayer = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <AppIconButton
-          {...{ theme, colors }}
-          name="pencil"
-          size={iconSize("xs")}
-          style={styles.iconButton}
-        />
-        <AppIconButton
-          {...{ theme, colors }}
-          name="trash-can-outline"
-          size={iconSize("xs")}
-          style={styles.iconButton}
-        />
+        <AppIconButton {...getButtonProps("edit")} />
+        <AppIconButton {...getButtonProps("erase")} />
       </View>
     </View>
   );
