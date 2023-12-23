@@ -199,7 +199,7 @@ export type OverviewReportOption = { Name: string; Value: string };
 
 export type Geofence = {
   Address: string;
-  Alerts: number;
+  Alerts: 8 | 16 | 24;
   Alt: number;
   BeginDate: string | null;
   BeginTime: string;
@@ -212,10 +212,10 @@ export type Geofence = {
   EndDate: string | null;
   EndTime: string;
   GeoPolygon: string;
-  GeoType: number;
+  GeoType: 1 | 2;
   Icon: string;
   InSpeedLimit: number;
-  Inverse: number;
+  Inverse: 0 | 1;
   Lat: number;
   Lng: number;
   Name: string;
@@ -224,8 +224,8 @@ export type Geofence = {
   Relay: number;
   RelayTime: number;
   SelectedAssetList: { AsCode: string; IMEI: string }[];
-  Share: number;
-  State: number;
+  Share: 0 | 1;
+  State: 0 | 1;
   TimeZone: number;
   Unit: "MPS";
   Week: {

@@ -2,14 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
-import {
-  Image,
-  Pressable,
-  StatusBar,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import { useAppDispatch } from "../hooks/useAppDispatch";
+import { Pressable, useWindowDimensions, View } from "react-native";
 import AppMap from "../components/Core/AppMap";
 import AssetsDisplayModal, {
   AssetsDisplayModalRef,
@@ -19,9 +12,7 @@ import { getCombinedAssets, getDynamicAssets } from "../redux/selectors/assets";
 import MapboxGL, { RegionPayload, ShapeSource } from "@rnmapbox/maps";
 import { DynamicAsset } from "../types";
 import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
-import AssetMarkerView, {
-  MarkerProps,
-} from "../components/Maps/AssetMarkerView";
+import { MarkerProps } from "../components/Maps/AssetMarkerView";
 import {
   createCameraPadding,
   defaultBounds,
@@ -33,12 +24,8 @@ import {
 import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 import { Constants } from "../utils/constants";
 import AppText from "../components/Core/AppText";
-import { Colors, Theme } from "../types/styles";
-import { BORDER_RADIUS_SM, iconSize, spacing } from "../styles";
-import { useSelector } from "react-redux";
-import AppButton from "../components/Core/AppButton";
-import AppIcon from "../components/Core/AppIcon";
-import { IconSet } from "../utils/enums";
+import { Colors } from "../types/styles";
+import { BORDER_RADIUS_SM, spacing } from "../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
@@ -60,7 +47,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   const staticAssetEntities = useAppSelector(
     (state) => state.assets.staticData.entities
   );
-  const dispatch = useAppDispatch();
 
   const [selectedMarker, setSelectedMarker] = useState<{
     id: string;

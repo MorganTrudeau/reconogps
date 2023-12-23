@@ -1,7 +1,7 @@
 export const GeoTypes = {
   CIRCLE: 1,
   POLYGON: 2,
-};
+} as const;
 
 export const DrawGeofenceTools = {
   CIRCLE: "circle",

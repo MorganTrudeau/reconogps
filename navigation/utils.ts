@@ -40,7 +40,7 @@ export type RootStackParamList = {
     isOptimized: boolean;
   };
   notifications: undefined;
-  "manage-geofence": { geofenceCode: string };
+  "manage-geofence": undefined | { geofenceCode: string };
 };
 
 export const getDefaultStackOptions = (

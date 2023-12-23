@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { GeofenceMap } from "./GeofenceMap";
+import { GeofenceMap, Props as GeofenceMapProps } from "./GeofenceMap";
 import { EditGeofenceLayer } from "./EditGeofenceLayer";
-import { Geofence } from "../../types";
 import { DrawGeofenceTool } from "../../types/geofences";
 
-export const GeofenceEditor = ({ geofence }: { geofence: Geofence }) => {
+export const GeofenceEditor = ({
+  geofence,
+  onDrawComplete,
+}: Omit<GeofenceMapProps, "activeDrawTool">) => {
   const [activeDrawTool, setActiveDrawTool] = useState<DrawGeofenceTool>();
 
   const handleDrawToolPress = (tool: DrawGeofenceTool) => {
@@ -13,7 +15,11 @@ export const GeofenceEditor = ({ geofence }: { geofence: Geofence }) => {
 
   return (
     <>
-      <GeofenceMap geofence={geofence} activeDrawTool={activeDrawTool} />
+      <GeofenceMap
+        geofence={geofence}
+        activeDrawTool={activeDrawTool}
+        onDrawComplete={onDrawComplete}
+      />
       <EditGeofenceLayer
         activeDrawTool={activeDrawTool}
         onDrawToolPress={handleDrawToolPress}

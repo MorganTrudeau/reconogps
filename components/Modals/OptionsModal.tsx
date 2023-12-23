@@ -3,7 +3,7 @@ import { View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { iconSize, spacing } from "../../styles/";
-import { FeatherIcon, MaterialIcon, ThemeProps } from "../../types/styles";
+import { MaterialIcon, ThemeProps } from "../../types/styles";
 import AppText from "../Core/AppText";
 import { useTheme } from "../../hooks/useTheme";
 import AppIcon from "../Core/AppIcon";
@@ -35,11 +35,18 @@ type OptionModalProps = {
   options: Array<OptionModalItem>;
   onSelect?: () => void;
   HeaderComponent?: React.FC<any>;
+  onClosed?: () => void;
 };
 
 const OptionsModal = forwardRef<Modalize, OptionModalProps>(
   (
-    { title, description, options = [], HeaderComponent }: OptionModalProps,
+    {
+      title,
+      description,
+      options = [],
+      HeaderComponent,
+      onClosed,
+    }: OptionModalProps,
     ref
   ) => {
     const { theme, colors } = useTheme();
@@ -103,6 +110,7 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
             paddingTop: PADDING_TOP,
             paddingBottom: PADDING_BOTTOM,
           }}
+          onClosed={onClosed}
         >
           {(!!title || !!description) && (
             <View

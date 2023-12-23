@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { StatusBar } from "expo-status-bar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -12,7 +12,9 @@ import SelectModal from "../components/Modals/SelectModal";
 import { Geofence, StaticAsset } from "../types";
 import {
   geofenceAlertName,
+  getGeofenceCoords,
   getInitialGeofenceIgnoreBetweenState,
+  makeDefaultGeofence,
 } from "../utils/geofences";
 import { AppModalRef } from "../components/Core/AppModal";
 import AssetSelectModal from "../components/Assets/AssetSelectModal";
@@ -25,6 +27,11 @@ import AppIcon from "../components/Core/AppIcon";
 import { GeoTypes } from "../utils/enums";
 import { AppBottomSheet } from "../components/Core/AppBottomSheet";
 import { GeofenceEditor } from "../components/Geofences/GeofenceEditor";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { addGeofence, editGeofence } from "../redux/thunks/geofences";
+import { EditGeofenceParams } from "../types/api";
+import { useToast } from "../hooks/useToast";
+import { useAlert } from "../hooks/useAlert";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -33,6 +40,8 @@ type NavigationProps = NativeStackScreenProps<
 
 const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
+  const Toast = useToast();
+  const Alert = useAlert();
 
   const geofenceCode = route.params?.geofenceCode;
 
@@ -45,26 +54,29 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
       : undefined,
     staticAssets: state.assets.staticData.entities,
   }));
-
-  useEffect(() => {
-    if (!geofenceCode) {
-      navigation.goBack();
-    }
-  }, []);
+  const dispatch = useAppDispatch();
 
   const [geofenceState, setGeofenceState] = useState<Geofence>(
-    geofence as Geofence
+    geofence || makeDefaultGeofence()
   );
   const [ignoreBetween, setIgnoreBetween] = useState(
     getInitialGeofenceIgnoreBetweenState(geofenceState)
   );
-  const [mapState, setMapState] = useState({
-    lat: 0,
-    lng: 0,
-    radius: 0,
-    coords: [],
-    geoType: GeoTypes.CIRCLE,
+  const [mapState, setMapState] = useState<{
+    centerCoord: number[];
+    radius: number;
+    coords: number[][];
+    geoType: 1 | 2;
+  }>({
+    centerCoord: [geofenceState.Lng, geofenceState.Lat],
+    radius: geofenceState.Radius,
+    coords: getGeofenceCoords(geofenceState),
+    geoType: geofenceState.GeoType,
   });
+  const [loading, setLoading] = useState(false);
+
+  console.log("GEOFENCE", geofence);
+  console.log("MAPSTATE", mapState);
 
   const selectedAssetNames = useMemo(() => {
     return geofenceState.SelectedAssetList.reduce((acc, selectedAsset) => {
@@ -79,40 +91,94 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
   }, [staticAssets, geofenceState.SelectedAssetList]);
 
   const handleSave = async () => {
-    let data = {
-      Lat: mapState.lat,
-      Lng: mapState.lng,
+    let data: Omit<EditGeofenceParams, "MajorToken" | "MinorToken"> = {
+      Lat: mapState.centerCoord[1],
+      Lng: mapState.centerCoord[0],
       Radius: mapState.radius,
       GeoType: mapState.geoType,
-      GeoPolygon: "",
+
       Name: geofenceState.Name,
-      Alerts: geofenceState.Alerts,
+      Alerts:
+        geofenceState.Alerts === 24 ? "8,16" : geofenceState.Alerts.toString(),
       Address: geofenceState.Address,
-      AssetCodes: geofenceState.SelectedAssetList.map((a) => a.AsCode),
-      ContactCodes: geofenceState.ContactList.map((c) => c.Code),
+      AssetCodes: geofenceState.SelectedAssetList.map(
+        (a) => a.AsCode
+      ).toString(),
+      ContactCodes: geofenceState.ContactList.map((c) => c.Code).toString(),
       AlertConfigState: geofenceState.State,
       Share: geofenceState.Share,
 
-      Inverse: ignoreBetween.enabled ? 1 : 0,
+      Inverse: (ignoreBetween.enabled ? 1 : 0) as 0 | 1,
       BeginTime: moment(ignoreBetween.from).utc().format("HH:mm:ss"),
       EndTime: moment(ignoreBetween.to).utc().format("HH:mm:ss"),
-      DelayTime: 0,
-      CycleType: 3, // NONE = 0, TIME = 1, DATE = 2, WEEK = 3
+      DelayTime: 0 as 0,
+      CycleType: 3 as 3, // NONE = 0, TIME = 1, DATE = 2, WEEK = 3
       Days: ignoreBetween.weekdays.toString(),
+
       Code: geofence?.Code,
+
+      InSpeedLimit: 0,
+      RelayTime: 30,
+      Relay: 0,
     };
 
-    if (geofenceState.GeoType !== GeoTypes.CIRCLE) {
+    if (!data.Name) {
+      return Alert.alert("Missing Name", "Enter a name for this geofence.");
+    }
+    if (!data.AssetCodes.length) {
+      return Alert.alert("Missing Assets", "Add assets to this geofence.");
+    }
+    if (!data.Alerts) {
+      return Alert.alert(
+        "Missing Alarm Type",
+        "Select an alarm type for this geofence."
+      );
+    }
+    if (!mapState.coords.length) {
+      return Alert.alert("Missing Geofence", "Draw your geofence on the map.");
+    }
+    if (mapState.coords.length && mapState.coords.length < 4) {
+      return Alert.alert(
+        "Incomplete Geofence",
+        "Finish drawing your geofence. It should have at least for points."
+      );
+    }
+
+    if (data.GeoType !== GeoTypes.CIRCLE) {
       // if (!self.isClockwise(latlngs)) {
       //   latlngs = latlngs.reverse();
       // }
-      data.GeoPolygon = "POLYGON((" + mapState.coords.join(",") + "))";
+      data.GeoPolygon =
+        "POLYGON((" + mapState.coords.map((c) => c.join(" ")).join(",") + "))";
+    }
+
+    try {
+      setLoading(true);
+      if (data.Code) {
+        await dispatch(editGeofence(data));
+        Toast.show("Geofence edited successfully");
+      } else {
+        await dispatch(addGeofence(data));
+        Toast.show("Geofence created successfully");
+      }
+      setLoading(false);
+      navigation.goBack();
+    } catch (error) {
+      setLoading(false);
     }
   };
 
+  const geofenceComplete =
+    geofenceState.Name &&
+    geofenceState.Alerts &&
+    geofenceState.SelectedAssetList.length &&
+    mapState.coords.length > 3;
+
   return (
     <View style={theme.container}>
-      {geofenceState && <GeofenceEditor geofence={geofenceState} />}
+      {geofenceState && (
+        <GeofenceEditor geofence={geofenceState} onDrawComplete={setMapState} />
+      )}
       {geofenceState && (
         <AppBottomSheet
           // ref={bottomSheet}
@@ -130,26 +196,43 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
             <View style={styles.header}>
               <AppText style={theme.titleLarge}>Geofence</AppText>
 
-              <Pressable onPress={handleSave} style={theme.row}>
-                <AppText
-                  style={{ color: colors.primary, marginEnd: spacing("sm") }}
-                >
-                  Save
-                </AppText>
-                <AppIcon
-                  color={colors.primary}
-                  name={"check-circle"}
-                  size={iconSize("md")}
-                />
-              </Pressable>
+              {loading ? (
+                <ActivityIndicator color={colors.primary} />
+              ) : (
+                <Pressable onPress={handleSave} style={theme.row}>
+                  <AppText
+                    style={{
+                      color: geofenceComplete ? colors.primary : colors.empty,
+                      marginEnd: spacing("sm"),
+                    }}
+                  >
+                    Save
+                  </AppText>
+                  <AppIcon
+                    color={geofenceComplete ? colors.primary : colors.empty}
+                    name={"check-circle"}
+                    size={iconSize("md")}
+                  />
+                </Pressable>
+              )}
             </View>
             <AppField
               value={selectedAssetNames}
               onPress={() => assetSelectModal.current?.open()}
               placeholder="Assets"
             />
-            <AppTextInput value={geofenceState.Name} placeholder="Name" />
-            <AppTextInput value={geofenceState.Address} placeholder="Address" />
+            <AppTextInput
+              value={geofenceState.Name}
+              placeholder="Name"
+              onChangeText={(Name) => setGeofenceState((g) => ({ ...g, Name }))}
+            />
+            <AppTextInput
+              value={geofenceState.Address}
+              placeholder="Address"
+              onChangeText={(Address) =>
+                setGeofenceState((g) => ({ ...g, Address }))
+              }
+            />
             <AppField
               value={geofenceAlertName(geofenceState.Alerts)}
               placeholder="Alarm Type"
@@ -183,7 +266,7 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
               onChangeWeekDays={(ignoreOnDays) =>
                 setIgnoreBetween((i) => ({ ...i, weekdays: ignoreOnDays }))
               }
-              enabled={!!geofenceState.Week.length}
+              enabled={ignoreBetween.enabled}
               title={"Ignore Alarms Schedule"}
               onToggleEnabled={(ignoreEnabled) =>
                 setIgnoreBetween((i) => ({ ...i, enabled: ignoreEnabled }))
@@ -231,12 +314,17 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
               onSelect={(data: { id: number; name: string }[]) => {
                 setGeofenceState((g) => ({
                   ...g,
-                  Alerts: data.reduce((acc, d) => acc + d.id, 0),
+                  Alerts: data.reduce((acc, d) => acc + d.id, 0) as unknown as
+                    | 8
+                    | 16
+                    | 24,
                 }));
               }}
               hideSearch
               modalTitle="Alarm Type"
-              initialSelectedIds={[geofenceState.Alerts]}
+              initialSelectedIds={
+                geofenceState.Alerts === 24 ? [16, 8] : [geofenceState.Alerts]
+              }
             />
           </View>
         </AppBottomSheet>

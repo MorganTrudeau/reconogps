@@ -9,6 +9,32 @@ import { DynamicAsset, LatLng } from "../types";
 import { Translations } from "./translations";
 import { Constants } from "./constants";
 
+export const getMapStyleUrl = (
+  style: "light" | "dark" | "satellite" | "streets" | "outdoors"
+) => {
+  let styleUrl = "streets-v12";
+
+  switch (style) {
+    case "light":
+      styleUrl = "light-v11";
+      break;
+    case "dark":
+      styleUrl = "dark-v11";
+      break;
+    case "satellite":
+      styleUrl = "satellite-streets-v12";
+      break;
+    case "outdoors":
+      styleUrl = "outdoors-v12";
+      break;
+    case "streets":
+      styleUrl = "streets-v12";
+      break;
+  }
+
+  return `mapbox://styles/mapbox/${styleUrl}`;
+};
+
 export const getDirectionCardinal = (degrees: number) => {
   let ret: string = Translations.direction.unknown;
   switch (true) {
@@ -150,9 +176,13 @@ export const distanceBetweenCoords = (coords1: number[], coords2: number[]) => {
 };
 
 export const createCircleCoords = (coords: number[], radius: number) => {
+  if (radius === 0) {
+    return [];
+  }
+
   const [lng, lat] = coords;
 
-  const degreesBetweenPoints = 8; //45 sides
+  const degreesBetweenPoints = 4; //45 sides
   const numberOfPoints = Math.floor(360 / degreesBetweenPoints);
   const distRadians = radius / 6371000; // earth radius in meters
   const centerLatRadians = (lat * Math.PI) / 180;
@@ -246,4 +276,25 @@ const findCoordBearingPosition = (coord1: number[], coord2: number[]) => {
   } else {
     return undefined;
   }
+};
+
+export const findCenterCoordinate = (coordinates: number[][]) => {
+  if (coordinates.length === 0) {
+    return [0, 0]; // Return null if the array is empty
+  }
+
+  // Calculate the sum of x and y coordinates separately
+  let sumX = 0;
+  let sumY = 0;
+
+  for (let i = 0; i < coordinates.length; i++) {
+    sumX += coordinates[i][0]; // Adding x-coordinate
+    sumY += coordinates[i][1]; // Adding y-coordinate
+  }
+
+  // Calculate the average of x and y coordinates
+  const centerX = sumX / coordinates.length;
+  const centerY = sumY / coordinates.length;
+
+  return [centerX, centerY]; // Return the center coordinates as an array
 };

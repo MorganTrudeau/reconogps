@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { CombinedAsset, DynamicAsset, StaticAsset } from "../../types";
+import { CombinedAsset } from "../../types";
 import { RootState } from "../store";
+import { listOfEntities } from "./utils";
 
 const selectStaticAssetData = (state: RootState) => state.assets.staticData;
 const selectDynamicAssetData = (state: RootState) => state.assets.dynamicData;
@@ -9,14 +10,7 @@ export const getStaticAssets = createSelector(
   [selectStaticAssetData],
   (assetData) => {
     const { entities, ids } = assetData;
-
-    return ids.reduce((acc, id) => {
-      const asset = entities[id];
-      if (asset) {
-        return [...acc, asset];
-      }
-      return acc;
-    }, [] as StaticAsset[]);
+    return listOfEntities(ids, entities);
   }
 );
 
@@ -24,14 +18,7 @@ export const getDynamicAssets = createSelector(
   [selectDynamicAssetData],
   (assetData) => {
     const { entities, ids } = assetData;
-
-    return ids.reduce((acc, id) => {
-      const asset = entities[id];
-      if (asset) {
-        return [...acc, asset];
-      }
-      return acc;
-    }, [] as DynamicAsset[]);
+    return listOfEntities(ids, entities);
   }
 );
 

@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { SharedAsset, StaticAsset } from "../../types";
 import { RootState } from "../store";
+import { listOfEntities } from "./utils";
 
 const selectMySharedAssets = (state: RootState) =>
   state.sharedAssets.mySharedAssets;
@@ -11,14 +11,7 @@ export const getMySharedAssets = createSelector(
   [selectMySharedAssets],
   (sharedAssets) => {
     const { entities, ids } = sharedAssets;
-
-    return ids.reduce((acc, id) => {
-      const asset = entities[id];
-      if (asset) {
-        return [...acc, asset];
-      }
-      return acc;
-    }, [] as SharedAsset[]);
+    return listOfEntities(ids, entities);
   }
 );
 
@@ -26,13 +19,6 @@ export const getSubscribedAssets = createSelector(
   [selectSubscribedAssets],
   (sharedAssets) => {
     const { entities, ids } = sharedAssets;
-
-    return ids.reduce((acc, id) => {
-      const asset = entities[id];
-      if (asset) {
-        return [...acc, asset];
-      }
-      return acc;
-    }, [] as SharedAsset[]);
+    return listOfEntities(ids, entities);
   }
 );

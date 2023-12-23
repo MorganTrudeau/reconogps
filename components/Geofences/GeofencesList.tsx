@@ -3,40 +3,39 @@ import { Geofence } from "../../types";
 import { FlatList, FlatListProps, RefreshControl } from "react-native";
 import { GeofenceListItem } from "./GeofenceListItem";
 import { useNavigation } from "@react-navigation/native";
+import EmptyList from "../EmptyList";
+import { useTheme } from "../../hooks/useTheme";
+import { IconSet } from "../../utils/enums";
 
 type Props = {
   geofences: Geofence[];
   loading: boolean;
   onRefresh: () => void;
-  onEdit: (geofence: Geofence) => void;
+  onOptionsPress: (geofence: Geofence) => void;
+  onPress: (geofence: Geofence) => void;
 } & Omit<FlatListProps<Geofence>, "data" | "renderItem">;
 
 export const GeofencesList = ({
   geofences,
   loading,
   onRefresh,
-  onEdit,
+  onPress,
+  onOptionsPress,
   ...rest
 }: Props) => {
-  const navigation = useNavigation();
-
-  const toggleGeofenceActive = useCallback((geofence: Geofence) => {}, []);
-
-  const deleteGeofence = useCallback(async (geofence: Geofence) => {}, []);
+  const { theme, colors } = useTheme();
 
   const renderGeofence = useCallback(
     ({ item }: { item: Geofence }) => {
       return (
         <GeofenceListItem
           geofence={item}
-          onPress={onEdit}
-          onEdit={onEdit}
-          onToggleActive={toggleGeofenceActive}
-          onDelete={deleteGeofence}
+          onPress={onPress}
+          onOptionsPress={onOptionsPress}
         />
       );
     },
-    [onEdit, toggleGeofenceActive, deleteGeofence]
+    [onOptionsPress, onPress]
   );
 
   return (
@@ -45,6 +44,14 @@ export const GeofencesList = ({
       renderItem={renderGeofence}
       refreshControl={
         <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+      }
+      ListEmptyComponent={
+        <EmptyList
+          theme={theme}
+          colors={colors}
+          icon={IconSet.geofences}
+          message={"No geofences created"}
+        />
       }
       {...rest}
     />

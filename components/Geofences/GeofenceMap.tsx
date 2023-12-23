@@ -3,7 +3,6 @@ import MapboxGL, {
   FillLayerStyle,
   LineLayerStyle,
   MapView,
-  MarkerView,
   SymbolLayerStyle,
 } from "@rnmapbox/maps";
 import React, { useMemo, useRef, useState } from "react";
@@ -17,69 +16,61 @@ import {
   distanceBetweenCoords,
   createCircleCoords,
   createSquareCoords,
+  findCenterCoordinate,
 } from "../../utils/maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import {
+  GestureResponderEvent,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import { DrawGeofenceTool } from "../../types/geofences";
-import { DrawGeofenceTools } from "../../utils/enums";
+import { DrawGeofenceTools, GeoTypes } from "../../utils/enums";
+import { getGeofenceCoords } from "../../utils/geofences";
+
+export type Props = {
+  geofence: Geofence;
+  activeDrawTool?: DrawGeofenceTool;
+  onDrawComplete: (data: {
+    centerCoord: number[];
+    coords: number[][];
+    radius: number;
+    geoType: 1 | 2;
+  }) => void;
+};
 
 export const GeofenceMap = ({
   geofence,
   activeDrawTool,
-}: {
-  geofence: Geofence;
-  activeDrawTool?: DrawGeofenceTool;
-}) => {
+  onDrawComplete,
+}: Props) => {
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
 
   const { Lat: lat, Lng: lng } = geofence;
 
   const map = useRef<MapView>(null);
 
-  const defaultMapBounds = useMemo(() => {
-    const bounds = getBoundsFromCoordinates(
-      [{ latitude: lat, longitude: lng }],
-      (point) => point
-    );
-    return {
-      ...bounds,
-      ...createCameraPadding({
-        paddingBottom: insets.bottom,
-        paddingTop: insets.top + 60,
-      }),
-    };
-  }, [lat, lng]);
+  const geofenceVector = useMemo(
+    () => ({
+      geoType: geofence.GeoType,
+      coords: getGeofenceCoords(geofence),
+    }),
+    [geofence]
+  );
 
-  const geofenceCoords = useMemo(() => {
-    const inputString = geofence.GeoPolygon;
-
-    const pattern =
-      /(\w+)\(\(([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)(?:,\s*[-+]?\d+\.\d+\s+[-+]?\d+\.\d+)*\)\)/;
-    const match = inputString.match(pattern);
-
-    if (match) {
-      const coordPattern = /([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)/g;
-      let coordMatch;
-      const coords = [];
-
-      while ((coordMatch = coordPattern.exec(match[0])) !== null) {
-        coords.push([parseFloat(coordMatch[1]), parseFloat(coordMatch[2])]);
-      }
-
-      return coords;
-    } else {
-      return [];
-    }
-  }, []);
-
+  const lastActiveDrawTool = useRef<DrawGeofenceTool>();
   const firstDrawPoint = useRef<number[]>();
-  const [points, setPoints] = useState<number[][]>([]);
+  const circleRadius = useRef<number>(0);
+
+  const [drawCoords, setDrawPoints] = useState<number[][]>([]);
+  const [drawGeoType, setDrawGeoType] = useState<1 | 2>(2);
 
   const geofenceShape: {
     type: "FeatureCollection";
     features: GeoJSON.FeatureCollection["features"];
   } = useMemo(() => {
-    const coords = points.length ? points : geofenceCoords;
+    const coords = drawCoords.length ? drawCoords : geofenceVector.coords;
 
     const feature: {
       type: "FeatureCollection";
@@ -119,17 +110,24 @@ export const GeofenceMap = ({
     }
 
     return feature;
-  }, [points, geofenceCoords, activeDrawTool]);
+  }, [drawCoords, geofenceVector.coords, activeDrawTool]);
 
-  // const handlePress = (feature: GeoJSON.Feature) => {
-  //   if (feature.geometry.type === "Point") {
-  //     const coords = feature.geometry.coordinates;
-  //     setPoints((p) => [...p, coords]);
-  //   }
-  // };
+  const defaultMapBounds = useMemo(() => {
+    const bounds = getBoundsFromCoordinates(
+      geofenceVector.coords.length ? geofenceVector.coords : [[lng, lat]],
+      ([longitude, latitude]) => ({ latitude, longitude }),
+      0.0015
+    );
+    return {
+      ...bounds,
+      ...createCameraPadding({
+        paddingBottom: insets.bottom + height * 0.25,
+        paddingTop: insets.top + 60,
+      }),
+    };
+  }, [lat, lng]);
 
   const handleTouchStart = async ({ nativeEvent }: GestureResponderEvent) => {
-    console.log(nativeEvent);
     if (!activeDrawTool || nativeEvent.touches.length > 1) {
       return;
     }
@@ -139,14 +137,20 @@ export const GeofenceMap = ({
     ]);
 
     if (point) {
+      firstDrawPoint.current = point;
       if (
-        activeDrawTool === DrawGeofenceTools.CIRCLE ||
-        activeDrawTool === DrawGeofenceTools.SQUARE
+        activeDrawTool !== DrawGeofenceTools.CIRCLE &&
+        activeDrawTool !== DrawGeofenceTools.SQUARE
       ) {
-        firstDrawPoint.current = point;
-      } else {
-        setPoints((p) => [...p, point]);
+        setDrawPoints((p) =>
+          lastActiveDrawTool.current &&
+          activeDrawTool !== lastActiveDrawTool.current
+            ? [point]
+            : [...p, point]
+        );
       }
+      setDrawGeoType(activeDrawTool === DrawGeofenceTools.CIRCLE ? 1 : 2);
+      lastActiveDrawTool.current = activeDrawTool;
     }
   };
   const handleTouchMove = async ({ nativeEvent }: GestureResponderEvent) => {
@@ -165,9 +169,12 @@ export const GeofenceMap = ({
         if (activeDrawTool === DrawGeofenceTools.CIRCLE) {
           const coord1 = firstDrawPoint.current;
           if (coord1) {
-            const radius = distanceBetweenCoords(coord1, point);
-            const circleCoords = createCircleCoords(coord1, radius);
-            setPoints(circleCoords);
+            circleRadius.current = distanceBetweenCoords(coord1, point);
+            const circleCoords = createCircleCoords(
+              coord1,
+              circleRadius.current
+            );
+            setDrawPoints(circleCoords);
           }
         } else {
           const coord1 = firstDrawPoint.current;
@@ -175,12 +182,12 @@ export const GeofenceMap = ({
             const squareCoords = createSquareCoords(coord1, point);
             console.log(squareCoords);
             if (squareCoords) {
-              setPoints(squareCoords);
+              setDrawPoints(squareCoords);
             }
           }
         }
       } else {
-        setPoints((p) => {
+        setDrawPoints((p) => {
           const newPoints = p.length > 1 ? p.slice(0, p.length - 1) : p;
           return [...newPoints, point];
         });
@@ -191,8 +198,13 @@ export const GeofenceMap = ({
     if (!activeDrawTool || nativeEvent.touches.length > 1) {
       return;
     }
-    if (nativeEvent.touches.length > 1) {
-      return;
+    if (drawCoords.length > 3) {
+      onDrawComplete({
+        centerCoord: findCenterCoordinate(drawCoords),
+        coords: drawCoords,
+        radius: circleRadius.current,
+        geoType: drawGeoType,
+      });
     }
   };
 
@@ -212,7 +224,17 @@ export const GeofenceMap = ({
       <MapboxGL.ShapeSource id="geofenceShape" shape={geofenceShape}>
         <MapboxGL.FillLayer id="fill" style={layerStyles.fill} />
         <MapboxGL.LineLayer id="line" style={layerStyles.line} />
-        <MapboxGL.CircleLayer id="circle" style={layerStyles.circle} />
+        <MapboxGL.CircleLayer
+          id="circle"
+          style={{
+            ...layerStyles.circle,
+            visibility:
+              drawGeoType === GeoTypes.CIRCLE ||
+              geofenceVector.geoType === GeoTypes.CIRCLE
+                ? "none"
+                : "visible",
+          }}
+        />
       </MapboxGL.ShapeSource>
     </AppMap>
   );
