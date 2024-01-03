@@ -19,6 +19,7 @@ target 'recono' do
 
   use_frameworks! :linkage => :static
   $RNFirebaseAsStaticFramework = true
+  $RNMBX_USE_FRAMEWORKS = true
 
   # Flags change depending on the env values.
   flags = get_default_flags()

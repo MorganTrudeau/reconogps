@@ -8,6 +8,7 @@ import MapboxGL, {
   Terrain,
 } from "@rnmapbox/maps";
 import { MAP_TOKEN } from "@env";
+import { getMapStyleUrl } from "../../utils/maps";
 
 MapboxGL.setAccessToken(MAP_TOKEN);
 
@@ -22,7 +23,7 @@ const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
       attributionEnabled={false}
       logoEnabled={false}
       scaleBarEnabled={false}
-      // styleURL={getMapStyleUrl()}
+      styleURL={MapboxGL.StyleURL.SatelliteStreet}
       {...rest}
     >
       {children}
