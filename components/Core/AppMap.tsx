@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapboxGL, {
   Atmosphere,
@@ -8,6 +8,9 @@ import MapboxGL, {
 } from "@rnmapbox/maps";
 import { MAP_TOKEN } from "@env";
 import { getMapStyleUrl } from "../../utils/maps";
+import AppIconButton from "./AppIconButton";
+import { MapLayerSelect } from "../Maps/MapLayerSelect";
+import { MapLayerContext } from "../../context/MapLayerContext";
 
 MapboxGL.setAccessToken(MAP_TOKEN);
 
@@ -17,6 +20,8 @@ const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
   { children, ...rest },
   ref
 ) {
+  const mapLayerContext = useContext(MapLayerContext);
+
   return (
     <MapboxGL.MapView
       ref={ref}
@@ -24,7 +29,7 @@ const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
       attributionEnabled={false}
       logoEnabled={false}
       scaleBarEnabled={false}
-      styleURL={MapboxGL.StyleURL.SatelliteStreet}
+      styleURL={mapLayerContext.layerStyle}
       {...rest}
     >
       {children}

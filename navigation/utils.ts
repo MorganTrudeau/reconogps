@@ -41,6 +41,7 @@ export type RootStackParamList = {
   };
   notifications: undefined;
   "manage-geofence": undefined | { geofenceCode: string };
+  "street-view": { latitude: number; longitude: number };
 };
 
 export const getDefaultStackOptions = (

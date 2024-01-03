@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
@@ -9,9 +15,8 @@ import AssetsDisplayModal, {
 } from "../components/Assets/AssetsDisplayModal";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { getCombinedAssets, getDynamicAssets } from "../redux/selectors/assets";
-import MapboxGL, { RegionPayload, ShapeSource } from "@rnmapbox/maps";
+import MapboxGL, { ShapeSource } from "@rnmapbox/maps";
 import { DynamicAsset } from "../types";
-import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
 import { MarkerProps } from "../components/Maps/AssetMarkerView";
 import {
   createCameraPadding,
@@ -27,6 +32,8 @@ import AppText from "../components/Core/AppText";
 import { Colors } from "../types/styles";
 import { BORDER_RADIUS_SM, spacing } from "../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { MapLayerSelect } from "../components/Maps/MapLayerSelect";
+import { RegionPayload } from "@rnmapbox/maps/lib/typescript/src/components/MapView";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 type MarkerData = { id: string; longitude: number; latitude: number };
@@ -38,7 +45,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
   const bottomSheetRef = useRef<AssetsDisplayModalRef>(null);
   const modalHeightRef = useRef<number>(height * 0.23);
-  const mapCamera = useRef<CameraRef>(null);
+  const mapCamera = useRef<MapboxGL.Camera>(null);
   const zoomRef = useRef(0);
   const shapeSource = useRef<ShapeSource>(null);
 
@@ -55,9 +62,9 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   } | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<DynamicAsset | null>(null);
 
-  // useEffect(() => {
-  //   dispatch(loadStaticAssets());
-  // }, []);
+  useEffect(() => {
+    navigation.setOptions({ headerRight: () => <MapLayerSelect /> });
+  }, []);
 
   const handleMarkerPress = useCallback(
     (marker: { id: string; longitude: number; latitude: number }) => {

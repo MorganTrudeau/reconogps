@@ -39,7 +39,11 @@ import { iconSize } from "../styles";
 import { useNavigation } from "@react-navigation/native";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import ManageGeofenceScreen from "../screens/ManageGeofenceScreen";
-import { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import {
+  HeaderBackButtonProps,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack/lib/typescript/src/types";
+import StreetViewScreen from "../screens/StreetViewScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -235,7 +239,7 @@ const MainStack = () => {
   const { theme, colors } = useTheme();
   const defaultOptions = getDefaultStackOptions(theme, colors);
 
-  const transparentHeaderConfig = React.useRef({
+  const transparentHeaderConfig = React.useRef<NativeStackNavigationOptions>({
     title: "",
     headerTransparent: true,
     headerStyle: { backgroundColor: "transparent" },
@@ -345,6 +349,12 @@ const MainStack = () => {
         options={transparentHeaderConfig}
         // @ts-ignore
         component={AssetPlaybackScreen}
+      />
+      <Stack.Screen
+        name="street-view"
+        options={transparentHeaderConfig}
+        // @ts-ignore
+        component={StreetViewScreen}
       />
     </Stack.Navigator>
   );

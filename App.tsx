@@ -17,6 +17,7 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 import PopoverProvider from "./context/PopoverContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NotificationsManager from "./services/NotificationsManager";
+import { MapLayerProvider } from "./context/MapLayerContext";
 
 export default function App() {
   return (
@@ -34,7 +35,9 @@ export default function App() {
                       merchantIdentifier="merchant.com.reconogps.app.dev" // required for Apple Pay
                     >
                       <PopoverProvider>
-                        <NavigationStack />
+                        <MapLayerProvider>
+                          <NavigationStack />
+                        </MapLayerProvider>
                       </PopoverProvider>
                     </StripeProvider>
                   </PortalProvider>
