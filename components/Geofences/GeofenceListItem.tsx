@@ -50,6 +50,7 @@ export const GeofenceListItem = ({
           color={colors.primary}
           size={iconSize("md")}
           onPress={() => onOptionsPress(geofence)}
+          style={styles.icon}
         />
       )}
     </Pressable>
@@ -71,4 +72,5 @@ const styles = StyleSheet.create({
     borderRadius: STATE_INDICATOR_SIZE / 2,
     marginRight: spacing("md"),
   },
+  icon: { marginRight: -spacing("sm") },
 });

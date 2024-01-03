@@ -16,13 +16,17 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation/utils";
 import { AssetDetail } from "../components/Assets/AssetDetail";
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetFlatList,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
 import { AssetPlayback } from "../components/Assets/AssetPlayback";
 import { StaticAsset } from "../types";
 import { spacing } from "../styles";
 import { FormContext } from "../context/FormContext";
+import { AssetGeofenceList } from "../components/Assets/AssetGeofenceList";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -178,6 +182,18 @@ const DummyRoute = (props: SceneProps) => {
             navigation={props.route.navigation}
           />
         </BottomSheetScrollView>
+      );
+    case "geofence":
+      return (
+        <AssetGeofenceList
+          assetId={props.route.asset.id}
+          navigation={props.route.navigation}
+          ListComponent={BottomSheetFlatList}
+          contentContainerStyle={{
+            paddingBottom: insets.bottom + spacing("md"),
+            paddingHorizontal: spacing("lg"),
+          }}
+        />
       );
     default:
       return null;
