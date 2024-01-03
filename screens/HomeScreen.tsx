@@ -346,7 +346,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
             belowLayerID="pointCount"
             filter={["has", "point_count"]}
             style={{
-              circlePitchAlignment: "map",
+              // circlePitchAlignment: "map",
               circleColor: colors.primary,
               circleRadius: [
                 "step",
@@ -429,7 +429,7 @@ const layerStyles = {
   clusterCount: {
     textField: "{point_count}",
     textSize: 12,
-    textPitchAlignment: "map",
+    // textPitchAlignment: "viewport",
   },
 };
 

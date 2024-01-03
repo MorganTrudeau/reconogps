@@ -71,7 +71,7 @@ export const EditGeofenceLayer = ({
       </View>
 
       <View style={styles.buttonGroup}>
-        <AppIconButton {...getButtonProps("edit")} />
+        {/* <AppIconButton {...getButtonProps("edit")} /> */}
         <AppIconButton {...getButtonProps("erase")} />
       </View>
     </View>
@@ -79,6 +79,6 @@ export const EditGeofenceLayer = ({
 };
 
 const styles = StyleSheet.create({
-  buttonGroup: { marginBottom: spacing("xl") },
+  buttonGroup: { marginBottom: spacing("lg") },
   iconButton: { marginBottom: spacing("md"), padding: spacing("md") },
 });

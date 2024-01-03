@@ -127,8 +127,13 @@ export const GeofenceMap = ({
     };
   }, [lat, lng]);
 
+  const isDrawing =
+    activeDrawTool === DrawGeofenceTools.CIRCLE ||
+    activeDrawTool === DrawGeofenceTools.SQUARE ||
+    activeDrawTool === DrawGeofenceTools.POLYGON;
+
   const handleTouchStart = async ({ nativeEvent }: GestureResponderEvent) => {
-    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+    if (!isDrawing || nativeEvent.touches.length > 1) {
       return;
     }
     const point = await map.current?.getCoordinateFromView([
@@ -154,7 +159,7 @@ export const GeofenceMap = ({
     }
   };
   const handleTouchMove = async ({ nativeEvent }: GestureResponderEvent) => {
-    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+    if (!isDrawing || nativeEvent.touches.length > 1) {
       return;
     }
     const point = await map.current?.getCoordinateFromView([
@@ -195,7 +200,7 @@ export const GeofenceMap = ({
     }
   };
   const handleTouchEnd = ({ nativeEvent }: GestureResponderEvent) => {
-    if (!activeDrawTool || nativeEvent.touches.length > 1) {
+    if (!isDrawing || nativeEvent.touches.length > 1) {
       return;
     }
     if (drawCoords.length > 3) {
@@ -211,7 +216,7 @@ export const GeofenceMap = ({
   return (
     <AppMap
       ref={map}
-      scrollEnabled={!activeDrawTool}
+      scrollEnabled={!isDrawing}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -221,7 +226,15 @@ export const GeofenceMap = ({
         animationDuration={defaultCameraAnimationDuration}
         bounds={defaultMapBounds}
       />
-      <MapboxGL.ShapeSource id="geofenceShape" shape={geofenceShape}>
+      <MapboxGL.ShapeSource
+        id="geofenceShape"
+        shape={geofenceShape}
+        onPress={(e) => {
+          if (activeDrawTool === DrawGeofenceTools.ERASE) {
+            setDrawPoints([]);
+          }
+        }}
+      >
         <MapboxGL.FillLayer id="fill" style={layerStyles.fill} />
         <MapboxGL.LineLayer id="line" style={layerStyles.line} />
         <MapboxGL.CircleLayer

@@ -7,11 +7,9 @@ import MapboxGL, {
   SkyLayer,
   Terrain,
 } from "@rnmapbox/maps";
-import { getMapStyleUrl } from "../../utils/maps";
+import { MAP_TOKEN } from "@env";
 
-MapboxGL.setAccessToken(
-  "sk.eyJ1IjoicmVjb25vZ3BzIiwiYSI6ImNsZGRvbmVscTAwNHczcHFxOWd6cHFnZ3gifQ.6H6bpyJG6L6NAafD9Ds4AQ"
-);
+MapboxGL.setAccessToken(MAP_TOKEN);
 
 const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
   { children, ...rest },
@@ -24,7 +22,7 @@ const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
       attributionEnabled={false}
       logoEnabled={false}
       scaleBarEnabled={false}
-      styleURL={getMapStyleUrl("satellite")}
+      // styleURL={getMapStyleUrl()}
       {...rest}
     >
       {children}
