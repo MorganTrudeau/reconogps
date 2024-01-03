@@ -2,7 +2,6 @@ import React, { forwardRef } from "react";
 import { StyleSheet } from "react-native";
 import MapboxGL, {
   Atmosphere,
-  MapViewProps,
   RasterDemSource,
   SkyLayer,
   Terrain,
@@ -11,6 +10,8 @@ import { MAP_TOKEN } from "@env";
 import { getMapStyleUrl } from "../../utils/maps";
 
 MapboxGL.setAccessToken(MAP_TOKEN);
+
+type MapViewProps = React.ComponentProps<typeof MapboxGL.MapView>;
 
 const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
   { children, ...rest },
