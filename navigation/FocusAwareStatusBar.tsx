@@ -6,6 +6,8 @@ import { StatusBar, StatusBarProps } from "expo-status-bar";
 const FocusAwareStatusBar = (props: StatusBarProps) => {
   const isFocused = useIsFocused();
 
+  // useEffect(() => {}, []);
+
   return isFocused ? <StatusBar {...props} /> : null;
 };
 

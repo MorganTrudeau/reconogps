@@ -8,7 +8,7 @@ import React, {
 import { RootStackParamList } from "../navigation/utils";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTheme } from "../hooks/useTheme";
-import { Pressable, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import AppMap from "../components/Core/AppMap";
 import AssetsDisplayModal, {
   AssetsDisplayModalRef,
@@ -26,7 +26,6 @@ import {
   defaultCameraPadding,
   getBoundsFromCoordinates,
 } from "../utils/maps";
-import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 import { Constants } from "../utils/constants";
 import AppText from "../components/Core/AppText";
 import { Colors } from "../types/styles";
@@ -68,6 +67,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
   const handleMarkerPress = useCallback(
     (marker: { id: string; longitude: number; latitude: number }) => {
+      console.log(marker, selectedMarker);
       if (selectedMarker?.id === marker.id) {
         const asset = combinedAssets.find(
           (asset) => asset.staticData.id === marker.id
@@ -183,12 +183,13 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
       }),
       0.0005
     );
+    console.log(modalHeightRef.current);
     mapCamera.current?.setCamera({
       animationDuration: defaultCameraAnimationDuration,
       bounds: {
         ...bounds,
         ...createCameraPadding({
-          paddingBottom: paddingBottom || modalHeightRef.current,
+          paddingBottom: (paddingBottom || modalHeightRef.current) + 30,
         }),
       },
     });
@@ -253,32 +254,40 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      <FocusAwareStatusBar style="dark" />
       <AppMap
         onPress={handleMapPress}
         onRegionIsChanging={handleRegionIsChange}
       >
         <MapboxGL.Images images={{ pin: require("../assets/pin.png") }} />
 
-        {selectedMarker && (
+        {selectedMarker && !selectedAsset && (
           <MapboxGL.MarkerView
             anchor={{
               x: 0.5,
-              y: 1,
+              y: 2,
             }}
             coordinate={[selectedMarker.longitude, selectedMarker.latitude]}
           >
             <Pressable onPress={() => handleMarkerPress(selectedMarker)}>
-              {!selectedAsset && (
-                <CustomCalloutView
-                  colors={colors}
-                  markerData={selectedMarker}
-                  onViewDetails={handleMarkerPress}
-                />
-              )}
+              <CustomCalloutView
+                colors={colors}
+                markerData={selectedMarker}
+                onViewDetails={handleMarkerPress}
+              />
             </Pressable>
           </MapboxGL.MarkerView>
         )}
+
+        {/* {selectedMarker && (
+          <MapboxGL.PointAnnotation
+            id="selected-marker"
+            coordinate={[selectedMarker.longitude, selectedMarker.latitude]}
+            title={"TITLE"}
+          >
+            <View style={styles.annotationContainer} />
+            <MapboxGL.Callout title="This is an empty example" />
+          </MapboxGL.PointAnnotation>
+        )} */}
 
         <MapboxGL.Camera
           defaultSettings={defaultCameraConfig}
@@ -333,11 +342,14 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
                 props?.onPress?.(markerProps[index]);
               }
 
-              mapCamera.current?.moveTo(
+              mapCamera.current?.setCamera({
+                animationDuration: 400,
                 // @ts-ignore
-                point.features[0].geometry.coordinates,
-                400
-              );
+                centerCoordinate: point.features[0].geometry.coordinates,
+                padding: createCameraPadding({
+                  paddingBottom: modalHeightRef.current,
+                }),
+              });
             }
           }}
           cluster
@@ -417,6 +429,22 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
 export default HomeScreen;
 
+const ANNOTATION_SIZE = 20;
+
+const styles = StyleSheet.create({
+  annotationContainer: {
+    alignItems: "center",
+    backgroundColor: "#e5b2ae",
+    borderColor: "rgba(0, 0, 0, 0.45)",
+    borderRadius: ANNOTATION_SIZE / 2,
+    borderWidth: StyleSheet.hairlineWidth,
+    height: ANNOTATION_SIZE,
+    justifyContent: "center",
+    overflow: "hidden",
+    width: ANNOTATION_SIZE,
+  },
+});
+
 const layerStyles = {
   lineLayer: {
     lineColor: "#3e8feb",
@@ -461,7 +489,6 @@ const CustomCalloutView = ({
         backgroundColor: colors.background,
         padding: spacing("md"),
         borderRadius: BORDER_RADIUS_SM,
-        marginBottom: 35,
       }}
     >
       <AppText>{staticAsset?.name}</AppText>

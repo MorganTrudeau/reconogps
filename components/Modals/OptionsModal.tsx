@@ -227,7 +227,11 @@ export const OptionItem = ({
         {option.loading ? (
           <ActivityIndicator color={colors.primary} />
         ) : option.selected ? (
-          <AppIcon name={"check-circle"} color={colors.primary} />
+          <AppIcon
+            name={"check-circle"}
+            color={colors.primary}
+            size={iconSize("md")}
+          />
         ) : null}
       </View>
     </View>

@@ -1,37 +1,326 @@
 {
   "project_info": {
-    "project_number": "469721161763",
-    "project_id": "reconogps",
-    "storage_bucket": "reconogps.appspot.com"
+    "project_number": "656893750954",
+    "firebase_url": "https://monitoring-app-7a019.firebaseio.com",
+    "project_id": "monitoring-app-7a019",
+    "storage_bucket": "monitoring-app-7a019.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:469721161763:android:fa6fb0f9f8f61b56e19196",
+        "mobilesdk_app_id": "1:656893750954:android:a91d7307ec1c0cb97a2ad3",
         "android_client_info": {
-          "package_name": "com.reconogps.app"
+          "package_name": "com.boatwatch.gps"
         }
       },
       "oauth_client": [
         {
-          "client_id": "469721161763-40halvecjt8ao4gkncunsnaiu8d0m08i.apps.googleusercontent.com",
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_PIhs7IP1oxDJ4_tVbQsntatliGEoj5w"
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "469721161763-40halvecjt8ao4gkncunsnaiu8d0m08i.apps.googleusercontent.com",
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "469721161763-eabka28q3eb74c1emqirokdkdp2hh3m9.apps.googleusercontent.com",
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:b69e53c773f4753a7a2ad3",
+        "android_client_info": {
+          "package_name": "com.cbhgroup.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:d03d9faecd58e5587a2ad3",
+        "android_client_info": {
+          "package_name": "com.petwatch.track"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:87894ffe494959357a2ad3",
+        "android_client_info": {
+          "package_name": "com.pillalogps.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:7e68f419a12b3c567a2ad3",
+        "android_client_info": {
+          "package_name": "com.prestartsmartostrich.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:b37f98ba6698f5047a2ad3",
+        "android_client_info": {
+          "package_name": "com.pvs.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:db128c6dbc34d5ff7a2ad3",
+        "android_client_info": {
+          "package_name": "com.qtmonitoring.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:cbc35721ab769cc17a2ad3",
+        "android_client_info": {
+          "package_name": "com.reconogps.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reconogps.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656893750954:android:cfbec46323175a897a2ad3",
+        "android_client_info": {
+          "package_name": "com.selftrack.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUSvgvv_Yl8WbBNDvS0hEPzNYCOOWRNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656893750954-qoo0391qb2c98mc9mrh65q5kps05cv91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.reconogps.app"

@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";
-import { StatusBar } from "expo-status-bar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/utils";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -329,7 +328,6 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
           </View>
         </AppBottomSheet>
       )}
-      <StatusBar style="dark" />
     </View>
   );
 };

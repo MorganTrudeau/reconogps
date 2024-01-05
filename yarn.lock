@@ -1715,6 +1715,13 @@
   dependencies:
     "invariant" "^2.2.4"
 
+"@react-native-community/push-notification-ios@^1.10.1", "@react-native-community/push-notification-ios@^1.11.0":
+  "integrity" "sha512-nfkUs8P2FeydOCR4r7BNmtGxAxI22YuGP6RmqWt6c8EEMUpqvIhNKWkRSFF3pHjkgJk2tpRb9wQhbezsqTyBvA=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/push-notification-ios/-/push-notification-ios-1.11.0.tgz"
+  "version" "1.11.0"
+  dependencies:
+    "invariant" "^2.2.4"
+
 "@react-native-community/slider@4.2.4":
   "integrity" "sha512-uY51UoipQW4ELnFWMU6rTHRc4EUYaW+Z1O9Teijej6NYVYdUcUKq+t7WeBGjMAEc1ipyooMeBqRXToWO5zAU2Q=="
   "resolved" "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.2.4.tgz"
@@ -1732,6 +1739,11 @@
 "@react-native-firebase/functions@^17.4.0":
   "integrity" "sha512-kWRCfsEdDfnmiaj/nxl7UOO+TVQHa4bFhldHO6PgUBjMRYQRWtLPk+iFZM9iMQes9HxnRRJOpoLJPu67aFi4ww=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/functions/-/functions-17.4.0.tgz"
+  "version" "17.4.0"
+
+"@react-native-firebase/messaging@^17.4.0":
+  "integrity" "sha512-RSiBBfyJ3K9G6TQfZc09XaGpxB9xlP5m9DYkqjbNIqnnTiahF90770lTAS65L1Ha78vCwVO2swIlk32XbcMcMQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-17.4.0.tgz"
   "version" "17.4.0"
 
 "@react-native/assets@1.0.0":
@@ -2023,6 +2035,11 @@
   "integrity" "sha512-ZxX+dU/yoQc0jTk+/NWttkiuXceJyN5FpOSqDl0WynN5GDzxwH7OMruQ47qcY8llo2RD3irjvzJ9BwC8gDiq0A=="
   "resolved" "https://registry.npmjs.org/@types/react-native-dotenv/-/react-native-dotenv-0.2.0.tgz"
   "version" "0.2.0"
+
+"@types/react-native-push-notification@^8.1.4":
+  "integrity" "sha512-qXu/NcQ7YSk5ZveDMNKFBQkLt9W5FCde3be+h8fYbEnmvd5O+v5m318XGhh8AMPXURAV9pSB5Ads08Wc0KTS7A=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-push-notification/-/react-native-push-notification-8.1.4.tgz"
+  "version" "8.1.4"
 
 "@types/react-native@~0.70.6":
   "integrity" "sha512-jvs5QMOrlyi0ScfT5Brha2roDoOWtbIOadNkp0jsueVen5+pH4SQAYtzL6xu0+dIcx3J/5LtZ/JYby2C1/zUug=="
@@ -6074,6 +6091,16 @@
   "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.0.1.tgz"
   "version" "6.0.1"
 
+"react-native-permissions@^4.0.2":
+  "integrity" "sha512-ke/YE6VrSkCcLLI/AUTg1EXU9xn9ATdEgs8mjPU6Dy1QPmw3UlWysjzKs4M9FOVLmGrE6RtYPHfHugfQZas8GA=="
+  "resolved" "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-4.0.2.tgz"
+  "version" "4.0.2"
+
+"react-native-push-notification@^8.1.1":
+  "integrity" "sha512-XpBtG/w+a6WXTxu6l1dNYyTiHnbgnvjoc3KxPTxYkaIABRmvuJZkFxqruyGvfCw7ELAlZEAJO+dthdTabCe1XA=="
+  "resolved" "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz"
+  "version" "8.1.1"
+
 "react-native-reanimated@>= 1.0.0", "react-native-reanimated@>=2.2.0", "react-native-reanimated@~2.12.0":
   "integrity" "sha512-nrlPyw+Hx9u4iJhZk9PoTvDo/QmVAd+bo7OK9Tv3hveNEF9++5oig/g3Uv9V93shy9avTYGsUprUvAEt/xdzeQ=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.12.0.tgz"
@@ -6128,7 +6155,7 @@
     "escape-string-regexp" "2.0.0"
     "invariant" "2.2.4"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@> 0.50.0", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.59", "react-native@>=0.59.9", "react-native@>=0.65.0", "react-native@0.70.8":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@> 0.50.0", "react-native@>=0.33", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.58.4", "react-native@>=0.59", "react-native@>=0.59.9", "react-native@>=0.65.0", "react-native@>=0.70.0", "react-native@0.70.8":
   "integrity" "sha512-O3ONJed9W/VEEVWsbZcwyMDhnEvw7v9l9enqWqgbSGLzHfh6HeIGMCNmjz+kRsHnC7AiF47fupWfgYX7hNnhoQ=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.8.tgz"
   "version" "0.70.8"
@@ -6191,7 +6218,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0", "react@^18.1.0", "react@> 15.0.0", "react@>=16.6.1", "react@>=17.0.0", "react@18.1.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0", "react@^18.1.0", "react@> 15.0.0", "react@>=16.6.1", "react@>=16.6.3", "react@>=17.0.0", "react@>=18.1.0", "react@18.1.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"

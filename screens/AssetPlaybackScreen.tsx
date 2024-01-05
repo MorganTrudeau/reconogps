@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import {
+  ActivityIndicator,
   Image,
   LayoutChangeEvent,
   Pressable,
@@ -47,14 +48,12 @@ import {
   defaultCameraConfig,
   getBoundsFromCoordinates,
 } from "../utils/maps";
-import { CameraRef } from "@rnmapbox/maps/javascript/components/Camera";
 import {
   getTripReport,
   loadPlayback,
   optimizePlaybackHistory,
 } from "../api/playback";
 import { EventIcons } from "../utils/constants";
-import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../hooks/useTheme";
 import AppText from "../components/Core/AppText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -100,7 +99,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
 
   const popoverContext = useContext(PopoverContext);
 
-  const mapCamera = useRef<CameraRef>(null);
+  const mapCamera = useRef<MapboxGL.Camera>(null);
   const shapeSource = useRef<MapboxGL.ShapeSource>(null);
   const bottomSheet = useRef<BottomSheet>(null);
 
@@ -125,7 +124,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
   }, [playbackHistory, playbackEvents]);
 
   const [playbackDataIndex, setPlaybackDataIndex] = useState(-1);
-
+  const [loading, setLoading] = useState(true);
   const [playerState, setPlayerState] = useState({ playing: false, speed: 1 });
   const { playing, speed } = playerState;
 
@@ -225,6 +224,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
       return;
     }
     try {
+      setLoading(true);
       const _playbackData = await loadPlayback(
         minorToken,
         code,
@@ -260,9 +260,11 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
       }
 
       setPlaybackEvents(formattedPlaybackEvents);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
-      Alert.alert("Playback not loaded", "");
+      Alert.alert("Playback not loaded", "Please go back and try again.");
     }
   };
 
@@ -664,7 +666,30 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         />
       </BottomSheet>
 
-      <StatusBar style={"dark"} />
+      {loading && (
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            { justifyContent: "center", alignItems: "center" },
+          ]}
+        >
+          <View
+            style={[
+              StyleSheet.absoluteFillObject,
+              { backgroundColor: colors.background, opacity: 0.3 },
+            ]}
+          />
+          <View
+            style={{
+              borderRadius: BORDER_RADIUS_MD,
+              backgroundColor: colors.surface,
+              padding: spacing("md"),
+            }}
+          >
+            <ActivityIndicator color={colors.primary} />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

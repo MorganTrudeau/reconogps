@@ -14,9 +14,9 @@ type NavigationProps = NativeStackScreenProps<
 const NotificationsScreen = () => {
   const { theme } = useTheme();
 
-  //   const notifications  = useSelector(
-  //     (state: RootState) => state.notifications.data
-  //   );
+  const notifications = useSelector(
+    (state: RootState) => state.notifications.data
+  );
 
   return <View style={theme.container}></View>;
 };

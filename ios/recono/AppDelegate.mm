@@ -9,6 +9,9 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import <UserNotifications/UserNotifications.h>
+#import <RNCPushNotificationIOS.h>
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -59,6 +62,10 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [self.window makeKeyAndVisible];
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  // Define UNUserNotificationCenter
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
 
   return YES;
 }
@@ -112,19 +119,36 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+  [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
+  [RNCPushNotificationIOS didFailToRegisterForRemoteNotificationsWithError:error];
   return [super application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+  [RNCPushNotificationIOS didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
   return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+// Required for localNotification event
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler
+{
+  [RNCPushNotificationIOS didReceiveNotificationResponse:response];
+}
+
+//Called when a notification is delivered to a foreground app.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+  completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
 }
 
 #if RCT_NEW_ARCH_ENABLED

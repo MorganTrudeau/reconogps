@@ -74,7 +74,6 @@ const AssetListScreen = ({
 
   return (
     <>
-      <FocusAwareStatusBar style="dark" />
       <BottomSheetFlatList
         data={assets}
         renderItem={renderItem}

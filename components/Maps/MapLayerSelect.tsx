@@ -4,18 +4,17 @@ import AppIconButton from "../Core/AppIconButton";
 import { StyleURL } from "@rnmapbox/maps";
 import OptionsModal, { OptionModalItem } from "../Modals/OptionsModal";
 import { AppModalRef } from "../Core/AppModal";
-import { View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { iconSize, spacing } from "../../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { getHeaderHeight } from "../../navigation/utils";
 import { MapLayerContext } from "../../context/MapLayerContext";
 
 const layerStyles = [
   StyleURL.Street,
-  StyleURL.SatelliteStreet,
   StyleURL.Light,
   StyleURL.Dark,
   StyleURL.Satellite,
+  StyleURL.SatelliteStreet,
   StyleURL.TrafficDay,
   StyleURL.TrafficNight,
 ] as const;
@@ -39,11 +38,8 @@ const getLayerTitle = (layerStyle: StyleURL) => {
   }
 };
 
-const getLayerImage = (layerStyle: StyleURL) => {};
-
 export const MapLayerSelect = () => {
   const { theme, colors } = useTheme();
-  const insets = useSafeAreaInsets();
 
   const mapLayerContext = useContext(MapLayerContext);
 
@@ -57,8 +53,9 @@ export const MapLayerSelect = () => {
         optionsModal.current?.close();
         mapLayerContext.setLayerStyle(layerStyle);
       },
+      selected: layerStyle === mapLayerContext.layerStyle,
     }));
-  }, []);
+  }, [mapLayerContext.layerStyle]);
 
   const openOptions = useCallback(() => {
     console.log(optionsModal.current);

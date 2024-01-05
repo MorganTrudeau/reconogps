@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>469721161763-eabka28q3eb74c1emqirokdkdp2hh3m9.apps.googleusercontent.com</string>
+	<string>656893750954-3hvofsjsgpokmb9q699eeu66igao73o7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.469721161763-eabka28q3eb74c1emqirokdkdp2hh3m9</string>
+	<string>com.googleusercontent.apps.656893750954-3hvofsjsgpokmb9q699eeu66igao73o7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCJscPhnQJMLTU89yhhfKOzN4Lky_tTbBQ</string>
+	<string>AIzaSyAxuzsOtxY1WBQa_AxhTgcT6Avc5BWyEgA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>469721161763</string>
+	<string>656893750954</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.reconogps.app</string>
 	<key>PROJECT_ID</key>
-	<string>reconogps</string>
+	<string>monitoring-app-7a019</string>
 	<key>STORAGE_BUCKET</key>
-	<string>reconogps.appspot.com</string>
+	<string>monitoring-app-7a019.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:469721161763:ios:9821ec84463b8dc6e19196</string>
+	<string>1:656893750954:ios:7aeed76d5f7d5c297a2ad3</string>
+	<key>DATABASE_URL</key>
+	<string>https://monitoring-app-7a019.firebaseio.com</string>
 </dict>
 </plist>

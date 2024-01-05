@@ -6,10 +6,12 @@ import * as NotificationApis from "../../api/notifications";
 export const loadNotifications = createAsyncThunk(
   "notifications/load",
   (_, thunkApi) => {
-    const { majorToken, minorToken } = (thunkApi.getState() as RootState).auth;
-    if (!(majorToken && minorToken)) {
+    const { majorToken, minorToken, deviceToken } = (
+      thunkApi.getState() as RootState
+    ).auth;
+    if (!(majorToken && minorToken && deviceToken)) {
       throw Errors.InvalidAuth;
     }
-    return NotificationApis.loadNotifications(minorToken);
+    return NotificationApis.loadNotifications(minorToken, deviceToken);
   }
 );

@@ -139,8 +139,9 @@ export const PlaybackSummary = ({
         paddingVertical: spacing("md"),
       }}
     >
-      {summary.map(({ icon, title, text }) => (
+      {summary.map(({ icon, title, text }, index) => (
         <SummaryItem
+          key={`plaback-summary-item-${index}`}
           icon={icon}
           title={title}
           text={text}

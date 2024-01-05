@@ -45,7 +45,7 @@ const Toast = ({ text, visible }: Props) => {
       pointerEvents="none"
       style={[
         {
-          backgroundColor: "rgba(0,0,0,0.8)",
+          backgroundColor: "black",
           padding: spacing("md"),
           position: "absolute",
           top: insets.top + spacing("lg"),

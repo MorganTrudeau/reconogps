@@ -161,7 +161,7 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
         />
       </View>
       <View style={styles.statusBarSection}>
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"satellite-uplink"}
           title={"Updated"}
@@ -172,7 +172,7 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
       {(immobilisationSupported || lockDoorSupported) && (
         <View style={styles.statusBarSection}>
           {allPermissions && (
-            <StatusBar
+            <AssetDetailItem
               theme={theme}
               icon={IconSet.geofences}
               title={"Geofences"}
@@ -183,7 +183,7 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
             />
           )}
           {immobilisationSupported && (
-            <StatusBar
+            <AssetDetailItem
               theme={theme}
               icon={"lock"}
               title={"Immobilization"}
@@ -194,7 +194,7 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
             />
           )}
           {lockDoorSupported && (
-            <StatusBar
+            <AssetDetailItem
               theme={theme}
               icon={"car-door-lock"}
               title={"Door Lock"}
@@ -207,14 +207,14 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
         </View>
       )}
       <View style={styles.statusBarSection}>
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"map-marker-radius"}
           title={"Location"}
           status={address}
           colors={colors}
         />
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"pause-octagon"}
           title={"Time stopped"}
@@ -223,21 +223,21 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
         />
       </View>
       <View style={styles.statusBarSection}>
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"battery-charging"}
           title={"Battery voltage"}
           status={dynamicAsset.alt + "V"}
           colors={colors}
         />
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"engine"}
           title={"Engine hours"}
           status={moment().diff(dynamicAsset.launchHours * 1000, "hours") + "h"}
           colors={colors}
         />
-        <StatusBar
+        <AssetDetailItem
           theme={theme}
           icon={"road-variant"}
           title={"Mileage"}
@@ -249,7 +249,7 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
   );
 };
 
-const StatusBar = ({
+const AssetDetailItem = ({
   icon,
   title,
   status,

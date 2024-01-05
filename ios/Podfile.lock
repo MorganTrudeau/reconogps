@@ -114,13 +114,16 @@ PODS:
   - Firebase/Functions (10.7.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 10.7.0)
+  - Firebase/Messaging (10.7.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.7.0)
   - FirebaseAppCheckInterop (10.19.0)
   - FirebaseAuthInterop (10.19.0)
   - FirebaseCore (10.7.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreExtension (10.19.0):
+  - FirebaseCoreExtension (10.7.0):
     - FirebaseCore (~> 10.0)
   - FirebaseCoreInternal (10.19.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
@@ -132,15 +135,45 @@ PODS:
     - FirebaseMessagingInterop (~> 10.0)
     - FirebaseSharedSwift (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - FirebaseInstallations (10.19.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.7.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseMessagingInterop (10.19.0)
   - FirebaseSharedSwift (10.19.0)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - GoogleDataTransport (9.3.0):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/AppDelegateSwizzler (7.12.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
   - GoogleUtilities/Environment (7.12.0):
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.12.0):
     - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.12.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.12.0)"
+  - GoogleUtilities/Reachability (7.12.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.12.0):
+    - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.2.0)
   - hermes-engine (0.70.8)
   - libevent (2.1.12)
@@ -153,6 +186,11 @@ PODS:
     - MapboxMobileEvents (= 1.0.10)
     - Turf (~> 2.0)
   - MapboxMobileEvents (1.0.10)
+  - nanopb (2.30909.1):
+    - nanopb/decode (= 2.30909.1)
+    - nanopb/encode (= 2.30909.1)
+  - nanopb/decode (2.30909.1)
+  - nanopb/encode (2.30909.1)
   - PromisesObjC (2.3.1)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -460,6 +498,8 @@ PODS:
     - React-perflogger (= 0.70.8)
   - RNCAsyncStorage (1.17.11):
     - React-Core
+  - RNCPushNotificationIOS (1.11.0):
+    - React-Core
   - RNDateTimePicker (6.5.2):
     - React-Core
   - RNFBApp (17.4.0):
@@ -467,6 +507,11 @@ PODS:
     - React-Core
   - RNFBFunctions (17.4.0):
     - Firebase/Functions (= 10.7.0)
+    - React-Core
+    - RNFBApp
+  - RNFBMessaging (17.4.0):
+    - Firebase/Messaging (= 10.7.0)
+    - FirebaseCoreExtension (= 10.7.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (2.8.0):
@@ -482,6 +527,8 @@ PODS:
     - React
     - React-Core
     - Turf
+  - RNPermissions (4.0.2):
+    - React-Core
   - RNReanimated (2.12.0):
     - DoubleConversion
     - FBLazyVector
@@ -610,11 +657,14 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBFunctions (from `../node_modules/@react-native-firebase/functions`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "rnmapbox-maps (from `../node_modules/@rnmapbox/maps`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
@@ -629,9 +679,12 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseFunctions
+    - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseMessagingInterop
     - FirebaseSharedSwift
     - fmt
+    - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
     - libevent
@@ -639,6 +692,7 @@ SPEC REPOS:
     - MapboxCoreMaps
     - MapboxMaps
     - MapboxMobileEvents
+    - nanopb
     - PromisesObjC
     - Stripe
     - StripeApplePay
@@ -763,16 +817,22 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBFunctions:
     :path: "../node_modules/@react-native-firebase/functions"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   rnmapbox-maps:
     :path: "../node_modules/@rnmapbox/maps"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -809,13 +869,16 @@ SPEC CHECKSUMS:
   FirebaseAppCheckInterop: 37884781f3e16a1ba47e7ec80a1e805f987788e3
   FirebaseAuthInterop: f90d6820bf6ecf44753b9f13ba941902d00b525a
   FirebaseCore: e317665b9d744727a97e623edbbed009320afdd7
-  FirebaseCoreExtension: c08d14c7b22e07994e876d837e6f58642f340087
+  FirebaseCoreExtension: f17247ba8c61e4d3c8d136b5e2de3cb4ac6a85b6
   FirebaseCoreInternal: b444828ea7cfd594fca83046b95db98a2be4f290
   FirebaseFunctions: 6cede311274dd1e13ea4950fc9e57221d3538386
+  FirebaseInstallations: 033d199474164db20c8350736842a94fe717b960
+  FirebaseMessaging: ac9062bcc35ed56e15a0241d8fd317022499baf8
   FirebaseMessagingInterop: ec84569ed0436f52280ca07a214a83f48674cf5c
   FirebaseSharedSwift: f34eeb7d3ea87a34497629b6ca41657beadef76a
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   GTMSessionFetcher: 41b9ef0b4c08a6db4b7eb51a21ae5183ec99a2c8
   hermes-engine: 0b19f33a9c2ec1dbdede3232606eeb1101db4cec
@@ -824,6 +887,7 @@ SPEC CHECKSUMS:
   MapboxCoreMaps: 304d4ff1de0b5873e4ce359a7ed107fe65f89bd6
   MapboxMaps: 89322569ce8b0e98ed2a84c3289e6bc402df6073
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
+  nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 35a7977a5a3cb2d3830c3fef7352b7b116115829
@@ -857,11 +921,14 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: f795fd426264709901c09432c6ce072f8400147e
   ReactCommon: c440e7f15075e81eb29802521c58a1f38b1aa903
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNDateTimePicker: 3f32aa2247836c12618d346113e5e82ea60ddd9c
   RNFBApp: b0f0c53ed8a00395ceb4863910a2c1ff6e24d9f6
   RNFBFunctions: 8748ffd01c62b4f7d483efbb82e83311a7ff8f65
+  RNFBMessaging: e683adf735d2afb847bce161dce0e4006e88a3a2
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   rnmapbox-maps: c5a6bcd941aef23d9a14af7bbae5042e097687b6
+  RNPermissions: 17c7d78c50ca1f3af776e4fb5c1a200f8aa452a4
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   Stripe: d3dc7e6a9ac47a75ddb28ca9622f0e96c63398c9
@@ -876,6 +943,6 @@ SPEC CHECKSUMS:
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
   Yoga: d6133108734e69e8c0becc6ba587294b94829687
 
-PODFILE CHECKSUM: a3f80ab34484191a276dab7dccdbf74bf126ef09
+PODFILE CHECKSUM: 2b84b0e30de8c1daaaf99afb43187106425ec65f
 
 COCOAPODS: 1.12.1

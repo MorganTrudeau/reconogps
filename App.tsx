@@ -18,6 +18,7 @@ import PopoverProvider from "./context/PopoverContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NotificationsManager from "./services/NotificationsManager";
 import { MapLayerProvider } from "./context/MapLayerContext";
+import MessagingManager from "./firebase/MessagingManager";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
                     >
                       <PopoverProvider>
                         <MapLayerProvider>
+                          <StatusBar style="light" />
                           <NavigationStack />
                         </MapLayerProvider>
                       </PopoverProvider>
@@ -43,9 +45,9 @@ export default function App() {
                   </PortalProvider>
                   <ToastManager />
                 </ToastProvider>
+                <MessagingManager />
                 <AuthManager />
                 <NotificationsManager />
-                <StatusBar style="light" />
               </ThemeProvider>
             </SafeAreaProvider>
           </PersistGate>

@@ -112,7 +112,7 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
           loading={loading}
         />
 
-        <Pressable
+        {/* <Pressable
           style={{ alignSelf: "center" }}
           onPress={() => navigation.navigate("signup")}
         >
@@ -130,7 +130,7 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
               Sign Up
             </AppText>
           </AppText>
-        </Pressable>
+        </Pressable> */}
       </View>
     </AppScrollView>
   );
