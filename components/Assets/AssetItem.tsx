@@ -11,12 +11,14 @@ import { ThemeProps } from "../../types/styles";
 import AppIcon from "../Core/AppIcon";
 import { IconSet } from "../../utils/enums";
 import { geocodeLatLong } from "../../api/position";
+import { AssetAvatarUpload } from "./AssetAvatarUpload";
 
 type Props = {
   asset: StaticAsset;
   onPress?: (asset: CombinedAsset) => void;
   showDetails?: boolean;
   style?: ViewStyle;
+  allowEditing?: boolean;
 } & ThemeProps;
 
 const AssetItem = ({
@@ -26,28 +28,29 @@ const AssetItem = ({
   colors,
   showDetails = true,
   style,
+  allowEditing,
 }: Props) => {
   const dynamicData = useAppSelector(
     (state) => state.assets.dynamicData.entities[asset.id]
   );
 
-  const [address, setAddress] = useState(undefined);
+  const [address, setAddress] = useState("8940 192 St, Surrey, BC V4N 3W8");
 
   const lat = dynamicData?.lat;
   const lng = dynamicData?.lng;
 
-  const getAddress = async (lat: number, lng: number) => {
-    try {
-      const address = await geocodeLatLong(lat, lng);
-      setAddress(address);
-    } catch (error) {
-      console.log("Failed to find address: ", error);
-    }
-  };
+  // const getAddress = async (lat: number, lng: number) => {
+  //   try {
+  //     const address = await geocodeLatLong(lat, lng);
+  //     setAddress(address);
+  //   } catch (error) {
+  //     console.log("Failed to find address: ", error);
+  //   }
+  // };
 
   useEffect(() => {
     if (lat && lng && showDetails) {
-      getAddress(lat, lng);
+      // getAddress(lat, lng);
     }
   }, [lat, lng, showDetails]);
 
@@ -63,7 +66,13 @@ const AssetItem = ({
         onPress({ staticData: asset, dynamicData: dynamicData })
       }
     >
-      <AssetAvatar asset={asset} />
+      <AssetAvatarUpload
+        assetId={asset.id}
+        imei={asset.imei}
+        disabled={!allowEditing}
+      >
+        <AssetAvatar asset={asset} />
+      </AssetAvatarUpload>
       <View style={styles.content}>
         <AppText>{asset.name}</AppText>
         {!dynamicData ? (

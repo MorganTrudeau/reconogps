@@ -4,17 +4,18 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { loadNotifications } from "../redux/thunks/notifications";
 
 const NotificationsManager = () => {
-  const { minorToken, majorToken } = useAppSelector((state) => ({
+  const { minorToken, majorToken, deviceToken } = useAppSelector((state) => ({
     minorToken: state.auth.minorToken,
     majorToken: state.auth.majorToken,
+    deviceToken: state.notifications.deviceToken,
   }));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (minorToken && majorToken) {
+    if (minorToken && majorToken && deviceToken) {
       dispatch(loadNotifications());
     }
-  }, []);
+  }, [minorToken, majorToken, deviceToken]);
 
   return null;
 };

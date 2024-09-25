@@ -5,13 +5,20 @@ import { RootState } from "../store";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ account, password }: { account: string; password: string }) => {
-    return AuthApis.login(account, password);
+  async (
+    { account, password }: { account: string; password: string },
+    thunkApi
+  ) => {
+    const deviceToken = (thunkApi.getState() as RootState).notifications
+      .deviceToken;
+    return AuthApis.login(account, password, deviceToken);
   }
 );
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
-  const { minorToken, deviceToken } = (thunkApi.getState() as RootState).auth;
+  const state = thunkApi.getState() as RootState;
+  const { minorToken } = state.auth;
+  const deviceToken = state.notifications.deviceToken;
   if (!(deviceToken && minorToken)) {
     throw Errors.InvalidAuth;
   }
@@ -21,9 +28,9 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
 export const refreshToken = createAsyncThunk(
   "auth/refreshToken",
   (_, thunkApi) => {
-    const { majorToken, minorToken, deviceToken } = (
-      thunkApi.getState() as RootState
-    ).auth;
+    const state = thunkApi.getState() as RootState;
+    const { majorToken, minorToken } = state.auth;
+    const deviceToken = state.notifications.deviceToken;
     if (!(majorToken && minorToken && deviceToken)) {
       throw Errors.InvalidAuth;
     }

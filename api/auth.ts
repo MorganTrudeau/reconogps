@@ -4,7 +4,11 @@ import { API_URL, PACKAGE_NAME } from "@env";
 import { Platform } from "react-native";
 import { validateResponseData } from "./utils";
 
-export const login = async (account: string, password: string) => {
+export const login = async (
+  account: string,
+  password: string,
+  deviceToken?: string
+) => {
   const res = await axios.get(`${API_URL}/Quikloc8/V1/user/Auth2`, {
     params: {
       Account: account,
@@ -15,6 +19,7 @@ export const login = async (account: string, password: string) => {
         android: "android",
         web: "browser",
       }),
+      deviceToken,
     },
   });
 

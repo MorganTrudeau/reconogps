@@ -146,3 +146,16 @@ export const loadAssetActivationInfo = async (
 
   return loadAssetSSP(imei, productCode);
 };
+
+export const uploadAssetImage = async (imei: string, base64: string) => {
+  const res = await axios.post("https://upload.quiktrak.co/image/Upload", {
+    data: base64,
+    id: imei,
+  });
+
+  console.log("uploadAssetImage", res.data);
+
+  validateResponseData(res);
+
+  return res.data.Data;
+};

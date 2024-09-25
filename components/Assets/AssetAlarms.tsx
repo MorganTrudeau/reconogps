@@ -324,7 +324,7 @@ export const AssetAlarms = ({
       redPushRef.current = redPush;
       redEmailRef.current = redEmail;
 
-      const userSettings = {
+      const userSettings: typeof savedUserConfig.current = {
         ignoreEnabled: userConfigState.ignoreEnabled,
         ignoreFrom: userConfigState.ignoreFrom,
         ignoreTo: userConfigState.ignoreTo,
@@ -340,9 +340,11 @@ export const AssetAlarms = ({
         overRoadSpeedEnabled: userConfigState.overRoadSpeedEnabled,
         overspeedAmount: String(overspeedAmount),
         selectedContacts: userConfigState.selectedContacts,
+        externalEmail: userConfigState.externalEmail,
       };
 
       if (userConfig) {
+        console.log("USER_CONFIG", userConfig);
         const { BeginTime, EndTime } = userConfig;
         const [beginHours, beginMinutes] = BeginTime.split(":");
         const [endHours, endMinutes] = EndTime.split(":");
@@ -366,11 +368,13 @@ export const AssetAlarms = ({
           ) as WeekDayId[];
         }
         userSettings.overRoadSpeedEnabled = userConfig.SpeedingMode === 1;
-        userSettings.selectedContacts = userConfig.CustomEmails.split(",")
-          .map((email) =>
-            Object.values(contacts.entities).find((c) => c?.EMail === email)
-          )
-          .filter((c) => c) as Contact[];
+        userSettings.selectedContacts = userConfig.CustomEmails
+          ? (userConfig.CustomEmails?.split(",")
+              .map((email) =>
+                Object.values(contacts.entities).find((c) => c?.EMail === email)
+              )
+              .filter((c) => c) as Contact[])
+          : [];
       }
 
       savedUserConfig.current = { ...savedUserConfig.current, ...userSettings };

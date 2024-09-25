@@ -7,7 +7,6 @@ import { createTransform } from "redux-persist";
 export interface AuthState {
   majorToken: string | null;
   minorToken: string | null;
-  deviceToken: string | null;
   account: string | null;
   password: string | null;
 
@@ -21,7 +20,6 @@ export interface AuthState {
 const initialState: AuthState = {
   majorToken: null,
   minorToken: null,
-  deviceToken: "asdf",
   account: null,
   password: null,
 
@@ -81,7 +79,6 @@ export const transform = createTransform(
     ...initialState,
     majorToken: state.majorToken,
     minorToken: state.minorToken,
-    deviceToken: state.deviceToken,
     registering: state.registering,
     account: state.account,
     password: state.password,

@@ -52,9 +52,6 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
     const { theme, colors } = useTheme();
     const insets = useSafeAreaInsets();
 
-    const TITLE_PADDING_BOTTOM = spacing("sm");
-    const PADDING_BOTTOM = spacing("md") + insets.bottom;
-
     const closeModal = () => {
       if (ref && "current" in ref && ref.current) {
         ref.current?.close();
@@ -107,16 +104,17 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
           adjustToContentHeight={true}
           modalStyle={{ backgroundColor: colors.background }}
           childrenStyle={{
-            paddingTop: PADDING_TOP,
-            paddingBottom: PADDING_BOTTOM,
+            paddingTop: spacing("sm"),
+            paddingBottom: spacing("md") + insets.bottom,
           }}
           onClosed={onClosed}
         >
           {(!!title || !!description) && (
             <View
               style={{
+                paddingTop: spacing("sm"),
                 marginHorizontal: spacing("lg"),
-                marginBottom: TITLE_PADDING_BOTTOM,
+                marginBottom: spacing("md"),
               }}
             >
               {!!title && <AppText style={theme.titleLarge}>{title}</AppText>}
@@ -193,7 +191,7 @@ export const OptionItem = ({
                 ? colors.red
                 : option.disabled
                 ? colors.empty
-                : colors.text
+                : colors.primary
             }
           />
         </View>

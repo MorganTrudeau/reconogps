@@ -1,8 +1,6 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef } from "react";
 import messaging from "@react-native-firebase/messaging";
-import { connect, ConnectedProps } from "react-redux";
 import { AppState, AppStateStatus, Platform } from "react-native";
-import { registerToken, unRegisterToken } from "../api/notifications";
 import PushNotification, { Importance } from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { requestNotifications } from "react-native-permissions";
@@ -10,6 +8,9 @@ import { FCMMessage } from "../types/notifications";
 import { formatFCMMessage } from "../utils/notifications";
 import { useTheme } from "../hooks/useTheme";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { registerToken } from "../redux/thunks/notifications";
+import { setDeviceToken } from "../redux/reducers/notifications";
 
 export const LOCAL_NOTIFICATION_CHANNEL = "local_notifications";
 
@@ -19,6 +20,7 @@ const MessagingManager = () => {
   const { isLoggedIn } = useAppSelector((state) => ({
     isLoggedIn: !!state.auth.minorToken,
   }));
+  const dispatch = useAppDispatch();
 
   // Listener unsubscribe functions
   const unsubscribeForeground = useRef<() => void>();
@@ -123,7 +125,7 @@ const MessagingManager = () => {
         throw "missing_token";
       } else {
         console.log("Messaging token found!");
-        registerToken(token);
+        dispatch(registerToken(token));
       }
     } catch (error) {
       console.log("Manage token error", error);
@@ -246,7 +248,7 @@ const MessagingManager = () => {
     !!unsubscribeForeground.current && unsubscribeForeground.current();
     !!unsubscribeBackground.current && unsubscribeBackground.current();
     !!unsubscribeToken.current && unsubscribeToken.current();
-    unRegisterToken();
+    dispatch(setDeviceToken(""));
   };
 
   // Clear notifications when app is active

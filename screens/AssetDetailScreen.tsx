@@ -110,6 +110,7 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
               {...{ theme, colors }}
               showDetails={false}
               style={{ flex: 1 }}
+              allowEditing
             />
           )}
           {SaveButton && (

@@ -1,10 +1,11 @@
 import React from "react";
-import { Image, ImageStyle, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { spacing } from "../../styles";
 import { StaticAsset } from "../../types";
 import { constructImageUrl } from "../../utils";
 import { assetHasIcon } from "../../utils/assets";
 import Avatar from "../Avatar";
+import FastImage, { ImageStyle } from "react-native-fast-image";
 
 const AssetAvatar = ({
   asset,
@@ -29,7 +30,7 @@ const AssetAvatar = ({
       style={iconStyle}
     />
   ) : (
-    <Image
+    <FastImage
       source={{ uri: constructImageUrl(asset.icon) }}
       style={iconStyle}
       resizeMode="cover"

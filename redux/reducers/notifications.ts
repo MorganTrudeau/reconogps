@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { logout } from "../thunks/auth";
 import { Notification } from "../../types";
 import { createTransform } from "redux-persist";
-import { loadNotifications } from "../thunks/notifications";
+import { loadNotifications, registerToken } from "../thunks/notifications";
 
 export interface NotificationsState {
+  deviceToken: string;
   data: Notification[];
   unreadCount: 0;
 }
 
 const initialState: NotificationsState = {
+  deviceToken: "",
   data: [],
   unreadCount: 0,
 };
@@ -27,7 +29,11 @@ export const transform = createTransform(
 export const notificationsSlice = createSlice({
   name: "notifications",
   initialState,
-  reducers: {},
+  reducers: {
+    setDeviceToken: (state, action: PayloadAction<string>) => {
+      state.deviceToken = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     // Login data
     builder.addCase(loadNotifications.fulfilled, (state, action) => {
@@ -37,7 +43,12 @@ export const notificationsSlice = createSlice({
     builder.addCase(logout.fulfilled, (state, action) => {
       state = { ...initialState };
     });
+    builder.addCase(registerToken.fulfilled, (state, action) => {
+      state.deviceToken = action.payload;
+    });
   },
 });
+
+export const { setDeviceToken } = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

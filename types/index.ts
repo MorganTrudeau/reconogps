@@ -433,8 +433,8 @@ export type PlaybackTrip = {
 export type AlarmUserConfiguration = {
   AlertTypes: number;
   BeginTime: string;
-  CustomEmails: string;
-  CustomPhones: string;
+  CustomEmails: string | null;
+  CustomPhones: string | null;
   EmailAlertTypes: number;
   EndTime: string;
   HolderContact: string;

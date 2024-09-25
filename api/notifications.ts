@@ -5,13 +5,15 @@ export const loadNotifications = async (
   MinorToken: string,
   deviceToken: string
 ) => {
+  console.log("PARAMS", MinorToken, deviceToken);
   const res = await axios.get(
     "https://newapi.quiktrak.co/Quikloc8/V1/asset/Alarms",
     {
-      params: { MinorToken, deviceToken: "" },
+      params: { MinorToken, deviceToken: deviceToken },
     }
   );
   validateResponseData(res);
+  console.log(res.data);
   return res.data.Data;
 };
 

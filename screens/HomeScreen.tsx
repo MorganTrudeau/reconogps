@@ -278,17 +278,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
           </MapboxGL.MarkerView>
         )}
 
-        {/* {selectedMarker && (
-          <MapboxGL.PointAnnotation
-            id="selected-marker"
-            coordinate={[selectedMarker.longitude, selectedMarker.latitude]}
-            title={"TITLE"}
-          >
-            <View style={styles.annotationContainer} />
-            <MapboxGL.Callout title="This is an empty example" />
-          </MapboxGL.PointAnnotation>
-        )} */}
-
         <MapboxGL.Camera
           defaultSettings={defaultCameraConfig}
           ref={mapCamera}
@@ -328,7 +317,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
                 mapCamera.current?.fitBounds(
                   bounds.ne,
                   bounds.sw,
-                  [insets.top + 50, 30, modalHeightRef.current + 30, 30],
+                  [insets.top + 50, 50, modalHeightRef.current + 50, 50],
                   400
                 );
               }
