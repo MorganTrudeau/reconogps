@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-import "expo-dev-menu";
 
 import { NavigationContainer } from "@react-navigation/native";
 import ThemeProvider from "./context/ThemeContext";

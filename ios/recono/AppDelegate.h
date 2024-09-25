@@ -1,10 +1,8 @@
-#import <Foundation/Foundation.h>
-#import <React/RCTBridgeDelegate.h>
-#import <UIKit/UIKit.h>
-
-#import <UserNotifications/UNUserNotificationCenter.h>
+#import <RCTAppDelegate.h>
 #import <Expo/Expo.h>
+#import <UIKit/UIKit.h>
+#import <UserNotifications/UNUserNotificationCenter.h>
 
-@interface AppDelegate : EXAppDelegateWrapper <RCTBridgeDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate : EXAppDelegateWrapper <UNUserNotificationCenterDelegate>
 
 @end

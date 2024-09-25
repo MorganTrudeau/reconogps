@@ -9,14 +9,11 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/utils";
 import AppButton from "../components/Core/AppButton";
 import { useAlert } from "../hooks/useAlert";
-import { errorToMessage } from "../utils";
 import { login } from "../redux/thunks/auth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { RootState } from "../redux/store";
-import { useUpdated } from "../hooks/useUpdated";
 import AppScrollView from "../components/Core/AppScrollView";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "login">;
 
@@ -26,15 +23,9 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
   const Alert = useAlert();
   const dispatch = useAppDispatch();
 
-  const { loading, error } = useAppSelector(
+  const { loading } = useAppSelector(
     (state: RootState) => state.auth.loginRequest
   );
-
-  useUpdated(error, (currentError, prevError) => {
-    if (!prevError && currentError) {
-      Alert.alert("Login Failed", errorToMessage(currentError));
-    }
-  });
 
   const passwordInput = useRef<TextInput | null>(null);
 
