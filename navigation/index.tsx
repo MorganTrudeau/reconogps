@@ -352,7 +352,8 @@ const MainStack = () => {
       />
       <Stack.Screen
         name="street-view"
-        options={transparentHeaderConfig}
+        options={{ title: "" }}
+        // options={transparentHeaderConfig}
         // @ts-ignore
         component={StreetViewScreen}
       />

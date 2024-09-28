@@ -27,6 +27,7 @@ import { StaticAsset } from "../types";
 import { spacing } from "../styles";
 import { FormContext } from "../context/FormContext";
 import { AssetGeofenceList } from "../components/Assets/AssetGeofenceList";
+import AppIconButton from "../components/Core/AppIconButton";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -92,10 +93,10 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   );
 
   const [SaveButtons, setSaveButtons] = useState<{
-    [index: string]: React.FC<any>;
+    [index: string]: React.FC<any> | undefined;
   }>({});
 
-  const setSaveButton = (button: React.FC<any>, id: string) => {
+  const setSaveButton = (button: React.FC<any> | undefined, id: string) => {
     setSaveButtons((s) => ({ ...s, [id]: button }));
   };
   const SaveButton = SaveButtons[routes[index].key];
@@ -113,6 +114,18 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
               allowEditing
             />
           )}
+          <AppIconButton
+            name={"panorama-variant"}
+            {...{ theme, colors }}
+            onPress={() => {
+              if (dynamicAsset) {
+                navigation.navigate("street-view", {
+                  latitude: dynamicAsset.lat,
+                  longitude: dynamicAsset.lng,
+                });
+              }
+            }}
+          />
           {SaveButton && (
             <View style={{ paddingHorizontal: spacing("lg") }}>
               <SaveButton />

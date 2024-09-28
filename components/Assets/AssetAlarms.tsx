@@ -233,7 +233,7 @@ export const AssetAlarms = ({
         formId
       );
     } else {
-      formContext.setSaveButton(() => null, formId);
+      formContext.setSaveButton(undefined, formId);
     }
   }, [userConfigState, loading]);
 
