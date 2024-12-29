@@ -25,6 +25,7 @@ import AppButton from "../components/Core/AppButton";
 import { endRegistration } from "../redux/reducers/auth";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
+import { logout } from "../redux/thunks/auth";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "add-assets">;
 
@@ -133,109 +134,118 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
   });
 
   return (
-    <AppScrollView
-      style={theme.container}
-      contentContainerStyle={[
-        theme.contentContainer,
-        {
-          paddingTop: spacing("md"),
-          paddingBottom: insets.bottom + spacing("md"),
-        },
+    <View
+      style={[
+        theme.container,
+        { paddingBottom: insets.bottom + spacing("md") },
       ]}
     >
-      {activationInfo ? (
-        <AddAssetForm
-          activationInfo={activationInfo}
-          containerStyle={{ alignSelf: "stretch" }}
-          onSubmit={handleFormSubmit}
-          initialFormData={formData}
-        />
-      ) : (
-        <>
-          <AppText
-            style={[
-              theme.text,
-              { textAlign: "center", marginBottom: spacing("sm") },
-            ]}
-          >
-            Enter the IMEI on your GPS unit to add an asset.
-          </AppText>
-          <View style={theme.row}>
-            <AppTextInput
-              placeholder={"IMEI"}
-              value={assetImei}
-              onChangeText={(imei) => setAssetImei(imei)}
-              containerStyle={{ flex: 1 }}
-            />
-            {loading ? (
-              <ActivityIndicator
-                color={colors.primary}
-                style={styles.imeiSubmitButton}
-              />
-            ) : (
-              <Pressable
-                disabled={!assetImei}
-                onPress={startActivation}
-                style={styles.imeiSubmitButton}
-              >
-                <AppIcon
-                  color={!assetImei ? colors.empty : colors.primary}
-                  name={"check-circle"}
-                  size={iconSize("md")}
-                />
-              </Pressable>
-            )}
-          </View>
-
-          {activationData.length > 0 && (
+      <AppScrollView
+        style={theme.container}
+        contentContainerStyle={[
+          theme.contentContainer,
+          {
+            paddingTop: spacing("md"),
+            paddingBottom: insets.bottom + spacing("md"),
+          },
+        ]}
+      >
+        {activationInfo ? (
+          <AddAssetForm
+            activationInfo={activationInfo}
+            containerStyle={{ alignSelf: "stretch" }}
+            onSubmit={handleFormSubmit}
+            initialFormData={formData}
+          />
+        ) : (
+          <>
             <AppText
               style={[
-                theme.titleMeta,
-                { marginTop: spacing("xl"), marginBottom: spacing("sm") },
+                theme.text,
+                { textAlign: "center", marginBottom: spacing("sm") },
               ]}
             >
-              Assets Added
+              Enter the IMEI on your GPS unit to add an asset.
             </AppText>
-          )}
-          {activationData.map((data) => {
-            return (
-              <Pressable
-                style={[
-                  styles.activationEntry,
-                  { backgroundColor: colors.surface },
-                ]}
-                onPress={() => editFormData(data)}
-                key={data.info.asset.IMEI}
-              >
-                <AppIcon
-                  name={getAssetTypeIcon(data.formData.type)}
-                  size={iconSize("lg")}
+            <View style={theme.row}>
+              <AppTextInput
+                placeholder={"IMEI"}
+                value={assetImei}
+                onChangeText={(imei) => setAssetImei(imei)}
+                containerStyle={{ flex: 1 }}
+              />
+              {loading ? (
+                <ActivityIndicator
                   color={colors.primary}
-                  style={{ marginRight: spacing("lg") }}
+                  style={styles.imeiSubmitButton}
                 />
-                <View style={{ flex: 1 }}>
-                  <AppText style={theme.title}>{data.formData.name}</AppText>
-                  <AppText
-                    style={[theme.textSmallMeta, { marginTop: spacing("xs") }]}
-                  >
-                    {data.info.ssp.Products[0].Name}
-                  </AppText>
-                </View>
-              </Pressable>
-            );
-          })}
-          {activationData.length > 0 && (
-            <AppButton
-              onPress={activateAssets}
-              title={"Activate Assets"}
-              style={{ marginTop: spacing("lg") }}
-            />
-          )}
-        </>
-      )}
+              ) : (
+                <Pressable
+                  disabled={!assetImei}
+                  onPress={startActivation}
+                  style={styles.imeiSubmitButton}
+                >
+                  <AppIcon
+                    color={!assetImei ? colors.empty : colors.primary}
+                    name={"check-circle"}
+                    size={iconSize("md")}
+                  />
+                </Pressable>
+              )}
+            </View>
 
-      {/* {renderInputs()} */}
-      {/* <Pressable
+            {activationData.length > 0 && (
+              <AppText
+                style={[
+                  theme.titleMeta,
+                  { marginTop: spacing("xl"), marginBottom: spacing("sm") },
+                ]}
+              >
+                Assets Added
+              </AppText>
+            )}
+            {activationData.map((data) => {
+              return (
+                <Pressable
+                  style={[
+                    styles.activationEntry,
+                    { backgroundColor: colors.surface },
+                  ]}
+                  onPress={() => editFormData(data)}
+                  key={data.info.asset.IMEI}
+                >
+                  <AppIcon
+                    name={getAssetTypeIcon(data.formData.type)}
+                    size={iconSize("lg")}
+                    color={colors.primary}
+                    style={{ marginRight: spacing("lg") }}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <AppText style={theme.title}>{data.formData.name}</AppText>
+                    <AppText
+                      style={[
+                        theme.textSmallMeta,
+                        { marginTop: spacing("xs") },
+                      ]}
+                    >
+                      {data.info.ssp.Products[0].Name}
+                    </AppText>
+                  </View>
+                </Pressable>
+              );
+            })}
+            {activationData.length > 0 && (
+              <AppButton
+                onPress={activateAssets}
+                title={"Activate Assets"}
+                style={{ marginTop: spacing("lg") }}
+              />
+            )}
+          </>
+        )}
+
+        {/* {renderInputs()} */}
+        {/* <Pressable
         onPress={() => setAssetImeis((imeis) => [...imeis, ""])}
         style={[
           theme.row,
@@ -251,7 +261,11 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
           Add another asset
         </AppText>
       </Pressable> */}
-    </AppScrollView>
+      </AppScrollView>
+      <Pressable style={styles.logoutButton} onPress={() => dispatch(logout())}>
+        <AppText style={theme.textMeta}>Logout</AppText>
+      </Pressable>
+    </View>
   );
 };
 
@@ -265,6 +279,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS_SM,
     marginBottom: spacing("md"),
   },
+  logoutButton: { alignSelf: "center" },
 });
 
 export default AddAssetsScreen;

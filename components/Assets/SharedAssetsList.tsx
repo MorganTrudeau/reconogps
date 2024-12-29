@@ -18,7 +18,7 @@ import AppTextInput from "../Core/AppTextInput";
 import EmptyList from "../EmptyList";
 import OptionsModal, { OptionModalItem } from "../Modals/OptionsModal";
 import SharedAssetItem from "./SharedAssetItem";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import ExtendSharedAssetExpiryModal from "../Modals/ExtendSharedAssetExpiryModal";
 import { AppModalRef } from "../Core/AppModal";
 import AppText from "../Core/AppText";
@@ -119,12 +119,8 @@ const SharedAssetsList = ({
   };
 
   const handleCopy = async (selectedAsset: SharedAsset) => {
-    try {
-      await Clipboard.setStringAsync(selectedAsset.Code);
-      Toast.show("Share Code Copied");
-    } catch (error) {
-      console.log(error);
-    }
+    Clipboard.setString(selectedAsset.Code);
+    Toast.show("Share Code Copied");
   };
 
   const handleExtend = (selectedAsset: SharedAsset) => {

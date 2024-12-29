@@ -5,7 +5,7 @@ import AppField from "../components/Core/AppField";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation/utils";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import { useToast } from "../hooks/useToast";
 import EmptyList from "../components/EmptyList";
 import { spacing } from "../styles";
@@ -46,12 +46,8 @@ const SharedAssetDetailsScreen = ({ navigation, route }: NavigationProps) => {
     if (!sharedAsset) {
       return;
     }
-    try {
-      await Clipboard.setStringAsync(sharedAsset.Code);
-      Toast.show("Share Code Copied");
-    } catch (error) {
-      console.log(error);
-    }
+    Clipboard.setString(sharedAsset.Code);
+    Toast.show("Share Code Copied");
   };
 
   const extendExpiry = () => {

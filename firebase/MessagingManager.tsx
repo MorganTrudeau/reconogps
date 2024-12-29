@@ -86,7 +86,7 @@ const MessagingManager = () => {
           vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
         },
         (created) => {
-          console.log("Channcel created", created);
+          console.log("Channel created", created);
         }
       );
     }
@@ -120,6 +120,8 @@ const MessagingManager = () => {
     // Get initial token
     try {
       const token = await messaging().getToken();
+
+      console.log("TOKEN", token);
 
       if (!token) {
         throw "missing_token";
@@ -191,6 +193,8 @@ const MessagingManager = () => {
 
   // Display local notification
   const onForegroundMessage = (remoteMessage: FCMMessage) => {
+    console.log("FOREGROUND MESSAGE", remoteMessage);
+
     if (!remoteMessage || remoteMessage.data?.["af-uinstall-tracking"]) {
       return;
     }

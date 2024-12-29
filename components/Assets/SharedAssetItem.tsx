@@ -6,7 +6,7 @@ import { SharedAssetListData } from "../../types";
 import { ThemeProps } from "../../types/styles";
 import AppIcon from "../Core/AppIcon";
 import AppText from "../Core/AppText";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import { useToast } from "../../hooks/useToast";
 import { Constants } from "../../utils/constants";
 
@@ -32,12 +32,8 @@ const SharedAssetItem = ({
   }, [sharedAsset.EndTime]);
 
   const copyCode = async () => {
-    try {
-      await Clipboard.setStringAsync(sharedAsset.Code);
-      Toast.show("Share Code Copied");
-    } catch (error) {
-      console.log(error);
-    }
+    Clipboard.setString(sharedAsset.Code);
+    Toast.show("Share Code Copied");
   };
 
   return (
