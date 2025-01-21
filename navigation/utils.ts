@@ -28,7 +28,7 @@ export type RootStackParamList = {
   "manage-asset-alarms": {
     imeis: string; // comma separated list of asset imeis
   };
-  assets: { onAddAssets: () => {} };
+  assets: undefined;
   "asset-details": { assetId: string };
   "add-assets": undefined;
   "activate-assets": { activationEntries: AssetActivationEntry[] };

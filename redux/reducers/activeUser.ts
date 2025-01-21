@@ -3,7 +3,12 @@ import { login, logout } from "../thunks/auth";
 import { updateUserInfo } from "../thunks/user";
 import { Permissions, Permissions2, User } from "../../types";
 import { SimpleLoadingState } from "../../types/redux";
-import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import {
+  createSimpleLoadingState,
+  IDLE_STATE,
+  resetOnLogout,
+  SUCCESS_STATE,
+} from "../utils";
 import { createTransform } from "redux-persist";
 
 export interface ActiveUserState {
@@ -52,7 +57,7 @@ export const activeUserSlice = createSlice({
       state.updateRequest = SUCCESS_STATE;
     });
     // Logout reset
-    builder.addCase(logout.fulfilled, (state, action) => {
+    resetOnLogout(builder, (state) => {
       state = { ...initialState };
     });
   },

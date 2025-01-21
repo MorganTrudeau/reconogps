@@ -121,8 +121,6 @@ const MessagingManager = () => {
     try {
       const token = await messaging().getToken();
 
-      console.log("TOKEN", token);
-
       if (!token) {
         throw "missing_token";
       } else {

@@ -7,7 +7,7 @@ import { validateResponseData } from "./utils";
 export const login = async (
   account: string,
   password: string,
-  deviceToken?: string
+  mobileToken: string
 ) => {
   const res = await axios.get(`${API_URL}/Quikloc8/V1/user/Auth2`, {
     params: {
@@ -19,42 +19,36 @@ export const login = async (
         android: "android",
         web: "browser",
       }),
-      deviceToken,
+      deviceToken: mobileToken,
+      mobileToken: mobileToken,
     },
   });
 
   validateResponseData(res);
 
-  return { account, password, data: res.data.Data };
+  return { account, password, data: res.data.Data, mobileToken };
 };
 
-export const logout = async (minorToken: string, deviceToken: string) => {
-  const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/Logoff`, {
-    params: {
-      MinorToken: minorToken,
-      deviceToken: deviceToken,
-      mobileToken: deviceToken,
-    },
-  });
-  validateResponseData(res);
-  return res.data;
-};
-
-export const refreshToken = async (
-  majorToken: string,
+export const logout = async (
   minorToken: string,
-  deviceToken: string
+  mobileToken?: string | null
 ) => {
-  const res = await axios.get(`${API_URL}/QuikTrak/V1/User/RefreshToken`, {
-    params: {
-      MajorToken: majorToken,
-      MinorToken: minorToken,
-      MobileToken: deviceToken,
-      DeviceToken: deviceToken,
-    },
-  });
-  validateResponseData(res);
-  return res.data.Data;
+  console.log("START");
+  try {
+    const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/Logoff`, {
+      params: {
+        MinorToken: minorToken,
+        deviceToken: mobileToken,
+        mobileToken: mobileToken,
+      },
+    });
+    console.log("Logout res", res);
+    validateResponseData(res);
+    return res.data;
+  } catch (error) {
+    console.log("Logout error", error);
+    throw error;
+  }
 };
 
 export const getPasswordResetCode = async (email: string) => {

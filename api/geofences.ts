@@ -1,4 +1,4 @@
-import { validateResponseData } from "./utils";
+import { API_DOMIAN1, validateResponseData } from "./utils";
 import axios from "axios";
 import { API_URL } from "@env";
 import { Errors } from "../utils/enums";
@@ -70,7 +70,7 @@ export const deleteGeofence = async (data: {
   Code: string;
 }) => {
   const res = await axios.post(
-    "https://newapi.quiktrak.co/QuikTrak/V1/Device/FenceDelete",
+    `${API_DOMIAN1}Device/FenceDelete`,
     queryString.stringify(data),
     {
       headers: {

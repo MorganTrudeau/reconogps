@@ -3,6 +3,7 @@ import { logout } from "../thunks/auth";
 import { Notification } from "../../types";
 import { createTransform } from "redux-persist";
 import { loadNotifications, registerToken } from "../thunks/notifications";
+import { resetOnLogout } from "../utils";
 
 export interface NotificationsState {
   deviceToken: string;
@@ -40,7 +41,7 @@ export const notificationsSlice = createSlice({
       state.data = action.payload.map((n: string) => JSON.parse(n));
     });
     // Logout reset
-    builder.addCase(logout.fulfilled, (state, action) => {
+    resetOnLogout(builder, (state) => {
       state = { ...initialState };
     });
     builder.addCase(registerToken.fulfilled, (state, action) => {

@@ -6,7 +6,12 @@ import {
 import { logout } from "../thunks/auth";
 import { Geofence } from "../../types";
 import { SimpleLoadingState } from "../../types/redux";
-import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import {
+  createSimpleLoadingState,
+  IDLE_STATE,
+  resetOnLogout,
+  SUCCESS_STATE,
+} from "../utils";
 import {
   deleteGeofence,
   loadGeofences,
@@ -55,7 +60,7 @@ export const geofencesSlice = createSlice({
       geofencesAdapter.removeOne(state.data, action.payload);
     });
     // Logout reset
-    builder.addCase(logout.fulfilled, (state, action) => {
+    resetOnLogout(builder, (state) => {
       state = { ...initialState };
     });
   },

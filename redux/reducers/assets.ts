@@ -8,7 +8,7 @@ import { SimpleLoadingState } from "../../types/redux";
 import { DynamicAsset, StaticAsset } from "../../types";
 import { mapArrayOfAssetArrays } from "../../utils/assets";
 import { loadDynamicAssets, loadStaticAssets } from "../thunks/assets";
-import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import { createSimpleLoadingState, IDLE_STATE, resetOnLogout, SUCCESS_STATE } from "../utils";
 import { createTransform } from "redux-persist";
 
 export interface AssetsState {
@@ -52,7 +52,7 @@ export const assetsSlice = createSlice({
       dynamicAssetsAdapter.setAll(state.dynamicData, action.payload);
     });
     // Logout reset
-    builder.addCase(logout.fulfilled, (state, action) => {
+    resetOnLogout(builder, (state) => {
       state = { ...initialState };
     });
   },

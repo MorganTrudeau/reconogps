@@ -1,4 +1,5 @@
-import { AsyncThunk, ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { AsyncThunk, ActionReducerMapBuilder, Draft } from "@reduxjs/toolkit";
+import { logout } from "../thunks/auth";
 
 export const IDLE_STATE = { loading: false, error: null, success: false };
 export const SUCCESS_STATE = { loading: false, error: null, success: true };
@@ -21,4 +22,12 @@ export const createSimpleLoadingState = <State>(
       success: false,
     };
   });
+};
+
+export const resetOnLogout = <State>(
+  builder: ActionReducerMapBuilder<State>,
+  resetFunc: (state: Draft<State>) => void
+) => {
+  // builder.addCase(logout.fulfilled, resetFunc);
+  builder.addCase(logout.rejected, resetFunc);
 };

@@ -15,25 +15,23 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath('com.google.gms:google-services:4.4.2')
     }
 }
 
 apply plugin: "com.facebook.react.rootproject"
 
+// @generated begin @rnmapbox/maps-v2-maven - expo prebuild (DO NOT MODIFY) sync-32f1b7024bb5099f2805443b1960a3233ccde124
 allprojects {
-    repositories {
-        maven {
-            url 'https://api.mapbox.com/downloads/v2/releases/maven'
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                // Do not change the username below.
-                // This should always be `mapbox` (not your username).
-                username = 'mapbox'
-                // Use the secret token you stored in gradle.properties as the password
-                password = "sk.eyJ1IjoicmVjb25vZ3BzIiwiYSI6ImNsZGRvbmVscTAwNHczcHFxOWd6cHFnZ3gifQ.6H6bpyJG6L6NAafD9Ds4AQ"
-            }
-        }
+  repositories {
+    maven {
+      url 'https://api.mapbox.com/downloads/v2/releases/maven'
+      authentication { basic(BasicAuthentication) }
+      credentials {
+        username = 'mapbox'
+        password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+      }
     }
+  }
 }
+// @generated end @rnmapbox/maps-v2-maven

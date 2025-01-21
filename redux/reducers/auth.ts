@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { changePassword, login, logout, refreshToken } from "../thunks/auth";
+import { changePassword, login, logout } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
-import { createSimpleLoadingState, IDLE_STATE, SUCCESS_STATE } from "../utils";
+import {
+  createSimpleLoadingState,
+  IDLE_STATE,
+  resetOnLogout,
+  SUCCESS_STATE,
+} from "../utils";
 import { createTransform } from "redux-persist";
 
 export interface AuthState {
@@ -9,6 +14,7 @@ export interface AuthState {
   minorToken: string | null;
   account: string | null;
   password: string | null;
+  mobileToken: string | null;
 
   registering: boolean;
 
@@ -22,6 +28,7 @@ const initialState: AuthState = {
   minorToken: null,
   account: null,
   password: null,
+  mobileToken: null,
 
   registering: false,
 
@@ -49,6 +56,7 @@ export const authSlice = createSlice({
       state.minorToken = action.payload.data.MinorToken;
       state.password = action.payload.password;
       state.account = action.payload.account;
+      state.mobileToken = action.payload.mobileToken;
 
       state.registering = action.payload.data.AssetArray.length === 0;
 
@@ -60,16 +68,25 @@ export const authSlice = createSlice({
       state.changePasswordRequest = SUCCESS_STATE;
     });
     // Logout
-    createSimpleLoadingState("logoutRequest", builder, logout);
+    builder.addCase(logout.pending, (state) => {
+      state.logoutRequest = { loading: true, error: null, success: false };
+    });
     builder.addCase(logout.fulfilled, (state, action) => {
       state.majorToken = null;
       state.minorToken = null;
-
+      state.mobileToken = null;
       state.logoutRequest = SUCCESS_STATE;
     });
-    // Refresh
-    builder.addCase(refreshToken.fulfilled, (state, action) => {
-      state.minorToken = action.payload.MinorToken;
+    builder.addCase(logout.rejected, (state, action) => {
+      state.majorToken = null;
+      state.minorToken = null;
+      state.mobileToken = null;
+      state.logoutRequest = {
+        loading: false,
+        error:
+          action.error?.message || (action.error as any) || "general_error",
+        success: false,
+      };
     });
   },
 });
@@ -79,6 +96,7 @@ export const transform = createTransform(
     ...initialState,
     majorToken: state.majorToken,
     minorToken: state.minorToken,
+    mobileToken: state.mobileToken,
     registering: state.registering,
     account: state.account,
     password: state.password,

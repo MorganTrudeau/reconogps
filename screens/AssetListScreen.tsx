@@ -12,7 +12,6 @@ import { loadDynamicAssets } from "../redux/thunks/assets";
 import { spacing } from "../styles";
 import { CombinedAsset, StaticAsset } from "../types";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import FocusAwareStatusBar from "../navigation/FocusAwareStatusBar";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "assets">;
 type Props = { onAssetPress?: (asset: CombinedAsset) => void } & Omit<
@@ -66,7 +65,7 @@ const AssetListScreen = ({
         <AppButton
           icon={"plus"}
           title={"Add your first asset"}
-          onPress={() => route.params.onAddAssets()}
+          onPress={() => navigation.navigate("add-assets")}
         />
       </View>
     );

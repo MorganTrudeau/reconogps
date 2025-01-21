@@ -1,8 +1,4 @@
 import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  createContext,
   forwardRef,
   useCallback,
   useImperativeHandle,
@@ -24,14 +20,7 @@ import { NavigationState, useNavigation } from "@react-navigation/native";
 import AppIcon from "../Core/AppIcon";
 import { useUpdated } from "../../hooks/useUpdated";
 import { RootStackParamList } from "../../navigation/utils";
-import AppIconButton from "../Core/AppIconButton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NavigationProp } from "../../types/navigation";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 import { Constants } from "../../utils/constants";
 import { AppBottomSheet } from "../Core/AppBottomSheet";
 
@@ -174,10 +163,7 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
         snapPoints={SNAP_POINTS}
         handleComponent={renderHandle}
       >
-        <AssetStack
-          onAddAssets={handleAddAssets}
-          onStateChange={handleNavigationStateChange}
-        />
+        <AssetStack onStateChange={handleNavigationStateChange} />
       </AppBottomSheet>
     );
   }

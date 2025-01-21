@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL, DEALER_TOKEN } from "@env";
-import { validateResponseData } from "./utils";
+import { API_DOMIAN2, validateResponseData } from "./utils";
 import { Errors } from "../utils/enums";
 import { initDynamicAssetData } from "../utils/assets";
 
@@ -10,13 +10,10 @@ export const changeGeolockStatus = async (
   assetCode: string,
   state: "on" | "off"
 ) => {
-  const res = await axios.get(
-    `https://newapi.quiktrak.co/Quikloc8/V1/asset/GeoLock`,
-    {
-      params: { MajorToken, MinorToken, code: assetCode, state },
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    }
-  );
+  const res = await axios.get(`${API_DOMIAN2}asset/GeoLock`, {
+    params: { MajorToken, MinorToken, code: assetCode, state },
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 
   console.log(res);
 
@@ -31,13 +28,10 @@ export const changeRelayStatus = async (
   assetCode: string,
   state: "on" | "off"
 ) => {
-  const res = await axios.get(
-    `https://newapi.quiktrak.co/Quikloc8/V1/asset/Relay`,
-    {
-      params: { MajorToken, MinorToken, code: assetCode, state },
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    }
-  );
+  const res = await axios.get(`${API_DOMIAN2}asset/Relay`, {
+    params: { MajorToken, MinorToken, code: assetCode, state },
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 
   console.log(res);
 

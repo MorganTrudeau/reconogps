@@ -10,10 +10,8 @@ import { NavigationState } from "@react-navigation/native";
 const Stack = createNativeStackNavigator();
 
 export const AssetStack = ({
-  onAddAssets,
   onStateChange,
 }: {
-  onAddAssets: () => void;
   onStateChange: (state: NavigationState<RootStackParamList>) => void;
 }) => {
   const { theme, colors } = useTheme();
@@ -35,7 +33,6 @@ export const AssetStack = ({
         options={{ headerShown: false }}
         // @ts-ignore
         component={AssetListScreen}
-        initialParams={{ onAddAssets }}
       />
       <Stack.Screen
         name="asset-details"

@@ -8,11 +8,9 @@ PODS:
     - React-Core
   - EXLocation (17.0.1):
     - ExpoModulesCore
-  - Expo (51.0.34):
+  - Expo (51.0.39):
     - ExpoModulesCore
   - ExpoAsset (10.0.10):
-    - ExpoModulesCore
-  - ExpoClipboard (6.0.3):
     - ExpoModulesCore
   - ExpoFileSystem (17.0.1):
     - ExpoModulesCore
@@ -22,7 +20,7 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (13.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.24):
+  - ExpoModulesCore (1.12.26):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -157,15 +155,15 @@ PODS:
   - libwebp/sharpyuv (1.3.2)
   - libwebp/webp (1.3.2):
     - libwebp/sharpyuv
-  - MapboxCommon (23.9.1)
-  - MapboxCoreMaps (10.16.6):
-    - MapboxCommon (~> 23.9)
-  - MapboxMaps (10.16.6):
-    - MapboxCommon (= 23.9.1)
-    - MapboxCoreMaps (= 10.16.6)
-    - MapboxMobileEvents (= 1.0.10)
-    - Turf (= 2.7.0)
-  - MapboxMobileEvents (1.0.10)
+  - MapboxCommon (23.11.2)
+  - MapboxCoreMaps (10.19.2):
+    - MapboxCommon (~> 23.11)
+  - MapboxMaps (10.19.1):
+    - MapboxCommon (= 23.11.2)
+    - MapboxCoreMaps (= 10.19.2)
+    - MapboxMobileEvents (= 2.0.0)
+    - Turf (= 2.8.0)
+  - MapboxMobileEvents (2.0.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -1402,18 +1400,52 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-pager-view (6.0.1):
-    - React-Core
-  - react-native-safe-area-context (4.4.1):
-    - RCT-Folly
+  - react-native-pager-view (6.6.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
     - RCTRequired
     - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
+    - Yoga
+  - react-native-safe-area-context (5.0.0):
+    - React-Core
   - react-native-slider (4.2.4):
     - React-Core
-  - react-native-webview (11.23.1):
+  - react-native-webview (13.12.5):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - React-nativeconfig (0.75.3)
   - React-NativeModulesApple (0.75.3):
     - glog
@@ -1674,7 +1706,9 @@ PODS:
     - React-logger (= 0.75.3)
     - React-perflogger (= 0.75.3)
     - React-utils (= 0.75.3)
-  - RNCAsyncStorage (1.17.11):
+  - RNCAsyncStorage (2.1.0):
+    - React-Core
+  - RNCClipboard (1.15.0):
     - React-Core
   - RNCPushNotificationIOS (1.11.0):
     - React-Core
@@ -1696,16 +1730,35 @@ PODS:
     - FirebaseCoreExtension (= 10.7.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.8.0):
+  - RNGestureHandler (2.21.2):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
-  - rnmapbox-maps (10.1.3):
-    - MapboxMaps (~> 10.16.2)
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - rnmapbox-maps (10.1.33):
+    - MapboxMaps (~> 10.19.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.1.3)
+    - rnmapbox-maps/DynamicLibrary (= 10.1.33)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.1.3):
-    - MapboxMaps (~> 10.16.2)
+  - rnmapbox-maps/DynamicLibrary (10.1.33):
+    - MapboxMaps (~> 10.19.0)
     - React
     - React-Core
     - Turf
@@ -1776,9 +1829,28 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.18.2):
+  - RNScreens (3.35.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
     - React-RCTImage
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -1786,43 +1858,43 @@ PODS:
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.7.0)
-  - Stripe (23.5.1):
-    - StripeApplePay (= 23.5.1)
-    - StripeCore (= 23.5.1)
-    - StripePayments (= 23.5.1)
-    - StripePaymentsUI (= 23.5.1)
-    - StripeUICore (= 23.5.1)
-  - stripe-react-native (0.26.0):
+  - Stripe (24.2.0):
+    - StripeApplePay (= 24.2.0)
+    - StripeCore (= 24.2.0)
+    - StripePayments (= 24.2.0)
+    - StripePaymentsUI (= 24.2.0)
+    - StripeUICore (= 24.2.0)
+  - stripe-react-native (0.41.0):
     - React-Core
-    - Stripe (~> 23.5.0)
-    - StripeApplePay (~> 23.5.0)
-    - StripeFinancialConnections (~> 23.5.0)
-    - StripePayments (~> 23.5.0)
-    - StripePaymentSheet (~> 23.5.0)
-    - StripePaymentsUI (~> 23.5.0)
-  - StripeApplePay (23.5.1):
-    - StripeCore (= 23.5.1)
-  - StripeCore (23.5.1)
-  - StripeFinancialConnections (23.5.1):
-    - StripeCore (= 23.5.1)
-    - StripeUICore (= 23.5.1)
-  - StripePayments (23.5.1):
-    - StripeCore (= 23.5.1)
-    - StripePayments/Stripe3DS2 (= 23.5.1)
-  - StripePayments/Stripe3DS2 (23.5.1):
-    - StripeCore (= 23.5.1)
-  - StripePaymentSheet (23.5.1):
-    - StripeApplePay (= 23.5.1)
-    - StripeCore (= 23.5.1)
-    - StripePayments (= 23.5.1)
-    - StripePaymentsUI (= 23.5.1)
-  - StripePaymentsUI (23.5.1):
-    - StripeCore (= 23.5.1)
-    - StripePayments (= 23.5.1)
-    - StripeUICore (= 23.5.1)
-  - StripeUICore (23.5.1):
-    - StripeCore (= 23.5.1)
-  - Turf (2.7.0)
+    - Stripe (~> 24.2.0)
+    - StripeApplePay (~> 24.2.0)
+    - StripeFinancialConnections (~> 24.2.0)
+    - StripePayments (~> 24.2.0)
+    - StripePaymentSheet (~> 24.2.0)
+    - StripePaymentsUI (~> 24.2.0)
+  - StripeApplePay (24.2.0):
+    - StripeCore (= 24.2.0)
+  - StripeCore (24.2.0)
+  - StripeFinancialConnections (24.2.0):
+    - StripeCore (= 24.2.0)
+    - StripeUICore (= 24.2.0)
+  - StripePayments (24.2.0):
+    - StripeCore (= 24.2.0)
+    - StripePayments/Stripe3DS2 (= 24.2.0)
+  - StripePayments/Stripe3DS2 (24.2.0):
+    - StripeCore (= 24.2.0)
+  - StripePaymentSheet (24.2.0):
+    - StripeApplePay (= 24.2.0)
+    - StripeCore (= 24.2.0)
+    - StripePayments (= 24.2.0)
+    - StripePaymentsUI (= 24.2.0)
+  - StripePaymentsUI (24.2.0):
+    - StripeCore (= 24.2.0)
+    - StripePayments (= 24.2.0)
+    - StripeUICore (= 24.2.0)
+  - StripeUICore (24.2.0):
+    - StripeCore (= 24.2.0)
+  - Turf (2.8.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1833,7 +1905,6 @@ DEPENDENCIES:
   - EXLocation (from `../node_modules/expo-location/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
-  - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
@@ -1906,6 +1977,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
@@ -1971,8 +2043,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
-  ExpoClipboard:
-    :path: "../node_modules/expo-clipboard/ios"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   ExpoFont:
@@ -2114,6 +2184,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
@@ -2147,14 +2219,13 @@ SPEC CHECKSUMS:
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   EXImageLoader: ab589d67d6c5f2c33572afea9917304418566334
   EXLocation: 43e9b582ca63a23c6f0a18d8cbe2145b3a388b55
-  Expo: 963ef4ae102e4f4ac114a8510d70127c44adffbf
+  Expo: 8c995afb875c15bf8439af0b20bcb9ed8f90d0bd
   ExpoAsset: 323700f291684f110fb55f0d4022a3362ea9f875
-  ExpoClipboard: 23d203f5d4843699fbc45be1cc4fe1fbd811a6fa
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: 00756e6c796d8f7ee8d211e29c8b619e75cbf238
   ExpoImagePicker: 12a420923383ae38dccb069847218f27a3b87816
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
-  ExpoModulesCore: 218188b53162ff0a24127055e7ccd2132f0f95c4
+  ExpoModulesCore: 652c6599c9308d6d334987dbc5ddd9f72bd76cda
   EXSplashScreen: c55b181f3e451bf6f4945045ca24a6da06b52056
   FBLazyVector: 7b438dceb9f904bd85ca3c31d64cce32a035472b
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
@@ -2175,10 +2246,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: 8d2103d6c0176779aea4e25df6bb1410f9946680
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
-  MapboxCommon: 20466d839cc43381c44df09d19f7f794b55b9a93
-  MapboxCoreMaps: c21f433decbb295874f0c2464e492166db813b56
-  MapboxMaps: c3b36646b9038706bbceb5de203bcdd0f411e9d0
-  MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
+  MapboxCommon: 873b75dd0e8c5d7029e0c849437eba365f4887e5
+  MapboxCoreMaps: 35685edba03e44468aed57c3dfd7f8795edafda8
+  MapboxMaps: 05822ab0ee74f7d626e6471572439afe35c1c116
+  MapboxMobileEvents: d044b9edbe0ec7df60f6c2c9634fe9a7f449266b
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
@@ -2210,10 +2281,10 @@ SPEC CHECKSUMS:
   React-logger: 4072f39df335ca443932e0ccece41fbeb5ca8404
   React-Mapbuffer: a90dc2b770956814f2f2ac4553063c5ce2618fe8
   React-microtasksnativemodule: 40cde5ee77232199dec72ea853902afb929390dc
-  react-native-pager-view: 3051346698a0ba0c4e13e40097cc11b00ee03cca
-  react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
+  react-native-pager-view: 3ae40be5b2700f3f2645c1fbc751a03a4323172d
+  react-native-safe-area-context: ab7beb734b0f9f79f55ae144a6c946a6422f55d6
   react-native-slider: cecabb58ecffad671d2ad3ccc58c7f4d2d029e95
-  react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
+  react-native-webview: d7b677e60f512f2e1f3ad07cb2b3d784373df686
   React-nativeconfig: cd572c97f64676dcc2a1c88fc644b693b98408bf
   React-NativeModulesApple: 249c7a23d8ad82f13778f4f525a8d19ccf4deb86
   React-perflogger: 3bbb82f18e9ac29a1a6931568e99d6305ef4403b
@@ -2240,33 +2311,34 @@ SPEC CHECKSUMS:
   React-utils: 211020f1a54caa72455ccf55853b064e590f564b
   ReactCodegen: 4291c041b116b97f7203d961a3cc95adf2347064
   ReactCommon: d5e70af52fb05bd546fd7f002c549f57116c59e4
-  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
+  RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: b0f0c53ed8a00395ceb4863910a2c1ff6e24d9f6
   RNFBFunctions: 8748ffd01c62b4f7d483efbb82e83311a7ff8f65
   RNFBMessaging: e683adf735d2afb847bce161dce0e4006e88a3a2
-  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
-  rnmapbox-maps: 3790367749dfb2fe0f9ccdd52ef4e1510dce4695
+  RNGestureHandler: 5cf4d43fd8d31b236a6d8e392aa48432f01650aa
+  rnmapbox-maps: 4523a49f44df8c03ac9ea4000d9495e775b1bd85
   RNPermissions: 17c7d78c50ca1f3af776e4fb5c1a200f8aa452a4
   RNReanimated: 588d6037ed5b6aed59f0a1d08f163efce125d0cb
-  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  Stripe: d3dc7e6a9ac47a75ddb28ca9622f0e96c63398c9
-  stripe-react-native: 23f5586ac954f54c5723c08be4f1a65d97f797eb
-  StripeApplePay: b72a579021ed2d859a1be070ae6f3bad4eea2624
-  StripeCore: a6511a9b7481571dca38608e2d1fe2b56a753975
-  StripeFinancialConnections: 39a0f0e25509cebc3e28023e7ada5a5a59b80109
-  StripePayments: b0117a9d2857334b1f680b63b7eaf7f1fe6ebcf2
-  StripePaymentSheet: 30d6f1f89e62b789ce22502c093f1f04785640df
-  StripePaymentsUI: c10ddf9939e197b99a1123c6ca6075969a795f43
-  StripeUICore: 5dc852ac5e4302721b7793ee16b74ad679dd5ffb
-  Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
+  Stripe: be805dc0e80a7299de7b10ecbe01ce81412654c8
+  stripe-react-native: 01b57a63afbe42b57f24cebdde78eff3d602148b
+  StripeApplePay: 5233ecff535bb0772785d2d18d02b39ec24ecb71
+  StripeCore: e2f70fcaa82e5a9d44d18fe4534358384cdf4821
+  StripeFinancialConnections: 8c8e2273552d4567ec381ee2b0ff1745b8e11ab6
+  StripePayments: beb97f8061066532744ceaa03e59009c9716332e
+  StripePaymentSheet: 0d8ed5270037b1da3eb107c9876cec67b8b1fe43
+  StripePaymentsUI: 6486d8b86bf49b8932506807a8692ce16e9f109d
+  StripeUICore: b59aa9c9e202b6a03a556c3519eff578274f7598
+  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
   Yoga: c8810b40c43fa71cc1492f358ad5cd5fc1b505da
 
-PODFILE CHECKSUM: 78eb5c299567c99068473967ce71573e535d75fc
+PODFILE CHECKSUM: 36dec7b57f03f7d11fa103310d32ae5e904de2de
 
 COCOAPODS: 1.15.2

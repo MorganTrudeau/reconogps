@@ -1,6 +1,6 @@
 import axios from "axios";
 import { PlaybackPoint, PlaybackTrip } from "../types";
-import { validateResponseData } from "./utils";
+import { API_DOMIAN1, validateResponseData } from "./utils";
 import queryString from "query-string";
 
 export const loadPlayback = async (
@@ -10,10 +10,9 @@ export const loadPlayback = async (
   To: string,
   IsIgnore: boolean
 ) => {
-  const res = await axios.get(
-    `https://newapi.quiktrak.co/QuikTrak/V1/Device/GetHisPosArray2?`,
-    { params: { MinorToken, Code, From, To, IsIgnore } }
-  );
+  const res = await axios.get(`${API_DOMIAN1}Device/GetHisPosArray2?`, {
+    params: { MinorToken, Code, From, To, IsIgnore },
+  });
 
   validateResponseData(res);
 
@@ -63,7 +62,7 @@ export const getTripReport = async (data: {
   Imeis: string[];
 }): Promise<PlaybackTrip[]> => {
   const res = await axios.post(
-    "https://newapi.quiktrak.co/QuikTrak/V1/Report/GetTripReport2New",
+    `${API_DOMIAN1}Report/GetTripReport2New`,
     // JSON.stringify(data),
     queryString.stringify(data),
     {

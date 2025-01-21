@@ -42,9 +42,17 @@ setup_permissions([
   # 'StoreKit',
 ])
 
+# @generated begin @rnmapbox/maps-rnmapboxmapsimpl - expo prebuild (DO NOT MODIFY) sync-864ccf63f800969a184646df0b2c2ef2971621f2
+$RNMapboxMapsDownloadToken = 'sk.eyJ1IjoicmVjb25vZ3BzIiwiYSI6ImNsZGRvbmVscTAwNHczcHFxOWd6cHFnZ3gifQ.6H6bpyJG6L6NAafD9Ds4AQ'
+# @generated end @rnmapbox/maps-rnmapboxmapsimpl
 target 'recono' do
   use_expo_modules!
   post_integrate do |installer|
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
     begin
       expo_patch_react_imports!(installer)
     rescue => e
@@ -55,6 +63,9 @@ target 'recono' do
   use_frameworks! :linkage => :static
 
   pre_install do |installer|
+# @generated begin @rnmapbox/maps-pre_installer - expo prebuild (DO NOT MODIFY) sync-ea4905840bf9fcea0acc62e92aa2e784f9d760f8
+    $RNMapboxMaps.pre_install(installer)
+# @generated end @rnmapbox/maps-pre_installer
     $RNMapboxMaps.pre_install(installer)
   end
 
@@ -65,6 +76,9 @@ target 'recono' do
   )
 
   post_install do |installer|
+# @generated begin @rnmapbox/maps-post_installer - expo prebuild (DO NOT MODIFY) sync-c4e8f90e96f6b6c6ea9241dd7b52ab5f57f7bf36
+    $RNMapboxMaps.post_install(installer)
+# @generated end @rnmapbox/maps-post_installer
     $RNMapboxMaps.post_install(installer)
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(

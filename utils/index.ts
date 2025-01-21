@@ -4,13 +4,23 @@ import { AlertButton, AlertOptions } from "react-native";
 import { SolutionTypes } from "./enums";
 
 export function generateUid(n: number = 9) {
-  let S4 = function () {
+  function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  };
-
-  const randomness = new Array(n).fill(0);
-
-  return randomness.map((_) => S4()).join("");
+  }
+  return (
+    S4() +
+    S4() +
+    "-" +
+    S4() +
+    "-" +
+    S4() +
+    "-" +
+    S4() +
+    "-" +
+    S4() +
+    S4() +
+    S4()
+  );
 }
 
 export const roundNumber = (num: number, decimalPlaces: number) => {

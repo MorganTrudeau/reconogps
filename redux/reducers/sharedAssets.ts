@@ -6,7 +6,7 @@ import {
 import { logout } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
 import { SharedAsset } from "../../types";
-import { IDLE_STATE, SUCCESS_STATE, createSimpleLoadingState } from "../utils";
+import { IDLE_STATE, SUCCESS_STATE, createSimpleLoadingState, resetOnLogout } from "../utils";
 import {
   extendSharedAssetExpiry,
   loadMySharedAssets,
@@ -127,7 +127,7 @@ export const sharedAssetsSlice = createSlice({
       state.loadSubscribedAssetsRequest = SUCCESS_STATE;
     });
     // Logout reset
-    builder.addCase(logout.fulfilled, (state, action) => {
+    resetOnLogout(builder, (state) => {
       state = { ...initialState };
     });
   },

@@ -32,7 +32,10 @@ import { Colors } from "../types/styles";
 import { BORDER_RADIUS_SM, spacing } from "../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MapLayerSelect } from "../components/Maps/MapLayerSelect";
-import { RegionPayload } from "@rnmapbox/maps/lib/typescript/src/components/MapView";
+import {
+  MapState,
+  RegionPayload,
+} from "@rnmapbox/maps/lib/typescript/src/components/MapView";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 type MarkerData = { id: string; longitude: number; latitude: number };
@@ -210,10 +213,8 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
     }
   };
 
-  const handleRegionIsChange = (
-    payload: GeoJSON.Feature<GeoJSON.Point, RegionPayload>
-  ) => {
-    zoomRef.current = payload.properties.zoomLevel;
+  const handleCameraChanged = (payload: MapState) => {
+    zoomRef.current = payload.properties.zoom;
   };
 
   const handleMapPress = useCallback(() => {
@@ -254,10 +255,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
   return (
     <View style={theme.container}>
-      <AppMap
-        onPress={handleMapPress}
-        onRegionIsChanging={handleRegionIsChange}
-      >
+      <AppMap onPress={handleMapPress} onCameraChanged={handleCameraChanged}>
         <MapboxGL.Images images={{ pin: require("../assets/pin.png") }} />
 
         {selectedMarker && !selectedAsset && (
