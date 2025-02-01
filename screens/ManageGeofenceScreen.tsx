@@ -74,9 +74,6 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
   });
   const [loading, setLoading] = useState(false);
 
-  console.log("GEOFENCE", geofence);
-  console.log("MAPSTATE", mapState);
-
   const selectedAssetNames = useMemo(() => {
     return geofenceState.SelectedAssetList.reduce((acc, selectedAsset) => {
       const staticAsset = staticAssets[selectedAsset.AsCode];

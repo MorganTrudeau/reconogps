@@ -44,8 +44,6 @@ export const getAvailableAlarms = async (
 };
 
 export const setAlarmSetting = async (data: Object) => {
-  console.log(data);
-
   const res = await axios.post(
     `https://testapi.quiktrak.co/QuikTrak/V1/Device/AlertConfigureEdit1`,
     queryString.stringify(data),

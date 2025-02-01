@@ -15,8 +15,6 @@ export const changeGeolockStatus = async (
     headers: { "Content-Type": "application/json; charset=utf-8" },
   });
 
-  console.log(res);
-
   validateResponseData(res);
 
   return res.data.Data;
@@ -32,8 +30,6 @@ export const changeRelayStatus = async (
     params: { MajorToken, MinorToken, code: assetCode, state },
     headers: { "Content-Type": "application/json; charset=utf-8" },
   });
-
-  console.log(res);
 
   validateResponseData(res);
 

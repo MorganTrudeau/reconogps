@@ -186,7 +186,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
       }),
       0.0005
     );
-    console.log(modalHeightRef.current);
     mapCamera.current?.setCamera({
       animationDuration: defaultCameraAnimationDuration,
       bounds: {
@@ -201,7 +200,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   };
 
   const handleAssetPress = (assetId: string | null) => {
-    console.log(assetId);
     if (!assetId) {
       return deselectAll();
     }

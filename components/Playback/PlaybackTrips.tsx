@@ -20,7 +20,6 @@ export const PlaybackTrips = ({
 
   const renderTrip = useCallback(
     ({ item, index }: { item: PlaybackTripDetail; index: number }) => {
-      // console.log(trip);
       return (
         <PlaybackTripDetailListItem
           playbackTripDetail={item}

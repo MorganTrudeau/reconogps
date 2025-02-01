@@ -58,7 +58,6 @@ export const MapLayerSelect = () => {
   }, [mapLayerContext.layerStyle]);
 
   const openOptions = useCallback(() => {
-    console.log(optionsModal.current);
     optionsModal.current?.open();
   }, []);
 

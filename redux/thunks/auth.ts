@@ -20,7 +20,6 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   const state = thunkApi.getState() as RootState;
   const { minorToken } = state.auth;
   const mobileToken = state.auth.mobileToken;
-  console.log("MINOR TOKEN", minorToken);
   if (!minorToken) {
     throw Errors.InvalidAuth;
   }

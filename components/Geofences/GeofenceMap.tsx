@@ -185,7 +185,6 @@ export const GeofenceMap = ({
           const coord1 = firstDrawPoint.current;
           if (coord1) {
             const squareCoords = createSquareCoords(coord1, point);
-            console.log(squareCoords);
             if (squareCoords) {
               setDrawPoints(squareCoords);
             }
@@ -273,7 +272,3 @@ const layerStyles: {
     circleColor: "red",
   },
 };
-
-const styles = StyleSheet.create({
-  marker: { height: 10, width: 10, borderRaidus: 5, backgroundColor: "red" },
-});

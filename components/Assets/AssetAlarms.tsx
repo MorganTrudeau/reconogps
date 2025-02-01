@@ -344,7 +344,6 @@ export const AssetAlarms = ({
       };
 
       if (userConfig) {
-        console.log("USER_CONFIG", userConfig);
         const { BeginTime, EndTime } = userConfig;
         const [beginHours, beginMinutes] = BeginTime.split(":");
         const [endHours, endMinutes] = EndTime.split(":");
@@ -406,7 +405,7 @@ export const AssetAlarms = ({
 
       loadAlarms(settings);
     } catch (error) {
-      console.log(error);
+      console.log("Load alarm settings error:", error);
     }
   };
 

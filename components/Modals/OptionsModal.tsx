@@ -68,7 +68,7 @@ const OptionsModal = forwardRef<Modalize, OptionModalProps>(
           const shouldContinue = await option.onConfirmation();
           if (!shouldContinue) return;
         } catch (error) {
-          console.log(error);
+          console.log("Select option error:", error);
           return;
         }
       }

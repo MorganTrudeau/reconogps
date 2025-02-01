@@ -3,7 +3,7 @@ import { StyleURL } from "@rnmapbox/maps";
 import React, { createContext, useEffect } from "react";
 import { ViewProps } from "react-native";
 
-let savedLayerStyle = StyleURL.Street;
+let savedLayerStyle = StyleURL.SatelliteStreet;
 
 const SAVED_LAYER_STYLE_ASYNC_KEY = "SAVED_LAYER_STYLE_ASYNC_KEY";
 

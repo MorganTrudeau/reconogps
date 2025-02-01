@@ -79,8 +79,6 @@ export const deleteGeofence = async (data: {
     }
   );
 
-  console.log("RES", res.data);
-
   validateResponseData(res);
 
   return res.data.Data;

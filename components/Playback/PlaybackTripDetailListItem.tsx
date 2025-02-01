@@ -24,8 +24,6 @@ export const PlaybackTripDetailListItem = ({
 
   //   const [active, setActive] = useState(true);
 
-  console.log(playbackTripDetail);
-
   return (
     <Pressable
       //   onPress={() => setActive((a) => !a)}

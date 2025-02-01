@@ -33,7 +33,6 @@ export const logout = async (
   minorToken: string,
   mobileToken?: string | null
 ) => {
-  console.log("START");
   try {
     const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/Logoff`, {
       params: {
@@ -42,7 +41,6 @@ export const logout = async (
         mobileToken: mobileToken,
       },
     });
-    console.log("Logout res", res);
     validateResponseData(res);
     return res.data;
   } catch (error) {
