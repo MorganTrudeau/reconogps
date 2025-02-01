@@ -45,6 +45,8 @@ export const loadDynamicAssets = async (
   var formData = new FormData();
   formData.append("codes", codes);
 
+  console.log({ majorToken, minorToken, codes });
+
   const res = await axios.post(
     `${API_URL}/QuikTrak/V1/Device/GetPosInfosDB`,
     formData,
@@ -53,6 +55,8 @@ export const loadDynamicAssets = async (
       headers: { "Content-Type": "multipart/form-data" },
     }
   );
+
+  console.log("LOAD DYNAMIC ASSET DATA", res.data.Data);
 
   validateResponseData(res);
 

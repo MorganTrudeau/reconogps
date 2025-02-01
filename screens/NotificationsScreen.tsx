@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/utils";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { loadNotifications } from "../redux/thunks/notifications";
+import { NotificationsList } from "../components/Notifications/NotificationsList";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -14,7 +15,7 @@ type NavigationProps = NativeStackScreenProps<
 >;
 
 const NotificationsScreen = () => {
-  const { theme } = useTheme();
+  const { theme, colors } = useTheme();
 
   const notifications = useSelector(
     (state: RootState) => state.notifications.data
@@ -25,7 +26,15 @@ const NotificationsScreen = () => {
     dispatch(loadNotifications());
   }, []);
 
-  return <View style={theme.container}></View>;
+  return (
+    <View style={theme.container}>
+      <NotificationsList
+        notifications={notifications}
+        theme={theme}
+        colors={colors}
+      />
+    </View>
+  );
 };
 
 export default NotificationsScreen;
