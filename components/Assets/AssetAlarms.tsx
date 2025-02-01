@@ -124,6 +124,13 @@ export const AssetAlarms = ({
   );
   const [loading, setLoading] = useState(false);
 
+  const hasChanges = useMemo(
+    () =>
+      JSON.stringify(userConfigState) !==
+      JSON.stringify(savedUserConfig.current),
+    [userConfigState]
+  );
+
   // const [externalEmail, setExternalEmail] = useState("");
   // const [contactEmails, setContactEmails] = useState<ContactData[]>(
   //   activeUserContact ? [activeUserContact] : []
@@ -213,10 +220,7 @@ export const AssetAlarms = ({
         () => <ActivityIndicator color={colors.primary} />,
         formId
       );
-    } else if (
-      JSON.stringify(userConfigState) !==
-      JSON.stringify(savedUserConfig.current)
-    ) {
+    } else if (hasChanges) {
       formContext?.setSaveButton(
         () => (
           <Pressable
@@ -235,7 +239,7 @@ export const AssetAlarms = ({
     } else {
       formContext.setSaveButton(undefined, formId);
     }
-  }, [userConfigState, loading]);
+  }, [hasChanges, loading]);
 
   const loadAlarms = async (userConfig?: AlarmUserConfiguration) => {
     const AlertTypes = userConfig?.AlertTypes;
@@ -430,7 +434,10 @@ export const AssetAlarms = ({
   if (state.loading) {
     return (
       <View style={theme.container}>
-        <ActivityIndicator style={{ marginTop: spacing("lg") }} />
+        <ActivityIndicator
+          style={{ marginTop: spacing("lg") }}
+          color={colors.primary}
+        />
       </View>
     );
   }

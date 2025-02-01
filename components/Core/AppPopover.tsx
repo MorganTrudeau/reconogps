@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Pressable, TouchableOpacityProps, View } from "react-native";
 import { PopoverContext } from "../../context/PopoverContext";
 
 type Props = {
@@ -17,7 +17,7 @@ const AppPopover = (
   { children, renderPopover, position, ...rest }: Props,
   ref: any
 ) => {
-  const popoverRef = useRef<TouchableOpacity | null>(null);
+  const popoverRef = useRef<View>(null);
 
   const popoverContext = useContext(PopoverContext);
 
@@ -39,14 +39,14 @@ const AppPopover = (
   useImperativeHandle(ref, () => ({ dismiss: popoverContext.dismissPopover }));
 
   return (
-    <TouchableOpacity
+    <Pressable
       hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
       onPress={showPopover}
       ref={popoverRef}
       {...rest}
     >
       {children}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

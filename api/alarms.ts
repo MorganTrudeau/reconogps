@@ -16,11 +16,7 @@ export const getAlarmSettings = async (
       headers: { "Content-Type": "application/json; charset=utf-8" },
     }
   );
-
-  console.log("User alarm config:", res.data);
-
   validateResponseData(res);
-
   return res.data.Data;
 };
 
@@ -35,11 +31,7 @@ export const getAvailableAlarms = async (
       headers: { "Content-Type": "application/json; charset=utf-8" },
     }
   );
-
-  console.log("Alarm settings:", res.data);
-
   validateResponseData(res);
-
   return res.data.Data;
 };
 
@@ -51,10 +43,6 @@ export const setAlarmSetting = async (data: Object) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }
   );
-
-  // console.log("Alarms settings:", res.data);
-
   validateResponseData(res);
-
   return res.data.Data;
 };

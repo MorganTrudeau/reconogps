@@ -81,14 +81,16 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   }, [staticAsset]);
 
   const renderTabBar = useCallback(
-    (props: TabBarProps<any>) => (
-      <TabBar
-        {...props}
-        indicatorStyle={{ backgroundColor: colors.primary }}
-        style={{ backgroundColor: colors.background }}
-        labelStyle={{ textTransform: undefined }}
-      />
-    ),
+    (props: TabBarProps<any>) => {
+      return (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: colors.primary }}
+          style={{ backgroundColor: colors.background }}
+          labelStyle={{ textTransform: undefined }}
+        />
+      );
+    },
     [colors]
   );
 

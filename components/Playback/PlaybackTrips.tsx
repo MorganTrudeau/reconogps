@@ -4,6 +4,8 @@ import { PlaybackTrip, PlaybackTripDetail, StaticAsset } from "../../types";
 import { PlaybackTripDetailListItem } from "./PlaybackTripDetailListItem";
 import { spacing } from "../../styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import EmptyList from "../EmptyList";
+import { useTheme } from "../../hooks/useTheme";
 
 const defaultDetails: PlaybackTripDetail[] = [];
 
@@ -14,6 +16,8 @@ export const PlaybackTrips = ({
   trips: PlaybackTrip | null | undefined;
   assetId: string;
 }) => {
+  const { theme, colors } = useTheme();
+
   const staticAsset = useAppSelector(
     (state) => state.assets.staticData.entities[assetId] as StaticAsset
   );
@@ -31,10 +35,23 @@ export const PlaybackTrips = ({
     [assetId]
   );
 
+  const renderEmpty = useCallback(
+    () => (
+      <EmptyList
+        icon={"map-marker-path"}
+        theme={theme}
+        colors={colors}
+        message={"No trips for this time frame"}
+      />
+    ),
+    [colors, theme]
+  );
+
   return (
     <BottomSheetFlatList
       data={trips?.Details || defaultDetails}
       renderItem={renderTrip}
+      ListEmptyComponent={renderEmpty}
       contentContainerStyle={{
         paddingHorizontal: spacing("lg"),
         paddingVertical: spacing("md"),

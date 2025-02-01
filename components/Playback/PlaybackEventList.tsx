@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { PlaybackEvent } from "../../types";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Image, Pressable, View } from "react-native";
@@ -9,6 +9,7 @@ import { useTheme } from "../../hooks/useTheme";
 import AppText from "../Core/AppText";
 import moment from "moment";
 import { formatDateRange } from "../../utils/dates";
+import EmptyList from "../EmptyList";
 
 export const PlaybackEventList = ({
   events,
@@ -17,7 +18,7 @@ export const PlaybackEventList = ({
   events: PlaybackEvent[];
   onEventPress: (event: PlaybackEvent) => void;
 }) => {
-  const { theme } = useTheme();
+  const { theme, colors } = useTheme();
 
   const renderItem = ({
     item,
@@ -48,10 +49,23 @@ export const PlaybackEventList = ({
     );
   };
 
+  const renderEmpty = useCallback(
+    () => (
+      <EmptyList
+        icon={"map-marker-radius"}
+        theme={theme}
+        colors={colors}
+        message={"No activity for this time frame"}
+      />
+    ),
+    [theme, colors]
+  );
+
   return (
     <BottomSheetFlatList
       data={events}
       renderItem={renderItem}
+      ListEmptyComponent={renderEmpty}
       contentContainerStyle={{
         paddingHorizontal: spacing("lg"),
         paddingVertical: spacing("md"),

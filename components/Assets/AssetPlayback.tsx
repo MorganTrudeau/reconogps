@@ -1,17 +1,19 @@
-import { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import AppField from "../Core/AppField";
 import DateTimeModal from "../Modals/DateTimeModal";
 import { Constants } from "../../utils/constants";
 import moment from "moment";
-import { spacing } from "../../styles";
-import { StyleSheet, View } from "react-native";
+import { BORDER_RADIUS_MD, BORDER_RADIUS_SM, spacing } from "../../styles";
+import { Pressable, StyleSheet, View } from "react-native";
 import SelectModal from "../Modals/SelectModal";
 import { Modalize } from "react-native-modalize";
 import { SwitchItem } from "../SwitchItem";
 import AppButton from "../Core/AppButton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/utils";
+import AppText from "../Core/AppText";
+import { Colors } from "../../types/styles";
 
 type NavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -32,12 +34,27 @@ export const AssetPlayback = ({
   const [startDateModalVisible, setStartDateModalVisible] = useState(false);
   const [endDateModalVisible, setEndDateModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(
-    moment().subtract(1, "day").toDate()
+    moment().subtract(1, "hour").toDate()
   );
   const [endDate, setEndDate] = useState(moment().toDate());
   const [events, setEvents] = useState<any[]>([]);
   const [optimized, setOptimized] = useState(true);
   const [sendEmail, setSendEmail] = useState(false);
+  const [timeFilter, setTimeFilter] = useState<TimePreset>("last-hour");
+  const timeFilterRef = useRef<TimePreset>("last-hour");
+
+  const handleTimePresetPress = useCallback((preset: TimePreset) => {
+    if (timeFilterRef.current === preset) {
+      return;
+    }
+    timeFilterRef.current = preset;
+    setTimeFilter(preset);
+
+    const hours = preset === "last-hour" ? 1 : preset === "last-12" ? 12 : 24;
+
+    setStartDate(moment().subtract(hours, "hours").toDate());
+    setEndDate(new Date());
+  }, []);
 
   const eventsString = useMemo(() => {
     return events.map((e) => e.name).join(", ");
@@ -66,16 +83,48 @@ export const AssetPlayback = ({
           paddingHorizontal: spacing("lg"),
         }}
       >
-        <AppField
-          placeholder="Start time"
-          value={formattedFrom}
-          onPress={() => setStartDateModalVisible(true)}
+        <PresetButton
+          title={"Last hour"}
+          colors={colors}
+          preset={"last-hour"}
+          onPress={handleTimePresetPress}
+          selected={timeFilter === "last-hour"}
         />
-        <AppField
-          placeholder="End time"
-          value={formattedTo}
-          onPress={() => setEndDateModalVisible(true)}
+        <PresetButton
+          title={"Last 12 hours"}
+          colors={colors}
+          preset={"last-12"}
+          onPress={handleTimePresetPress}
+          selected={timeFilter === "last-12"}
         />
+        <PresetButton
+          title={"Last 24 hours"}
+          colors={colors}
+          preset={"last-24"}
+          onPress={handleTimePresetPress}
+          selected={timeFilter === "last-24"}
+        />
+        <PresetButton
+          title={"Custom time"}
+          colors={colors}
+          preset={"custom"}
+          onPress={handleTimePresetPress}
+          selected={timeFilter === "custom"}
+        />
+        {timeFilter === "custom" && (
+          <>
+            <AppField
+              placeholder="Start time"
+              value={formattedFrom}
+              onPress={() => setStartDateModalVisible(true)}
+            />
+            <AppField
+              placeholder="End time"
+              value={formattedTo}
+              onPress={() => setEndDateModalVisible(true)}
+            />
+          </>
+        )}
         <AppField
           value={eventsString}
           placeholder={"Playback events"}
@@ -138,4 +187,42 @@ export const AssetPlayback = ({
   );
 };
 
-const styles = StyleSheet.create({ button: { marginTop: spacing("xl") } });
+type TimePreset = "last-hour" | "last-12" | "last-24" | "custom";
+
+const PresetButton = React.memo(
+  ({
+    title,
+    colors,
+    onPress,
+    selected,
+    preset,
+  }: {
+    title: string;
+    colors: Colors;
+    selected: boolean;
+    onPress: (preset: TimePreset) => void;
+    preset: TimePreset;
+  }) => {
+    return (
+      <Pressable
+        style={[
+          styles.timePreset,
+          { borderColor: selected ? colors.primary : colors.border },
+        ]}
+        onPress={() => onPress(preset)}
+      >
+        <AppText>{title}</AppText>
+      </Pressable>
+    );
+  }
+);
+
+const styles = StyleSheet.create({
+  button: { marginTop: spacing("xl") },
+  timePreset: {
+    borderRadius: BORDER_RADIUS_SM,
+    borderWidth: 2,
+    padding: spacing("md"),
+    marginTop: spacing("md"),
+  },
+});

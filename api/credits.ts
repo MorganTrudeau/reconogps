@@ -10,8 +10,6 @@ export const changeRelayStatus = async (
     headers: { "Content-Type": "application/json; charset=utf-8" },
   });
 
-  console.log(res);
-
   validateResponseData(res);
 
   return res.data.Data;

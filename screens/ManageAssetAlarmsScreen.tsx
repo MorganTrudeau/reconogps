@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppScrollView from "../components/Core/AppScrollView";
@@ -53,7 +53,7 @@ const ManageAssetAlarmsScreen = ({ navigation, route }: NavigationProps) => {
   //   disabled: !selectedAssets.length,
   // });
 
-  const setSaveButton = (button: React.FC<any>) => {
+  const setSaveButton = (button: FC<any> | undefined) => {
     navigation.setOptions({ headerRight: button });
   };
 

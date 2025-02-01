@@ -354,6 +354,17 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
     return shape;
   }, [playbackEvents, focusedPoint]);
 
+  const [speedPopUpPosition, setSpeedPopUpPostion] = useState<
+    "bottomRight" | "topRight"
+  >("bottomRight");
+  const handleBottomSheetChange = useCallback((index: number) => {
+    if (index > 1) {
+      setSpeedPopUpPostion("topRight");
+    } else {
+      setSpeedPopUpPostion("bottomRight");
+    }
+  }, []);
+
   const renderPlaybackData = useCallback(() => {
     if (!focusedPoint) {
       return null;
@@ -435,6 +446,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
             }}
           />
           <View style={{ flex: 1 }}>
+            {/* @ts-ignore */}
             <Slider
               style={{ height: 40, flex: 1 }}
               minimumValue={playbackData[0]?.positionTime || 0}
@@ -460,7 +472,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
             )}
           </View>
           <AppPopover
-            position={"bottomRight"}
+            position={speedPopUpPosition}
             renderPopover={renderSpeedMenu}
             style={[
               theme.row,
@@ -644,6 +656,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
           borderTopLeftRadius: BORDER_RADIUS_MD,
         }}
         handleIndicatorStyle={{ backgroundColor: colors.white }}
+        onChange={handleBottomSheetChange}
       >
         {renderEventPlayer()}
 
