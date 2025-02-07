@@ -1,3 +1,5 @@
+import { StaticAsset } from ".";
+
 export type ReportParams = {
   MajorToken: string;
   MinorToken: string;
@@ -44,4 +46,28 @@ export type EditGeofenceParams = {
   InSpeedLimit: number;
   RelayTime: number;
   Relay: number;
+};
+
+export type EditAssetParams = {
+  MinorToken: string;
+  MajorToken: string;
+  Code: StaticAsset["id"];
+  IMEI: StaticAsset["imei"];
+  name: StaticAsset["name"];
+  registration: StaticAsset["registration"];
+  speedUnit: StaticAsset["speedUnit"];
+  initMileage: StaticAsset["initialMileage"];
+  initAccHours: StaticAsset["initialAccHours"];
+  attr1: StaticAsset["make"];
+  attr2: StaticAsset["model"];
+  attr3: StaticAsset["color"];
+  attr4: StaticAsset["year"];
+  MaxSpeed: StaticAsset["maxSpeed"];
+  AssetType: StaticAsset["assetType"];
+  DriverCode: StaticAsset["driverCode"];
+  RoadSpeed: StaticAsset["roadSpeed"];
+  LBSWIFI: number;
+  STATICDRIFT: number;
+  Input1Name: StaticAsset["input1"];
+  Input2Name: StaticAsset["input2"];
 };

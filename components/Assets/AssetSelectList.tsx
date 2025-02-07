@@ -14,7 +14,7 @@ const AssetSelectList = (props: Omit<SelectListProps, "data">) => {
   const renderItemContent = (item: StaticAsset) => {
     return (
       <View style={styles.item}>
-        <AssetAvatar asset={item} size={iconSize("xl")} style={styles.icon} />
+        <AssetAvatar asset={item} size={iconSize("xl")} style={styles.avatar} />
         <AppText>{item.name}</AppText>
       </View>
     );
@@ -32,6 +32,7 @@ const AssetSelectList = (props: Omit<SelectListProps, "data">) => {
 const styles = StyleSheet.create({
   item: { flexDirection: "row", alignItems: "center" },
   icon: { marginRight: spacing("md") },
+  avatar: { marginRight: spacing("lg") },
 });
 
 export default AssetSelectList;

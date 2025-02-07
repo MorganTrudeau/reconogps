@@ -1,15 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { FC, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppScrollView from "../components/Core/AppScrollView";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { RootStackParamList } from "../navigation/utils";
-import { spacing } from "../styles";
+import { iconSize, spacing } from "../styles";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
 import { useHeaderRightSave } from "../hooks/useHeaderRightSave";
 import { FormContext } from "../context/FormContext";
+import AppIcon from "../components/Core/AppIcon";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -23,7 +24,7 @@ const ManageAssetAlarmsScreen = ({ navigation, route }: NavigationProps) => {
       : [];
 
   const insets = useSafeAreaInsets();
-  const { theme } = useTheme();
+  const { theme, colors } = useTheme();
 
   const { asset } = useAppSelector((state) => {
     const activeUser = state.activeUser.data;
@@ -53,8 +54,24 @@ const ManageAssetAlarmsScreen = ({ navigation, route }: NavigationProps) => {
   //   disabled: !selectedAssets.length,
   // });
 
-  const setSaveButton = (button: FC<any> | undefined) => {
-    navigation.setOptions({ headerRight: button });
+  const setSaveButton = (
+    formId: string,
+    onSave: (() => void) | undefined,
+    loading: boolean
+  ) => {
+    navigation.setOptions({
+      headerRight: loading
+        ? () => <ActivityIndicator color={colors.primary} />
+        : () => (
+            <Pressable onPress={onSave} hitSlop={spacing("md")}>
+              <AppIcon
+                name="check-circle"
+                color={colors.primary}
+                size={iconSize("md")}
+              />
+            </Pressable>
+          ),
+    });
   };
 
   return (

@@ -64,6 +64,25 @@ const getMileageValue = (speedUnit: SpeedUnit, mileage: number) => {
   return ret;
 };
 
+export const getSpeedValueInKM = (speedUnit: SpeedUnit, speed: number) => {
+  let ret = 0;
+  switch (speedUnit) {
+    case "KT":
+      ret = speed / 0.53995680345572;
+      break;
+    case "KPH":
+      ret = speed;
+      break;
+    case "MPS":
+      ret = speed / 0.277777778;
+      break;
+    case "MPH":
+      ret = speed / 0.621371192;
+      break;
+  }
+  return Math.round(ret);
+};
+
 export const getMileageUnit = (speedUnit: SpeedUnit) => {
   let ret = "";
   switch (speedUnit) {
@@ -200,7 +219,7 @@ export const assetHasIcon = (staticAsset: StaticAsset): boolean => {
   return !!staticAsset.icon && pattern.test(staticAsset.icon);
 };
 
-const mapAssetArray = (assetValues: string[]) => {
+export const mapAssetArray = (assetValues: string[]) => {
   let index = 0;
   const staticAsset: StaticAsset = {
     id: assetValues[index++],
@@ -217,10 +236,10 @@ const mapAssetArray = (assetValues: string[]) => {
     productName: assetValues[index++],
     productFeatureBitSum: assetValues[index++],
     alertSettingsBitSum: assetValues[index++],
-    model: assetValues[index++],
-    make: assetValues[index++],
-    color: assetValues[index++],
-    year: assetValues[index++],
+    make: assetValues[index++], // Describe1
+    model: assetValues[index++], // Describe2
+    color: assetValues[index++], // Describe3
+    year: assetValues[index++], // Describe4
     installLocation: assetValues[index++],
     fieldFloat1: assetValues[index++],
     fieldFloat2: assetValues[index++],
@@ -253,7 +272,7 @@ const mapAssetArray = (assetValues: string[]) => {
     alarmOptions2: assetValues[index++],
     driverCode: assetValues[index++],
     roadSpeed: Number(assetValues[index++]),
-    onWifi: assetValues[index++],
+    onWifi: assetValues[index++], // 0 | 1
     onStaticDrift: assetValues[index++],
     input1: assetValues[index++],
     input2: assetValues[index++],

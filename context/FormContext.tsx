@@ -1,5 +1,13 @@
-import { FC, createContext } from "react";
+import { createContext } from "react";
 
-export const FormContext = createContext<{
-  setSaveButton: (button: FC<any> | undefined, formId: string) => void;
-}>({ setSaveButton: () => {} });
+export type FormContextType = {
+  setSaveButton: (
+    formId: string,
+    onSave: (() => void) | undefined,
+    loading: boolean
+  ) => void;
+};
+
+export const FormContext = createContext<FormContextType>({
+  setSaveButton: () => {},
+});

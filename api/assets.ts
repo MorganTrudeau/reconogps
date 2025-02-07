@@ -1,8 +1,15 @@
 import axios from "axios";
 import { API_URL, DEALER_TOKEN } from "@env";
-import { API_DOMIAN2, validateResponseData } from "./utils";
+import {
+  API_DOMIAN1,
+  API_DOMIAN2,
+  formDataFromObject,
+  validateResponseData,
+} from "./utils";
 import { Errors } from "../utils/enums";
-import { initDynamicAssetData } from "../utils/assets";
+import { getSpeedValueInKM, initDynamicAssetData } from "../utils/assets";
+import { StaticAsset } from "../types";
+import { EditAssetParams } from "../types/api";
 
 export const changeGeolockStatus = async (
   MajorToken: string,
@@ -45,8 +52,6 @@ export const loadDynamicAssets = async (
   var formData = new FormData();
   formData.append("codes", codes);
 
-  console.log({ majorToken, minorToken, codes });
-
   const res = await axios.post(
     `${API_URL}/QuikTrak/V1/Device/GetPosInfosDB`,
     formData,
@@ -55,8 +60,6 @@ export const loadDynamicAssets = async (
       headers: { "Content-Type": "multipart/form-data" },
     }
   );
-
-  console.log("LOAD DYNAMIC ASSET DATA", res.data.Data);
 
   validateResponseData(res);
 
@@ -152,4 +155,52 @@ export const uploadAssetImage = async (imei: string, base64: string) => {
   validateResponseData(res);
 
   return res.data.Data;
+};
+
+export const editAsset = async (
+  majorToken: string,
+  minorToken: string,
+  asset: StaticAsset
+) => {
+  const params: EditAssetParams = {
+    MajorToken: majorToken,
+    MinorToken: minorToken,
+    Code: asset.id,
+    IMEI: asset.imei,
+    name: asset.name,
+    registration: asset.registration,
+    speedUnit: asset.speedUnit,
+    initMileage: asset.initialMileage,
+    initAccHours: asset.initialAccHours,
+    attr1: asset.make,
+    attr2: asset.model,
+    attr3: asset.color,
+    attr4: asset.year,
+    MaxSpeed: asset.maxSpeed,
+    AssetType: asset.assetType,
+    DriverCode: asset.driverCode,
+    RoadSpeed: asset.roadSpeed ? 1 : 0,
+    LBSWIFI: asset.onWifi ? 1 : 0,
+    STATICDRIFT: asset.onStaticDrift ? 1 : 0,
+    Input1Name: asset.input1,
+    Input2Name: asset.input2,
+  };
+
+  if (params.MaxSpeed) {
+    params.MaxSpeed = getSpeedValueInKM(params.speedUnit, params.MaxSpeed);
+  }
+  if (params.DriverCode === "000000") {
+    params.DriverCode = "";
+  }
+  const formData = formDataFromObject(params);
+  const res = await axios.post(`${API_DOMIAN1}Device/Edit`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  validateResponseData(res);
+  console.log("EDIT ASSET RES", res.data.Data.Device);
+  if (res.data.Data.Device) {
+    return res.data.Data.Device as string[];
+  } else {
+    throw "missing device";
+  }
 };

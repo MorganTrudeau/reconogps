@@ -50,10 +50,14 @@ export const AssetPlayback = ({
     timeFilterRef.current = preset;
     setTimeFilter(preset);
 
-    const hours = preset === "last-hour" ? 1 : preset === "last-12" ? 12 : 24;
-
-    setStartDate(moment().subtract(hours, "hours").toDate());
-    setEndDate(new Date());
+    if (preset === "yesterday") {
+      setStartDate(moment().subtract(1, "day").startOf("day").toDate());
+      setEndDate(moment().subtract(1, "day").endOf("day").toDate());
+    } else {
+      const hours = preset === "last-hour" ? 1 : preset === "last-12" ? 12 : 24;
+      setStartDate(moment().subtract(hours, "hours").toDate());
+      setEndDate(new Date());
+    }
   }, []);
 
   const eventsString = useMemo(() => {
@@ -103,6 +107,13 @@ export const AssetPlayback = ({
           preset={"last-24"}
           onPress={handleTimePresetPress}
           selected={timeFilter === "last-24"}
+        />
+        <PresetButton
+          title={"Yesterday"}
+          colors={colors}
+          preset={"yesterday"}
+          onPress={handleTimePresetPress}
+          selected={timeFilter === "yesterday"}
         />
         <PresetButton
           title={"Custom time"}
@@ -187,7 +198,7 @@ export const AssetPlayback = ({
   );
 };
 
-type TimePreset = "last-hour" | "last-12" | "last-24" | "custom";
+type TimePreset = "last-hour" | "last-12" | "last-24" | "yesterday" | "custom";
 
 const PresetButton = React.memo(
   ({

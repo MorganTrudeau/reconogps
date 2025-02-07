@@ -3,7 +3,7 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import React, { useCallback, useMemo, useState } from "react";
-import { useWindowDimensions, View } from "react-native";
+import { Pressable, useWindowDimensions, View } from "react-native";
 import {
   SceneMap,
   SceneRendererProps,
@@ -24,10 +24,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AssetAlarms } from "../components/Assets/AssetAlarms";
 import { AssetPlayback } from "../components/Assets/AssetPlayback";
 import { StaticAsset } from "../types";
-import { spacing } from "../styles";
+import { iconSize, spacing } from "../styles";
 import { FormContext } from "../context/FormContext";
 import { AssetGeofenceList } from "../components/Assets/AssetGeofenceList";
+import AppText from "../components/Core/AppText";
+import { ActivityIndicator } from "react-native";
+import AppIcon from "../components/Core/AppIcon";
+import Animated, { StretchInY } from "react-native-reanimated";
+import { Colors, Theme } from "../types/styles";
 import AppIconButton from "../components/Core/AppIconButton";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -94,46 +101,62 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
     [colors]
   );
 
-  const [SaveButtons, setSaveButtons] = useState<{
-    [index: string]: React.FC<any> | undefined;
+  const [loadingState, setLoadingState] = useState<{
+    [index: string]: boolean;
   }>({});
-
-  const setSaveButton = (button: React.FC<any> | undefined, id: string) => {
-    setSaveButtons((s) => ({ ...s, [id]: button }));
+  const loading = loadingState[routes[index].key];
+  const setLoading = (loading: boolean, id: string) => {
+    setLoadingState((s) => ({ ...s, [id]: loading }));
   };
-  const SaveButton = SaveButtons[routes[index].key];
+
+  const [saveStates, setSaveStates] = useState<{
+    [index: string]: { onSave: (() => void) | undefined; loading: boolean };
+  }>({});
+  const setSaveButton = (
+    id: string,
+    onSave: (() => void) | undefined,
+    loading: boolean
+  ) => {
+    setSaveStates((s) => ({ ...s, [id]: { onSave, loading } }));
+  };
+  const saveState = saveStates[routes[index].key];
 
   return (
     <FormContext.Provider value={{ setSaveButton }}>
       <View style={theme.container}>
         <View style={theme.row}>
           {staticAsset && (
-            <AssetItem
-              asset={staticAsset}
-              {...{ theme, colors }}
-              showDetails={false}
-              style={{ flex: 1 }}
-              allowEditing
-            />
-          )}
-          <AppIconButton
-            name={"panorama-variant"}
-            {...{ theme, colors }}
-            onPress={() => {
-              if (dynamicAsset) {
-                navigation.navigate("street-view", {
-                  latitude: dynamicAsset.lat,
-                  longitude: dynamicAsset.lng,
-                });
-              }
-            }}
-          />
-          {SaveButton && (
-            <View style={{ paddingHorizontal: spacing("lg") }}>
-              <SaveButton />
-            </View>
+            <>
+              <AssetItem
+                asset={staticAsset}
+                {...{ theme, colors }}
+                showDetails={false}
+                style={{ flex: 1 }}
+                allowEditing
+              />
+              <AppIconButton
+                name={"pencil"}
+                {...{ theme, colors }}
+                size={iconSize("md")}
+                onPress={() => {
+                  navigation.navigate("edit-asset", {
+                    id: staticAsset.id,
+                  });
+                }}
+              />
+            </>
           )}
         </View>
+
+        {!!saveState?.onSave && (
+          <SaveButton
+            onSave={saveState.onSave}
+            loading={saveState.loading}
+            theme={theme}
+            colors={colors}
+          />
+        )}
+
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -145,6 +168,46 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
     </FormContext.Provider>
   );
 };
+
+const SaveButton = React.memo(function SaveButton({
+  onSave,
+  loading,
+  theme,
+  colors,
+}: {
+  onSave: () => void;
+  loading: boolean;
+  theme: Theme;
+  colors: Colors;
+}) {
+  return (
+    <Animated.View entering={StretchInY.duration(200)}>
+      <AnimatedPressable
+        onPress={onSave}
+        style={{
+          height: 45,
+          width: "100%",
+          backgroundColor: colors.primary,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {loading ? (
+          <ActivityIndicator color={"#000000"} />
+        ) : (
+          <View style={theme.row}>
+            <AppIcon
+              name="check-circle"
+              size={iconSize("sm")}
+              style={{ marginRight: spacing("sm") }}
+            />
+            <AppText style={{ color: "#000000" }}>Save</AppText>
+          </View>
+        )}
+      </AnimatedPressable>
+    </Animated.View>
+  );
+});
 
 type SceneProps = SceneRendererProps & {
   route: {
@@ -170,7 +233,10 @@ const DummyRoute = (props: SceneProps) => {
             paddingBottom: insets.bottom + spacing("md"),
           }}
         >
-          <AssetDetail assetId={props.route.asset.id} />
+          <AssetDetail
+            assetId={props.route.asset.id}
+            navigation={props.route.navigation}
+          />
         </BottomSheetScrollView>
       );
     case "alarm":

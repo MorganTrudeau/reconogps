@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { logout } from "../thunks/auth";
 import { Notification } from "../../types";
 import { createTransform } from "redux-persist";
 import { loadNotifications, registerToken } from "../thunks/notifications";
@@ -8,7 +7,7 @@ import { resetOnLogout } from "../utils";
 export interface NotificationsState {
   deviceToken: string;
   data: Notification[];
-  unreadCount: 0;
+  unreadCount: number;
 }
 
 const initialState: NotificationsState = {
@@ -17,7 +16,7 @@ const initialState: NotificationsState = {
   unreadCount: 0,
 };
 
-type CachedState = Pick<NotificationsState, "data" | "unreadCount">;
+type CachedState = Pick<NotificationsState, "unreadCount" | "data">;
 export const transform = createTransform(
   (state: CachedState) => ({
     unreadCount: state.unreadCount,
@@ -34,11 +33,22 @@ export const notificationsSlice = createSlice({
     setDeviceToken: (state, action: PayloadAction<string>) => {
       state.deviceToken = action.payload;
     },
+    clearNotifications: (state) => {
+      state.unreadCount = 0;
+      state.data = [];
+    },
+    clearUnreadCount: (state) => {
+      state.unreadCount = 0;
+    },
   },
   extraReducers: (builder) => {
     // Login data
     builder.addCase(loadNotifications.fulfilled, (state, action) => {
-      state.data = action.payload.map((n: string) => JSON.parse(n));
+      state.data = [
+        ...action.payload.map((n: string) => JSON.parse(n)),
+        ...state.data,
+      ];
+      state.unreadCount = state.unreadCount + action.payload.length;
     });
     // Logout reset
     resetOnLogout(builder, (state) => {
@@ -50,6 +60,7 @@ export const notificationsSlice = createSlice({
   },
 });
 
-export const { setDeviceToken } = notificationsSlice.actions;
+export const { setDeviceToken, clearNotifications, clearUnreadCount } =
+  notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

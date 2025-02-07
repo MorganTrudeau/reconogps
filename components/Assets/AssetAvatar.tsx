@@ -41,9 +41,7 @@ const AssetAvatar = ({
 const ICON_SIZE = 40;
 
 const styles = StyleSheet.create({
-  icon: {
-    marginRight: spacing("lg"),
-  },
+  icon: {},
 });
 
 export default AssetAvatar;

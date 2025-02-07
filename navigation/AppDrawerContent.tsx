@@ -17,7 +17,6 @@ import {
 import AppDrawerIcon from "./AppDrawerIcon";
 import { useAlert } from "../hooks/useAlert";
 import { iconSize, spacing } from "../styles";
-import AppIconButton from "../components/Core/AppIconButton";
 import { useTheme } from "../hooks/useTheme";
 import AppIcon from "../components/Core/AppIcon";
 import AppText from "../components/Core/AppText";
@@ -69,7 +68,10 @@ const AppDrawerContent = (props: DrawerContentComponentProps) => {
           style={styles.logo}
           resizeMode={"contain"}
         />
-        <Pressable onPress={() => props.navigation.navigate("notifications")}>
+        <Pressable
+          onPress={() => props.navigation.navigate("notifications")}
+          hitSlop={20}
+        >
           <AppIcon
             name="bell"
             {...{ theme, colors }}
@@ -78,7 +80,7 @@ const AppDrawerContent = (props: DrawerContentComponentProps) => {
           />
           {!!unreadNotifications && (
             <View style={[styles.unreadCount, { backgroundColor: colors.red }]}>
-              <AppText style={theme.textSmall}>1</AppText>
+              <AppText style={theme.textSmall}>{unreadNotifications}</AppText>
             </View>
           )}
         </Pressable>

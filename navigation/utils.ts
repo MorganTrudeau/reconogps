@@ -3,8 +3,10 @@ import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { AssetActivationEntry, EditContactData } from "../types";
 import { Colors, Theme } from "../types/styles";
 import { Dimensions, Platform } from "react-native";
+import DrawerToggleButton from "./DrawerToggleButton";
 
 export type RootStackParamList = {
+  "edit-asset": { id: string };
   login: undefined;
   signup: undefined;
   "forgot-password": undefined;
@@ -66,6 +68,7 @@ export const getDefaultDrawerOptions = (
     headerTitleStyle: theme.titleLarge,
     headerTitle: "",
     headerStyle: theme.header,
+    headerLeft: DrawerToggleButton,
     headerShadowVisible: false,
     drawerStyle: { backgroundColor: colors.background },
     drawerActiveBackgroundColor: colors.primary,

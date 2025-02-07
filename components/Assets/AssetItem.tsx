@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { iconSize, spacing } from "../../styles";
 import { CombinedAsset, StaticAsset } from "../../types";
 import AppText from "../Core/AppText";
-import { usePlaceholderLoader } from "../../hooks/usePlaceholderLoader";
 import Placeholder from "../Placeholder";
 import AssetAvatar from "./AssetAvatar";
 import { useAppSelector } from "../../hooks/useAppSelector";
@@ -12,6 +11,7 @@ import AppIcon from "../Core/AppIcon";
 import { IconSet } from "../../utils/enums";
 import { geocodeLatLong } from "../../api/position";
 import { AssetAvatarUpload } from "./AssetAvatarUpload";
+import moment from "moment";
 
 type Props = {
   asset: StaticAsset;
@@ -34,27 +34,34 @@ const AssetItem = ({
     (state) => state.assets.dynamicData.entities[asset.id]
   );
 
-  const [address, setAddress] = useState("8940 192 St, Surrey, BC V4N 3W8");
+  const [address, setAddress] = useState("");
 
   const lat = dynamicData?.lat;
   const lng = dynamicData?.lng;
 
-  // const getAddress = async (lat: number, lng: number) => {
-  //   try {
-  //     const address = await geocodeLatLong(lat, lng);
-  //     setAddress(address);
-  //   } catch (error) {
-  //     console.log("Failed to find address: ", error);
-  //   }
-  // };
+  const getAddress = async (lat: number, lng: number) => {
+    try {
+      const address = await geocodeLatLong(lat, lng);
+      setAddress(address);
+    } catch (error) {
+      console.log("Failed to find address: ", error);
+    }
+  };
 
   useEffect(() => {
     if (lat && lng && showDetails) {
-      // getAddress(lat, lng);
+      getAddress(lat, lng);
     }
   }, [lat, lng, showDetails]);
 
   const isMoving = dynamicData && dynamicData.speed > 0;
+
+  const positionTime = dynamicData?.positionTime;
+
+  const lastUpdate = useMemo(
+    () => moment(positionTime).fromNow(),
+    [positionTime]
+  );
 
   return (
     <Pressable
@@ -71,7 +78,7 @@ const AssetItem = ({
         imei={asset.imei}
         disabled={!allowEditing}
       >
-        <AssetAvatar asset={asset} />
+        <AssetAvatar asset={asset} style={styles.avatar} />
       </AssetAvatarUpload>
       <View style={styles.content}>
         <AppText>{asset.name}</AppText>
@@ -91,7 +98,7 @@ const AssetItem = ({
               </AppText>
             ) : (
               <AppText style={theme.textSmallMeta}>
-                Last Update {dynamicData.positionTime}
+                Last Update {lastUpdate}
               </AppText>
             )}
             {showDetails && (
@@ -183,6 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   infoIcon: { marginRight: 5 },
+  avatar: { marginRight: spacing("lg") },
 });
 
 export default AssetItem;

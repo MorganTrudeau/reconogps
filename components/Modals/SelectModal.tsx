@@ -9,6 +9,7 @@ import ModalHeader from "../Modals/ModalHeader";
 import SelectAllHeader from "../SelectAllHeader";
 import { spacing } from "../../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useUpdated } from "../../hooks/useUpdated";
 
 const defaultIdSelector = (data: any) => data.id;
 const defaultNameSelector = (data: any) => data.name;
@@ -64,9 +65,7 @@ const SelectModal = forwardRef<Modalize, Props>(
       autoSelectAll
     );
 
-    useEffect(() => {
-      onSelect(selectedData);
-    }, [selectedData]);
+    useUpdated(selectedData, onSelect);
 
     const [search, setSearch] = useState("");
 
@@ -130,7 +129,7 @@ const SelectModal = forwardRef<Modalize, Props>(
             renderItem: renderItem,
             bounces: false,
             extraData: selectedIds,
-            ListHeaderComponent: (
+            ListHeaderComponent: singleSelect ? undefined : (
               <SelectAllHeader
                 title={selectAllTitle}
                 isSelected={allSelected}
@@ -141,9 +140,11 @@ const SelectModal = forwardRef<Modalize, Props>(
             ),
             ListEmptyComponent,
             contentContainerStyle: {
+              flexGrow: 1,
               paddingBottom: spacing("md") + insets.bottom,
             },
           }}
+          disableScrollIfPossible={false}
         />
       </Portal>
     );

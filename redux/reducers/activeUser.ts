@@ -13,6 +13,7 @@ import { createTransform } from "redux-persist";
 
 export interface ActiveUserState {
   data: User | null;
+  assetTypes: string[];
   permissions: Permissions | null;
   permissions2: Permissions2 | null;
   updateRequest: SimpleLoadingState;
@@ -20,19 +21,20 @@ export interface ActiveUserState {
 
 const initialState: ActiveUserState = {
   data: null,
+  assetTypes: [],
   permissions: null,
   permissions2: null,
   updateRequest: IDLE_STATE,
 };
 
 export const transform = createTransform(
-  (state: ActiveUserState) => ({
-    ...initialState,
+  (state: Partial<ActiveUserState>) => ({
+    assetTypes: state.assetTypes,
     permissions: state.permissions,
     permissions2: state.permissions2,
     data: state.data,
   }),
-  (state: ActiveUserState) => state,
+  (state: Partial<ActiveUserState>) => ({ ...initialState, ...state }),
   { whitelist: ["activeUser"] }
 );
 
@@ -48,6 +50,7 @@ export const activeUserSlice = createSlice({
         (p: string) => !!p
       );
       state.permissions2 = action.payload.data.Permissions2;
+      state.assetTypes = action.payload.data.AssetTypes;
     });
     createSimpleLoadingState("updateRequest", builder, updateUserInfo);
     // Update User Info

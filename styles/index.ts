@@ -115,6 +115,7 @@ export const styles = StyleSheet.create({
   contentContainer: { paddingHorizontal: spacing("lg") },
   row: { flexDirection: "row", alignItems: "center" },
   flex: { flex: 1 },
+  flexGrow: { flexGrow: 1 },
 
   modalHeaderSelectAll: {
     marginHorizontal: 0,

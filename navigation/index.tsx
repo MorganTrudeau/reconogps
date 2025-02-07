@@ -1,9 +1,6 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  createDrawerNavigator,
-  DrawerToggleButton,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { useTheme } from "../hooks/useTheme";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -44,6 +41,8 @@ import {
   NativeStackNavigationOptions,
 } from "@react-navigation/native-stack/lib/typescript/src/types";
 import StreetViewScreen from "../screens/StreetViewScreen";
+import DrawerToggleButton from "./DrawerToggleButton";
+import AssetEditScreen from "../screens/AssetEditScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -356,6 +355,13 @@ const MainStack = () => {
         // options={transparentHeaderConfig}
         // @ts-ignore
         component={StreetViewScreen}
+      />
+      <Stack.Screen
+        name="edit-asset"
+        options={{ title: "Edit Asset" }}
+        // options={transparentHeaderConfig}
+        // @ts-ignore
+        component={AssetEditScreen}
       />
     </Stack.Navigator>
   );

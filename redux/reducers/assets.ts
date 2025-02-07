@@ -6,9 +6,18 @@ import {
 import { login, logout } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
 import { DynamicAsset, StaticAsset } from "../../types";
-import { mapArrayOfAssetArrays } from "../../utils/assets";
-import { loadDynamicAssets, loadStaticAssets } from "../thunks/assets";
-import { createSimpleLoadingState, IDLE_STATE, resetOnLogout, SUCCESS_STATE } from "../utils";
+import { mapArrayOfAssetArrays, mapAssetArray } from "../../utils/assets";
+import {
+  editAsset,
+  loadDynamicAssets,
+  loadStaticAssets,
+} from "../thunks/assets";
+import {
+  createSimpleLoadingState,
+  IDLE_STATE,
+  resetOnLogout,
+  SUCCESS_STATE,
+} from "../utils";
 import { createTransform } from "redux-persist";
 
 export interface AssetsState {
@@ -46,6 +55,12 @@ export const assetsSlice = createSlice({
       // const staticAssets = mapArrayOfAssetArrays(action.payload);
       // staticAssetsAdapter.setAll(state.staticData, action.payload);
       state.staticLoadRequest = SUCCESS_STATE;
+    });
+    builder.addCase(editAsset.fulfilled, (state, action) => {
+      // const staticAssets = mapArrayOfAssetArrays(action.payload);
+      // staticAssetsAdapter.setAll(state.staticData, action.payload);
+      state.staticLoadRequest = SUCCESS_STATE;
+      staticAssetsAdapter.setOne(state.staticData, action.payload);
     });
     // Load Dynamic
     builder.addCase(loadDynamicAssets.fulfilled, (state, action) => {

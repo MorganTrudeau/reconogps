@@ -70,7 +70,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
 
   const handleMarkerPress = useCallback(
     (marker: { id: string; longitude: number; latitude: number }) => {
-      console.log(marker, selectedMarker);
       if (selectedMarker?.id === marker.id) {
         const asset = combinedAssets.find(
           (asset) => asset.staticData.id === marker.id

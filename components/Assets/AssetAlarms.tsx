@@ -32,7 +32,7 @@ import {
   validateNumber,
 } from "../../utils";
 import ContactSelectModal from "../Contacts/ContactSelectModal";
-import { iconSize, spacing } from "../../styles";
+import { spacing } from "../../styles";
 import { Translations } from "../../utils/translations";
 import { buildContactName } from "../../utils/contacts";
 import { Modalize } from "react-native-modalize";
@@ -48,7 +48,6 @@ import {
   overspeedAlarmsSupported,
 } from "../../utils/alarms";
 import { FormContext } from "../../context/FormContext";
-import AppIcon from "../Core/AppIcon";
 
 const formId = "alarm";
 
@@ -123,13 +122,14 @@ export const AssetAlarms = ({
     savedUserConfig.current
   );
   const [loading, setLoading] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
-  const hasChanges = useMemo(
-    () =>
+  useEffect(() => {
+    setHasChanges(
       JSON.stringify(userConfigState) !==
-      JSON.stringify(savedUserConfig.current),
-    [userConfigState]
-  );
+        JSON.stringify(savedUserConfig.current)
+    );
+  }, [userConfigState]);
 
   // const [externalEmail, setExternalEmail] = useState("");
   // const [contactEmails, setContactEmails] = useState<ContactData[]>(
@@ -200,7 +200,7 @@ export const AssetAlarms = ({
       await setAlarmSetting(params);
       savedUserConfig.current = userConfigState;
       Toast.show("Alarm settings updated");
-      formContext?.setSaveButton(() => null, formId);
+      setHasChanges(false);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -215,30 +215,14 @@ export const AssetAlarms = ({
   }, [saveSettings]);
 
   useEffect(() => {
-    if (loading) {
-      formContext?.setSaveButton(
-        () => <ActivityIndicator color={colors.primary} />,
-        formId
-      );
-    } else if (hasChanges) {
-      formContext?.setSaveButton(
-        () => (
-          <Pressable
-            onPress={() => saveSettingsRef.current()}
-            hitSlop={spacing("md")}
-          >
-            <AppIcon
-              name="check-circle"
-              color={colors.primary}
-              size={iconSize("md")}
-            />
-          </Pressable>
-        ),
-        formId
-      );
-    } else {
-      formContext.setSaveButton(undefined, formId);
-    }
+    formContext?.setSaveButton(
+      formId,
+      JSON.stringify(userConfigState) !==
+        JSON.stringify(savedUserConfig.current)
+        ? () => saveSettingsRef.current()
+        : undefined,
+      loading
+    );
   }, [hasChanges, loading]);
 
   const loadAlarms = async (userConfig?: AlarmUserConfiguration) => {

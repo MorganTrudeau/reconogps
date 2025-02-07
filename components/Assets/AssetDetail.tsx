@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { iconSize, spacing } from "../../styles";
 import AppIcon from "../Core/AppIcon";
 import AppText from "../Core/AppText";
@@ -23,8 +29,15 @@ import { userHasAllPermissions } from "../../utils/user";
 import { IconSet } from "../../utils/enums";
 import { changeGeolockStatus, changeRelayStatus } from "../../api/assets";
 import { useToast } from "../../hooks/useToast";
+import { NavigationProp } from "../../types/navigation";
 
-export const AssetDetail = ({ assetId }: { assetId: string }) => {
+export const AssetDetail = ({
+  assetId,
+  navigation,
+}: {
+  assetId: string;
+  navigation: NavigationProp;
+}) => {
   const { theme, colors } = useTheme();
   const Toast = useToast();
 
@@ -131,7 +144,15 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
     return <ActivityIndicator color={colors.primary} />;
   }
 
-  const isMoving = dynamicAsset.speed > 0;
+  const viewStreetView = () => {
+    if (dynamicAsset) {
+      navigation.navigate("street-view", {
+        latitude: dynamicAsset.lat,
+        longitude: dynamicAsset.lng,
+      });
+    }
+  };
+
   const ignitionStatus = (dynamicAsset.status & 1) > 0 ? "ON" : "OFF";
 
   return (
@@ -213,6 +234,8 @@ export const AssetDetail = ({ assetId }: { assetId: string }) => {
           title={"Location"}
           status={address}
           colors={colors}
+          onActionPress={viewStreetView}
+          actionText="Street View"
         />
         <AssetDetailItem
           theme={theme}
@@ -258,6 +281,8 @@ const AssetDetailItem = ({
   iconColor,
   onToggle,
   toggleValue,
+  onActionPress,
+  actionText,
 }: {
   icon: MaterialIcon;
   title: string;
@@ -267,6 +292,8 @@ const AssetDetailItem = ({
   iconColor?: string;
   onToggle?: (enabled: boolean) => void;
   toggleValue?: boolean;
+  actionText?: string;
+  onActionPress?: () => void;
 }) => {
   return (
     <View
@@ -283,6 +310,16 @@ const AssetDetailItem = ({
         <AppText style={[theme.text, { marginTop: spacing("xs") }]}>
           {status}
         </AppText>
+        {onActionPress && (
+          <Pressable onPress={onActionPress} style={theme.row} hitSlop={10}>
+            <AppText style={{ color: colors.primary }}>{actionText}</AppText>
+            <AppIcon
+              name="chevron-right"
+              color={colors.primary}
+              size={iconSize("xs")}
+            />
+          </Pressable>
+        )}
       </View>
       {typeof onToggle === "function" && (
         <AppSwitch value={!!toggleValue} onValueChange={onToggle} />

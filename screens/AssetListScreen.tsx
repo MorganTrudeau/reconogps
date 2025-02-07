@@ -39,10 +39,6 @@ const AssetListScreen = ({
     dispatch(loadDynamicAssets({ ids }));
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
   const handleAssetPress = (combinedAsset: CombinedAsset) => {
     navigation.navigate("asset-details", {
       assetId: combinedAsset.staticData.id,

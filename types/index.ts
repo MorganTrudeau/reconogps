@@ -492,5 +492,5 @@ export type Notification = {
   Imei: string;
   Speed: number;
   Direct: number;
-  BatteryVoltage: number;
+  BatteryVoltage?: number;
 };

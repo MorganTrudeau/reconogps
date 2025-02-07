@@ -18,6 +18,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NotificationsManager from "./services/NotificationsManager";
 import { MapLayerProvider } from "./context/MapLayerContext";
 import MessagingManager from "./firebase/MessagingManager";
+import { DynamicAssetDataLoader } from "./services/DynamicAssetDataLoader";
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
                 <MessagingManager />
                 <AuthManager />
                 <NotificationsManager />
+                <DynamicAssetDataLoader />
               </ThemeProvider>
             </SafeAreaProvider>
           </PersistGate>
