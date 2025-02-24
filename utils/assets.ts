@@ -84,45 +84,33 @@ export const getSpeedValueInKM = (speedUnit: SpeedUnit, speed: number) => {
 };
 
 export const getMileageUnit = (speedUnit: SpeedUnit) => {
-  let ret = "";
   switch (speedUnit) {
     case "KT":
-      ret = "mile";
-      break;
+      return "mile";
     case "KPH":
-      ret = "km";
-      break;
+      return "km";
     case "MPS":
-      ret = "m";
-      break;
+      return "m";
     case "MPH":
-      ret = "mile";
-      break;
+      return "mile";
     default:
-      break;
+      return "";
   }
-  return ret;
 };
 
 export const getSpeedUnit = (speedUnit: SpeedUnit) => {
-  let ret = "";
   switch (speedUnit) {
     case "KT":
-      ret = "kt";
-      break;
+      return "kt";
     case "KPH":
-      ret = "km/h";
-      break;
+      return "km/h";
     case "MPS":
-      ret = "m/s";
-      break;
+      return "m/s";
     case "MPH":
-      ret = "mile/h";
-      break;
+      return "mile/h";
     default:
-      break;
+      return "";
   }
-  return ret;
 };
 
 export const getMileage = (
@@ -271,8 +259,8 @@ export const mapAssetArray = (assetValues: string[]) => {
     assetType: assetValues[index++],
     alarmOptions2: assetValues[index++],
     driverCode: assetValues[index++],
-    roadSpeed: Number(assetValues[index++]),
-    onWifi: assetValues[index++], // 0 | 1
+    roadSpeed: assetValues[index++],
+    onWifi: assetValues[index++], // True | False
     onStaticDrift: assetValues[index++],
     input1: assetValues[index++],
     input2: assetValues[index++],

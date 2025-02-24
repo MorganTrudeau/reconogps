@@ -151,10 +151,10 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
     try {
       setLoading(true);
       if (data.Code) {
-        await dispatch(editGeofence(data));
+        await dispatch(editGeofence(data)).unwrap();
         Toast.show("Geofence edited successfully");
       } else {
-        await dispatch(addGeofence(data));
+        await dispatch(addGeofence(data)).unwrap();
         Toast.show("Geofence created successfully");
       }
       setLoading(false);

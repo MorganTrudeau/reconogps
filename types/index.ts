@@ -113,7 +113,7 @@ export type StaticAsset = {
   assetType: string; //AssetType
   alarmOptions2: string; //AlarmOptions2
   driverCode: string; //DriverCode
-  roadSpeed: number; //RoadSpeed
+  roadSpeed: string; //RoadSpeed
   onWifi: string; //LBS WIFI (using lbs/wifi data if mobile coverage down)
   onStaticDrift: string; //STATIC DRIFT (ignoring of change assets coordinates if ignition off)
   input1: string; //input 1 name

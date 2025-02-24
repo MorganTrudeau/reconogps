@@ -3,19 +3,20 @@ import AppField from "../Core/AppField";
 import { AppModalRef } from "../Core/AppModal";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { buildContactName } from "../../utils/contacts";
-import ContactSelectModal from "./ContactSelectModal";
-import { Contact } from "../../types";
+import ContactSelectModal, {
+  Props as ContactSelectModalProps,
+} from "./ContactSelectModal";
 
 type Props = {
   customerCodes: string[];
-  onSelect: (contacts: Contact[]) => void;
   title?: string;
-};
+} & ContactSelectModalProps;
 
 export const ContactSelectField = ({
   customerCodes,
   onSelect,
   title = "Contacts",
+  ...rest
 }: Props) => {
   const contactSelectModal = useRef<AppModalRef>(null);
 
@@ -23,6 +24,7 @@ export const ContactSelectField = ({
 
   const selectedContactNames = useMemo(() => {
     return customerCodes
+      .filter((contactCode) => !!contactCode)
       .map((contactCode) => {
         const contact = contacts[contactCode];
         if (contact) {
@@ -46,6 +48,7 @@ export const ContactSelectField = ({
         onSelect={onSelect}
         initialSelectedIds={customerCodes}
         modalTitle={title}
+        {...rest}
       />
     </>
   );

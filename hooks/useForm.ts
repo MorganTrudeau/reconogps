@@ -3,26 +3,13 @@ import { FormContext } from "../context/FormContext";
 
 export const useForm = (
   formId: string,
-  data: Object,
+  complete: boolean,
   onSave: () => Promise<any>,
-  onError: (error: unknown) => void
+  onError?: (error: unknown) => void
 ) => {
   const formContext = useContext(FormContext);
 
   const [loading, setLoading] = useState(false);
-
-  const dataRef = useRef(data);
-  const [dataChanged, setDataChanged] = useState(false);
-  const hasChanged = useRef(false);
-  useEffect(() => {
-    if (
-      !hasChanged.current &&
-      JSON.stringify(dataRef.current) !== JSON.stringify(data)
-    ) {
-      hasChanged.current = true;
-      setDataChanged(true);
-    }
-  }, [data]);
 
   const onSaveRef = useRef(onSave);
   useEffect(() => {
@@ -32,10 +19,8 @@ export const useForm = (
     try {
       setLoading(true);
       await onSaveRef.current();
-      hasChanged.current = false
-      setDataChanged(false);
     } catch (error) {
-      onError(error);
+      onError && onError(error);
     } finally {
       setLoading(false);
     }
@@ -44,8 +29,8 @@ export const useForm = (
   useEffect(() => {
     formContext.setSaveButton(
       formId,
-      dataChanged ? handleSave : undefined,
+      complete ? handleSave : undefined,
       loading
     );
-  }, [formId, handleSave, loading, dataChanged]);
+  }, [formId, handleSave, loading, complete]);
 };

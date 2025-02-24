@@ -28,15 +28,6 @@ const MessagingManager = () => {
   const unsubscribeToken = useRef<() => void>();
   const recentMessages = useRef(new Set<string>());
 
-  // Called once on app first mount
-  // Register device for remote notifications
-  // Unregister device to notifications on app dismount
-  useEffect(() => {
-    if (Platform.OS !== "web") {
-      messaging().registerDeviceForRemoteMessages();
-    }
-  }, []);
-
   const handleMessagingLifecycle = async () => {
     if (isLoggedIn) {
       initiateMessaging();

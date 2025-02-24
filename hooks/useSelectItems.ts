@@ -3,7 +3,7 @@ import { useUpdated } from "./useUpdated";
 
 export const useSelectItems = (
   data: any[],
-  initalSelectedIds?: (string | number)[],
+  initalSelectedIds?: (string | number)[] | string | number,
   idSelector: (val: any) => string | number = (val: any) => val.id,
   singleSelect?: boolean,
   autoSelectAll?: boolean
@@ -13,7 +13,13 @@ export const useSelectItems = (
   }, [data]);
 
   const [selectedIds, setSelectedIds] = useState<(string | number)[]>(
-    initalSelectedIds ? initalSelectedIds : autoSelectAll ? ids : []
+    initalSelectedIds
+      ? Array.isArray(initalSelectedIds)
+        ? initalSelectedIds
+        : [initalSelectedIds]
+      : autoSelectAll
+      ? ids
+      : []
   );
 
   const selectedData = useMemo(() => {

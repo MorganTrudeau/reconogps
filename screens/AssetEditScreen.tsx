@@ -37,12 +37,7 @@ const AssetEditScreen = ({ navigation, route }: NavigationProps) => {
             colors={colors}
           />
         ) : (
-          <EditAsset
-            asset={asset}
-            assetTypes={assetTypes}
-            majorToken={majorToken}
-            minorToken={minorToken}
-          />
+          <EditAsset asset={asset} assetTypes={assetTypes} theme={theme} />
         )}
       </View>
     </FormContext.Provider>

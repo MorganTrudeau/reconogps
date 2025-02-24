@@ -65,7 +65,7 @@ export type EditAssetParams = {
   MaxSpeed: StaticAsset["maxSpeed"];
   AssetType: StaticAsset["assetType"];
   DriverCode: StaticAsset["driverCode"];
-  RoadSpeed: StaticAsset["roadSpeed"];
+  RoadSpeed: number;
   LBSWIFI: number;
   STATICDRIFT: number;
   Input1Name: StaticAsset["input1"];

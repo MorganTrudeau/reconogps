@@ -9,7 +9,7 @@ import { buildContactName } from "../../utils/contacts";
 import AppText from "../Core/AppText";
 import SelectModal, { Props as SelectModalProps } from "../Modals/SelectModal";
 
-type Props = Omit<SelectModalProps, "data">;
+export type Props = Omit<SelectModalProps, "data">;
 
 const ContactSelectModal = forwardRef<Modalize, Props>((props, ref) => {
   const { theme } = useTheme();

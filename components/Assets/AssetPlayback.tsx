@@ -37,7 +37,7 @@ export const AssetPlayback = ({
     moment().subtract(1, "hour").toDate()
   );
   const [endDate, setEndDate] = useState(moment().toDate());
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([...Constants.PLAYBACK_EVENTS]);
   const [optimized, setOptimized] = useState(true);
   const [sendEmail, setSendEmail] = useState(false);
   const [timeFilter, setTimeFilter] = useState<TimePreset>("last-hour");
@@ -87,6 +87,11 @@ export const AssetPlayback = ({
           paddingHorizontal: spacing("lg"),
         }}
       >
+        <AppButton
+          title={"Generate Playback"}
+          style={styles.button}
+          onPress={startPlayback}
+        />
         <PresetButton
           title={"Last hour"}
           colors={colors}
@@ -154,11 +159,6 @@ export const AssetPlayback = ({
           title={"Send by email"}
           icon={"email"}
           {...{ theme, colors }}
-        />
-        <AppButton
-          title={"Generate Playback"}
-          style={styles.button}
-          onPress={startPlayback}
         />
       </View>
 
@@ -229,7 +229,7 @@ const PresetButton = React.memo(
 );
 
 const styles = StyleSheet.create({
-  button: { marginTop: spacing("xl") },
+  button: { marginBottom: spacing("md"), marginTop: spacing("lg") },
   timePreset: {
     borderRadius: BORDER_RADIUS_SM,
     borderWidth: 2,

@@ -18,7 +18,7 @@ export type Props = {
   modalTitle?: string;
   data: any[];
   onSelect: (selectedAssetData: any[]) => void;
-  initialSelectedIds?: (string | number)[];
+  initialSelectedIds?: string | number | (string | number)[];
   idSelector?: (data: any) => string;
   nameSelector?: (data: any) => string;
   customItemContent?: (data: any) => React.ReactElement;
@@ -123,6 +123,8 @@ const SelectModal = forwardRef<Modalize, Props>(
           modalStyle={theme.modalContainer}
           HeaderComponent={renderHeader()}
           adjustToContentHeight
+          modalTopOffset={insets.top + spacing("lg")}
+          threshold={300}
           flatListProps={{
             keyExtractor: (item, index) => `${idSelector(item)}-${index}`,
             data: filteredData,
