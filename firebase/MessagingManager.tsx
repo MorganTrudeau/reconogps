@@ -187,14 +187,19 @@ const MessagingManager = () => {
     if (!remoteMessage || remoteMessage.data?.["af-uinstall-tracking"]) {
       return;
     }
-    const linkMessage = formatFCMMessage(remoteMessage);
 
-    // @ts-ignore
-    const { data, message, title, id } = linkMessage;
     const messageId = Platform.select({
       default: remoteMessage.messageId,
       web: remoteMessage.fcmMessageId,
     });
+
+    const { data, notification } = remoteMessage;
+
+    if (!notification) {
+      return;
+    }
+
+    const { title, body } = notification;
 
     // Preventing duplicate messages
     if (messageId) {
@@ -208,10 +213,12 @@ const MessagingManager = () => {
     PushNotification.localNotification({
       channelId: LOCAL_NOTIFICATION_CHANNEL,
       title,
-      message,
-      userInfo: { ...data, id, localNotification: true },
+      message: body || "",
+      userInfo: { ...data, id: messageId, localNotification: true },
       smallIcon: "ic_notification",
       color: colors.primary,
+      soundName: "default",
+      playSound: true,
     });
   };
 
