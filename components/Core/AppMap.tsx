@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useState } from "react";
+import React, { forwardRef, useContext } from "react";
 import { StyleSheet } from "react-native";
 import MapboxGL, {
   Atmosphere,
@@ -8,9 +8,6 @@ import MapboxGL, {
   Terrain,
 } from "@rnmapbox/maps";
 import { MAP_TOKEN } from "@env";
-import { getMapStyleUrl } from "../../utils/maps";
-import AppIconButton from "./AppIconButton";
-import { MapLayerSelect } from "../Maps/MapLayerSelect";
 import { MapLayerContext } from "../../context/MapLayerContext";
 import FocusAwareStatusBar from "../../navigation/FocusAwareStatusBar";
 

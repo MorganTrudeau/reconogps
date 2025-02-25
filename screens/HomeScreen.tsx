@@ -29,13 +29,12 @@ import {
 import { Constants } from "../utils/constants";
 import AppText from "../components/Core/AppText";
 import { Colors } from "../types/styles";
-import { BORDER_RADIUS_SM, spacing } from "../styles";
+import { BORDER_RADIUS_SM, iconSize, spacing } from "../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MapLayerSelect } from "../components/Maps/MapLayerSelect";
-import {
-  MapState,
-  RegionPayload,
-} from "@rnmapbox/maps/lib/typescript/src/components/MapView";
+import { MapState } from "@rnmapbox/maps/lib/typescript/src/components/MapView";
+import AppIconButton from "../components/Core/AppIconButton";
+import { NotificationsButton } from "../components/Notifications/NotificationsButton";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "home">;
 type MarkerData = { id: string; longitude: number; latitude: number };
@@ -65,7 +64,18 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
   const [selectedAsset, setSelectedAsset] = useState<DynamicAsset | null>(null);
 
   useEffect(() => {
-    navigation.setOptions({ headerRight: () => <MapLayerSelect /> });
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={theme.row}>
+          <NotificationsButton
+            theme={theme}
+            colors={colors}
+            style={styles.notificationButton}
+          />
+          <MapLayerSelect />
+        </View>
+      ),
+    });
   }, []);
 
   const handleMarkerPress = useCallback(
@@ -340,7 +350,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
         >
           <MapboxGL.SymbolLayer
             id="pointCount"
-            // @ts-ignore
             style={layerStyles.clusterCount}
           />
 
@@ -349,7 +358,6 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
             belowLayerID="pointCount"
             filter={["has", "point_count"]}
             style={{
-              // circlePitchAlignment: "map",
               circleColor: colors.primary,
               circleRadius: [
                 "step",
@@ -381,25 +389,7 @@ const HomeScreen = ({ navigation }: NavigationProps) => {
               iconAnchor: "bottom",
             }}
           />
-
-          {/* <MapboxGL.SymbolLayer
-            id="singlePoint"
-            filter={["!", ["has", "point_count"]]}
-            style={{
-              iconImage: ["get", "icon"],
-              iconSize: 1,
-              iconHaloColor: "black",
-              iconHaloWidth: 10,
-              iconColor: "white",
-              iconAllowOverlap: true,
-              iconAnchor: "bottom",
-            }}
-          /> */}
         </MapboxGL.ShapeSource>
-
-        {/* {markerProps.map((props, index) => (
-          <AssetMarkerView {...props} key={`${props.id}-${index}`} />
-        ))} */}
       </AppMap>
       <AssetsDisplayModal
         onAssetSelected={handleAssetPress}
@@ -427,6 +417,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: ANNOTATION_SIZE,
   },
+  notificationButton: { marginRight: spacing("md") },
 });
 
 const layerStyles = {

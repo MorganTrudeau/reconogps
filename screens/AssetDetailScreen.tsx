@@ -3,7 +3,7 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import React, { useCallback, useMemo, useState } from "react";
-import { Pressable, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import {
   SceneMap,
   SceneRendererProps,
@@ -143,6 +143,7 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
                     id: staticAsset.id,
                   });
                 }}
+                style={styles.editButton}
               />
             </>
           )}
@@ -290,3 +291,7 @@ const renderScene = SceneMap({
 });
 
 export default AssetDetailScreen;
+
+const styles = StyleSheet.create({
+  editButton: { marginRight: spacing("sm") },
+});

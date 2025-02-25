@@ -19,6 +19,7 @@ import { Modalize } from "react-native-modalize";
 import { constructTimeZoneId, getTimeZone } from "../utils/user";
 import AppIcon from "../components/Core/AppIcon";
 import AppScrollView from "../components/Core/AppScrollView";
+import AppSwitchField from "../components/Core/AppSwitchField";
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, "profile">;
 
@@ -146,34 +147,19 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
         />
 
         {!agentOrDealer && (
-          <Pressable
-            style={[theme.row, styles.settingContainer]}
+          <AppSwitchField
             onPress={() =>
               setAutoMonthlyReport((v) =>
                 v === 0 ? PermissionValues.AutoMonthlyReport : 0
               )
             }
-          >
-            <AppIcon
-              name={"file-chart"}
-              color={colors.primary}
-              style={styles.passwordIcon}
-              size={iconSize("sm")}
-            />
-            <AppText>Receive Monthly Account Report</AppText>
-            <Switch
-              trackColor={{ true: colors.primary, false: colors.surface }}
-              value={
-                (autoMonthlyReport & PermissionValues.AutoMonthlyReport) === 0
-              }
-              onValueChange={(active) =>
-                setAutoMonthlyReport(
-                  active ? 0 : PermissionValues.AutoMonthlyReport
-                )
-              }
-              style={{ marginLeft: spacing("lg") }}
-            />
-          </Pressable>
+            value={
+              (autoMonthlyReport & PermissionValues.AutoMonthlyReport) === 0
+            }
+            title={"Receive Monthly Account Report"}
+            colors={colors}
+            icon={"file-chart"}
+          />
         )}
 
         <Pressable

@@ -161,8 +161,8 @@ export const styles = StyleSheet.create({
   },
   iconButton: {
     backgroundColor: colors.background,
-    padding: spacing("lg"),
     borderRadius: 10000,
+    padding: spacing("md"),
     justifyContent: "center",
     alignItems: "center",
   },

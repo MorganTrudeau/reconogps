@@ -75,11 +75,6 @@ export const MapLayerSelect = () => {
   );
 };
 
-const BUTTON_SIZE = 37;
-
 const $buttonStyle: ViewStyle = {
   marginRight: spacing("md"),
-  padding: 0,
-  height: BUTTON_SIZE,
-  width: BUTTON_SIZE,
 };

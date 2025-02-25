@@ -9,7 +9,7 @@ type Props = Omit<IconProps, "style"> &
 
 const AppIconButton = ({ theme, colors, style, onPress, ...rest }: Props) => {
   return (
-    <Pressable style={[theme.iconButton, style]} onPress={onPress}>
+    <Pressable style={[theme.iconButton, style]} onPress={onPress} hitSlop={10}>
       <AppIcon color={colors.primary} size={iconSize("lg")} {...rest} />
     </Pressable>
   );

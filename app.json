@@ -3,6 +3,7 @@
     "name": "recono",
     "slug": "recono",
     "version": "1.0.0",
+    "buildNumber": 1,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -41,5 +42,7 @@
         }
       ]
     ]
-  }
+  },
+  "version": "1.0.1",
+  "buildNumber": 2
 }

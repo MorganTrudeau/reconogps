@@ -4,6 +4,7 @@ import AppText from "./AppText";
 import { Colors, MaterialIcon, Theme } from "../../types/styles";
 import { iconSize, spacing } from "../../styles";
 import { useMemo } from "react";
+import AppSwitch from "./AppSwitch";
 
 const AppSwitchField = ({
   onPress,
@@ -18,10 +19,6 @@ const AppSwitchField = ({
   colors: Colors;
   icon?: MaterialIcon;
 }) => {
-  const trackColor = useMemo(
-    () => ({ true: colors.primary, false: colors.surface }),
-    [colors]
-  );
   return (
     <Pressable style={styles.container} onPress={onPress}>
       {!!icon && (
@@ -32,11 +29,11 @@ const AppSwitchField = ({
           size={iconSize("sm")}
         />
       )}
-      <AppText style={{ color: colors.primary, flex: 1 }}>{title}</AppText>
-      <Switch
-        trackColor={trackColor}
+      <AppText style={{ flex: 1 }}>{title}</AppText>
+      <AppSwitch
         value={value}
         onValueChange={onPress}
+        thumbColor={colors.white}
         style={styles.switch}
       />
     </Pressable>
