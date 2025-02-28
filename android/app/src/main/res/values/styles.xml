@@ -12,12 +12,11 @@
     <item name="android:textColor">@android:color/black</item>
   </style>
   <!-- make BootTheme inherit from Theme.BootSplash.TransparentStatus / Theme.BootSplash.EdgeToEdge -->
-  <style name="BootTheme" parent="Theme.BootSplash.EdgeToEdge">
+  <style name="BootTheme" parent="Theme.BootSplash.TransparentStatus">
     <item name="bootSplashBackground">@color/bootsplash_background</item>
     <item name="bootSplashLogo">@drawable/bootsplash_logo</item>
-    <item name="postBootSplashTheme">@style/AppTheme</item>
     <!-- optional, used to enforce the initial bars styles -->
     <!-- default is true in light mode, false in dark mode -->
-    <item name="darkContentBarsStyle">true</item>
+    <item name="darkContentBarsStyle">false</item>
   </style>
 </resources>
