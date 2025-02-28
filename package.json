@@ -12,8 +12,9 @@
     "bump-build-number": "BUILD_NUMBER=true node scripts/bump_version",
     "bundle:dev": "cd android && ENVFILE=.env.dev ./gradlew clean && ENVFILE=.env.dev ./gradlew bundleRelease",
     "bundle:live": "cd android && ENVFILE=.env.live ./gradlew clean && ENVFILE=.env.live ./gradlew bundleRelease",
-    "android:dev": "ENVFILE=.env.dev npx react-native run-android --appId com.reconogps.dev.app",
-    "android:live": "ENVFILE=.env.live npx react-native run-android"
+    "android:dev": "cd android && ENVFILE=.env.dev ./gradlew clean && cd .. && npx react-native run-android --appId com.reconogps.dev.app",
+    "android:live": "cd android && ENVFILE=.env.live ./gradlew clean && cd .. && npx react-native run-android",
+    "generate_splash": "yarn react-native-bootsplash generate assets/recono-icon-fg.png --background=1f1f1f --logo-width=150"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
@@ -36,13 +37,13 @@
     "expo": "^51.0.0",
     "expo-image-picker": "^15.0.7",
     "expo-location": "^17.0.1",
-    "expo-splash-screen": "^0.27.6",
     "expo-status-bar": "^1.12.1",
     "moment": "^2.29.4",
     "query-string": "^8.1.0",
     "react": "18.3.1",
     "react-dom": "18.1.0",
     "react-native": "0.75.3",
+    "react-native-bootsplash": "^6.3.3",
     "react-native-config": "^1.5.5",
     "react-native-dotenv": "^3.4.7",
     "react-native-fast-image": "^8.6.3",

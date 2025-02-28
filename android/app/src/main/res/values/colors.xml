@@ -3,4 +3,5 @@
   <color name="iconBackground">#202020</color>
   <color name="colorPrimary">#cdad58</color>
   <color name="colorPrimaryDark">#1f1f1f</color>
+  <color name="bootsplash_background">#1f1f1f</color>
 </resources>

@@ -3,6 +3,7 @@
 #import <RNCPushNotificationIOS.h>
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
+#import "RNBootSplash.h"
 
 @implementation AppDelegate
 
@@ -64,6 +65,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
   completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+}
+
+- (void)customizeRootView:(RCTRootView *)rootView {
+  [super customizeRootView:rootView];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 }
 
 @end

@@ -19,11 +19,14 @@ import NotificationsManager from "./services/NotificationsManager";
 import { MapLayerProvider } from "./context/MapLayerContext";
 import MessagingManager from "./firebase/MessagingManager";
 import { DynamicAssetDataLoader } from "./services/DynamicAssetDataLoader";
+import { hide } from "react-native-bootsplash";
+
+const hideSplash = () => hide({ fade: true });
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer onReady={hideSplash}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <SafeAreaProvider>
