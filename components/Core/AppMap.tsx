@@ -7,11 +7,11 @@ import MapboxGL, {
   StyleURL,
   Terrain,
 } from "@rnmapbox/maps";
-import { MAP_TOKEN } from "@env";
+import Config from "react-native-config";
 import { MapLayerContext } from "../../context/MapLayerContext";
 import FocusAwareStatusBar from "../../navigation/FocusAwareStatusBar";
 
-MapboxGL.setAccessToken(MAP_TOKEN);
+MapboxGL.setAccessToken(Config.MAP_TOKEN);
 
 type MapViewProps = React.ComponentProps<typeof MapboxGL.MapView>;
 

@@ -1,8 +1,10 @@
 import axios from "axios";
 
-import { API_URL, PACKAGE_NAME } from "@env";
+import Config from "react-native-config";
 import { Platform } from "react-native";
 import { validateResponseData } from "./utils";
+
+const { API_URL, PACKAGE_NAME } = Config;
 
 export const login = async (
   account: string,

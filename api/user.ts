@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "@env";
+import Config from "react-native-config";
 import { validateResponseData } from "./utils";
 import { Permissions2, User } from "../types";
 import { userFromUpdateApiResponse } from "../utils/user";
@@ -17,9 +17,12 @@ export const updateUserInfo = async (
     ...permissions2,
   };
 
-  const res = await axios.get(`${API_URL}/QuikProtect/V1/Client/AccountEdit`, {
-    params,
-  });
+  const res = await axios.get(
+    `${Config.API_URL}/QuikProtect/V1/Client/AccountEdit`,
+    {
+      params,
+    }
+  );
 
   validateResponseData(res);
 

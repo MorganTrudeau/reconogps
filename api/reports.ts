@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "@env";
+import Config from "react-native-config";
 import { validateResponseData } from "./utils";
 import { ReportParams } from "../types/api";
 import {
@@ -13,6 +13,8 @@ import { validateEmail, validateNumber } from "../utils";
 import moment from "moment";
 import { Constants } from "../utils/constants";
 import { Errors } from "../utils/enums";
+
+const { API_URL } = Config;
 
 export const CreateReportErrors = {
   MISSING_EMAILS: "missing-email",

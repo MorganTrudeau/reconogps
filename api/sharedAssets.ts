@@ -1,7 +1,9 @@
 import axios from "axios";
-import { API_URL } from "@env";
+import Config from "react-native-config";
 import { validateResponseData } from "./utils";
 import { SharedAsset } from "../types";
+
+const { API_URL } = Config;
 
 export const subscribeSharedAsset = async (
   majorToken: string,

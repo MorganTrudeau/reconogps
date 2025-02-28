@@ -1,7 +1,9 @@
 import axios from "axios";
-import { GEOCODE_API_URL, GEOCODE_API_URL2 } from "@env";
+import Config from "react-native-config";
 import { validateResponseData } from "./utils";
 import { initDynamicAssetData } from "../utils/assets";
+
+const { GEOCODE_API_URL, GEOCODE_API_URL2 } = Config;
 
 export const geocodeLatLong = async (lat: number, lon: number) => {
   let res;

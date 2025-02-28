@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, DEALER_TOKEN } from "@env";
+import Config from "react-native-config";
 import {
   API_DOMIAN1,
   API_DOMIAN2,
@@ -10,6 +10,8 @@ import { Errors } from "../utils/enums";
 import { getSpeedValueInKM, initDynamicAssetData } from "../utils/assets";
 import { StaticAsset } from "../types";
 import { EditAssetParams } from "../types/api";
+
+const { API_URL, DEALER_TOKEN } = Config;
 
 export const changeGeolockStatus = async (
   MajorToken: string,

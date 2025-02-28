@@ -1,7 +1,9 @@
 import axios from "axios";
-import { API_URL } from "@env";
+import Config from "react-native-config";
 import { AddContactData, EditContactData } from "../types";
 import { validateResponseData } from "./utils";
+
+const { API_URL } = Config;
 
 export const loadContacts = async (majorToken: string) => {
   const res = await axios.get(`${API_URL}/QuikTrak/V1/User/GetList`, {

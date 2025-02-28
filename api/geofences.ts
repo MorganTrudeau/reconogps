@@ -1,10 +1,12 @@
 import { API_DOMIAN1, validateResponseData } from "./utils";
 import axios from "axios";
-import { API_URL } from "@env";
+import Config from "react-native-config";
 import { Errors } from "../utils/enums";
 import { Geofence } from "../types";
 import { EditGeofenceParams } from "../types/api";
 import queryString from "query-string";
+
+const { API_URL } = Config;
 
 export const loadGeofences = async (
   majorToken: string,

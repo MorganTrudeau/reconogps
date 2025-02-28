@@ -1,5 +1,5 @@
 import { ReportAlarm, SolutionType } from "../types";
-import { IMAGE_URL } from "@env";
+import Config from "react-native-config";
 import { AlertButton, AlertOptions } from "react-native";
 import { SolutionTypes } from "./enums";
 
@@ -39,7 +39,7 @@ export const errorHasCode = (
 };
 
 export const constructImageUrl = (image: string) =>
-  `${IMAGE_URL}/Attachment/images/${image}`;
+  `${Config.IMAGE_URL}/Attachment/images/${image}`;
 // `${IMAGE_URL}/Attachment/images/${image}?${Date.now()}`;
 
 const errorHasMessage = (error: unknown): error is { message: string } => {
