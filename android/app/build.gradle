@@ -99,8 +99,8 @@ packagingOptions {
         resValue "string", "build_config_package", "com.reconogps.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.0.2"
+        versionCode 7
+        versionName "1.0.3"
     }
     signingConfigs {
         def android_signing =  new groovy.json.JsonSlurper().parseText(file("../keystore/signing_config.json").text)
