@@ -128,6 +128,17 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
   const [playerState, setPlayerState] = useState({ playing: false, speed: 1 });
   const { playing, speed } = playerState;
 
+  const handleEventPress = useCallback(
+    (playbackEvent: PlaybackEvent | PlaybackPoint) => {
+      const index = playbackData.findIndex((d) => d.id === playbackEvent.id);
+      if (index > -1) {
+        setPlaybackDataIndex(index);
+        bottomSheet.current?.snapToIndex(0);
+      }
+    },
+    []
+  );
+
   const [slidingValue, setSlidingValue] = useState<number>();
 
   const handleSliderStart = useCallback((val: number) => {
@@ -322,9 +333,8 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
   const eventShapes = useMemo(() => {
     const shape: GeoJSON.FeatureCollection = {
       type: "FeatureCollection",
-      features:
-        // (focusedPoint ? [focusedPoint] : playbackEvents).map(
-        playbackEvents.map((event) => {
+      features: (focusedPoint ? [focusedPoint] : playbackEvents).map(
+        (event) => {
           const eventInfo = getEventInfo(event);
           const feature: GeoJSON.FeatureCollection["features"][number] = {
             type: "Feature",
@@ -340,15 +350,15 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
             /**
              * Properties associated with this feature.
              */
-            properties:
-              event.object === "playback-event"
-                ? {
-                    icon: eventInfo.icon,
-                  }
-                : {},
+            properties: eventInfo.icon
+              ? {
+                  icon: eventInfo.icon,
+                }
+              : {},
           };
           return feature;
-        }),
+        }
+      ),
     };
 
     return shape;
@@ -646,6 +656,8 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
       </AppMap>
 
       <BottomSheet
+        activeOffsetY={[-1, 1]}
+        failOffsetX={[-5, 5]}
         ref={bottomSheet}
         index={0}
         snapPoints={snapPoints}
@@ -664,15 +676,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
           playbackEvents={playbackEvents}
           playbackPoints={playbackHistory}
           trips={trips}
-          onEventPress={(playbackEvent) => {
-            const index = playbackData.findIndex(
-              (d) => d.id === playbackEvent.id
-            );
-            if (index > -1) {
-              setPlaybackDataIndex(index);
-              bottomSheet.current?.snapToIndex(0);
-            }
-          }}
+          onEventPress={handleEventPress}
           from={route.params.from}
           to={route.params.to}
           assetId={route.params.code}

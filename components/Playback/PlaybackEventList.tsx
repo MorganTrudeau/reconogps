@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { PlaybackEvent } from "../../types";
+import React, { useCallback, useMemo } from "react";
+import { PlaybackEvent, PlaybackPoint } from "../../types";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Image, Pressable, View } from "react-native";
 import { getEventInfo } from "../../utils/playback";
@@ -13,25 +13,33 @@ import EmptyList from "../EmptyList";
 
 export const PlaybackEventList = ({
   events,
-  onEventPress,
+  points,
+  onPress,
 }: {
   events: PlaybackEvent[];
-  onEventPress: (event: PlaybackEvent) => void;
+  points: PlaybackPoint[];
+  onPress: (event: PlaybackEvent | PlaybackPoint) => void;
 }) => {
   const { theme, colors } = useTheme();
+
+  const playbackData = useMemo(() => {
+    return [...points, ...events].sort(
+      (a, b) => a.positionTime - b.positionTime
+    );
+  }, [points, events]);
 
   const renderItem = ({
     item,
     index,
   }: {
-    item: PlaybackEvent;
+    item: PlaybackEvent | PlaybackPoint;
     index: number;
   }) => {
     const eventInfo = getEventInfo(item);
 
     return (
       <Pressable
-        onPress={() => onEventPress(item)}
+        onPress={() => onPress(item)}
         style={[theme.row, { paddingVertical: spacing("md") }]}
       >
         <Image
@@ -41,9 +49,21 @@ export const PlaybackEventList = ({
         />
         <View>
           <AppText style={theme.title}>{eventInfo.title}</AppText>
-          <AppText style={theme.textMeta}>
-            {formatDateRange(item.beginTime, item.endTime)}
-          </AppText>
+          {!!(
+            "beginTime" in item &&
+            "endTime" in item &&
+            item.beginTime &&
+            item.endTime
+          ) ? (
+            <AppText style={theme.textMeta}>
+              {formatDateRange(item.beginTime, item.endTime)}
+            </AppText>
+          ) : (
+            <AppText style={theme.textMeta}>
+              {item.positionTime &&
+                moment(item.positionTime).format("MMM D h:mma")}
+            </AppText>
+          )}
         </View>
       </Pressable>
     );
@@ -63,7 +83,7 @@ export const PlaybackEventList = ({
 
   return (
     <BottomSheetFlatList
-      data={events}
+      data={playbackData}
       renderItem={renderItem}
       ListEmptyComponent={renderEmpty}
       contentContainerStyle={{
