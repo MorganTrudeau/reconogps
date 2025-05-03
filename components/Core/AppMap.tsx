@@ -30,6 +30,7 @@ const AppMap = forwardRef<MapboxGL.MapView, MapViewProps>(function AppMap(
         logoEnabled={false}
         scaleBarEnabled={false}
         rotateEnabled={false}
+        pitchEnabled={false}
         styleURL={mapLayerContext.layerStyle}
         {...rest}
       >
