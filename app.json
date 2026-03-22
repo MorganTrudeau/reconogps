@@ -2,8 +2,8 @@
   "expo": {
     "name": "recono",
     "slug": "recono",
-    "version": "1.0.13",
-    "buildNumber": 22,
+    "version": "1.1.0",
+    "buildNumber": 23,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,7 +15,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
