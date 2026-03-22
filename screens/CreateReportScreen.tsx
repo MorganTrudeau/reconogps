@@ -184,7 +184,6 @@ const CreateReportScreen = ({ navigation, route }: NavigationProps) => {
   };
 
   const handleReportError = (error: unknown) => {
-    console.log(error);
     setSendReportLoading(false);
 
     if (error === CreateReportErrors.MISSING_EMAILS) {

@@ -9,8 +9,6 @@ import {
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  Value,
-  withSpring,
   withTiming,
   Easing,
 } from "react-native-reanimated";

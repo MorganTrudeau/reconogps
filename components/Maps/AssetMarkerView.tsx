@@ -53,28 +53,30 @@ const AssetMarkerView = ({
       style={{ display: "flex", zIndex: 1 }}
       isSelected={isSelected}
     >
-      {!!title && (
-        <AnimatedMarkerAnnotation
-          active={!!isSelected}
-          title={title}
-          {...{ theme, colors }}
-        />
-      )}
-      <Pressable
-        disabled={!onPress}
-        style={{
-          opacity: !selectedId ? 1 : isSelected ? 1 : 0.5,
-        }}
-        onPress={
-          onPress ? () => onPress({ id, latitude, longitude }) : undefined
-        }
-      >
-        <AppIcon
-          name={IconSet.location}
-          size={iconSize("xl")}
-          color={colors.red}
-        />
-      </Pressable>
+      <>
+        {!!title && (
+          <AnimatedMarkerAnnotation
+            active={!!isSelected}
+            title={title}
+            {...{ theme, colors }}
+          />
+        )}
+        <Pressable
+          disabled={!onPress}
+          style={{
+            opacity: !selectedId ? 1 : isSelected ? 1 : 0.5,
+          }}
+          onPress={
+            onPress ? () => onPress({ id, latitude, longitude }) : undefined
+          }
+        >
+          <AppIcon
+            name={IconSet.location}
+            size={iconSize("xl")}
+            color={colors.red}
+          />
+        </Pressable>
+      </>
     </MapboxGL.MarkerView>
   );
 };

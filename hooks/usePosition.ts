@@ -29,7 +29,7 @@ export const usePosition = (
       let res = await checkLocationPermission();
       return res;
     } catch (error) {
-      console.log("Check permission error", error);
+      // Error handled by returning undefined
     }
   };
 
@@ -38,7 +38,7 @@ export const usePosition = (
       let res = await Location.requestForegroundPermissionsAsync();
       return res;
     } catch (error) {
-      console.log("Ask permission error", error);
+      // Error handled by returning undefined
     }
   };
 
@@ -108,7 +108,6 @@ export const usePosition = (
         try {
           return { position: coords };
         } catch (error) {
-          console.log("Geocoder error", error);
           return onFailedLocationRequest();
         }
       } catch (error) {
@@ -120,8 +119,6 @@ export const usePosition = (
   };
 
   const handleErrors = (error: unknown): null => {
-    console.log("Location error", error);
-
     if (!errorHasCode(error)) {
       return onFailedLocationRequest();
     }

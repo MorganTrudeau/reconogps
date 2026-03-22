@@ -38,8 +38,6 @@ class AuthSession {
     this.MajorToken = MajorToken;
     this.MinorToken = MinorToken;
     this.Expiry = Date.now() + TOKEN_EXPIRY;
-
-    console.log("Session init success");
   }
 
   async refresh() {
@@ -55,8 +53,6 @@ class AuthSession {
     this.MajorToken = MajorToken;
     this.MinorToken = MinorToken;
     this.Expiry = Date.now() + TOKEN_EXPIRY;
-
-    console.log("Session refresh success");
   }
 
   async getSession() {

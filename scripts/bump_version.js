@@ -32,12 +32,12 @@ function updateAppJson() {
 
   const newVersionInfo = incrementVersion(appJson.expo.version, appJson.expo.buildNumber);
 
-  appJson.version = newVersionInfo.version;
-  appJson.buildNumber = Number(newVersionInfo.buildNumber);
+  appJson.expo.version = newVersionInfo.version;
+  appJson.expo.buildNumber = Number(newVersionInfo.buildNumber);
 
   fs.writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2));
   console.log(
-    `Updated app.json to Version ${appJson.version}-${appJson.buildNumber}`
+    `Updated app.json to Version ${appJson.expo.version}-${appJson.expo.buildNumber}`
   );
 }
 

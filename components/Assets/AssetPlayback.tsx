@@ -141,6 +141,9 @@ export const AssetPlayback = ({
             />
           </>
         )}
+
+        <View style={theme.divider} />
+
         <AppField
           value={eventsString}
           placeholder={"Playback events"}

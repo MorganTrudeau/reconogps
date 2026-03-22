@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>UIDesignRequiresCompatibility</key>
+    <true/>
     <key>BGTaskSchedulerPermittedIdentifiers</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
@@ -21,7 +23,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.4</string>
+    <string>1.0.13</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -29,7 +31,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.reconogps.app</string>
+          <string>com.reconogps.pro</string>
         </array>
       </dict>
       <dict>
@@ -40,7 +42,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>9</string>
+    <string>22</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>

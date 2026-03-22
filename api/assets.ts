@@ -10,6 +10,7 @@ import { Errors } from "../utils/enums";
 import { getSpeedValueInKM, initDynamicAssetData } from "../utils/assets";
 import { StaticAsset } from "../types";
 import { EditAssetParams } from "../types/api";
+import queryString from "query-string";
 
 const { API_URL, DEALER_TOKEN } = Config;
 
@@ -114,8 +115,6 @@ export const loadAssetSSP = async (imei: string, productCode: string) => {
     }
   );
 
-  console.log("loadAssetActivationInfo", res.data);
-
   validateResponseData(res);
 
   return res.data.Data;
@@ -126,8 +125,6 @@ export const loadAssetInfo = async (majorToken: string, imeis: string[]) => {
     `https://testapi.quiktrak.co/Common/v1/Activation/GetAssetsInfo`,
     { params: { majortoken: majorToken, imeis: imeis.join(",") } }
   );
-
-  console.log("loadAssetInfo", res.data);
 
   validateResponseData(res);
 
@@ -147,12 +144,18 @@ export const loadAssetActivationInfo = async (
 };
 
 export const uploadAssetImage = async (imei: string, base64: string) => {
-  const res = await axios.post("https://upload.quiktrak.co/image/Upload", {
-    data: base64,
-    id: imei,
-  });
-
-  console.log("uploadAssetImage", res.data);
+  const res = await axios.post(
+    "https://upload.quiktrak.co/image/Upload",
+    queryString.stringify({
+      data: `data:image/jpeg;base64,${base64}`,
+      id: `IMEI_${imei}`,
+    }),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+    }
+  );
 
   validateResponseData(res);
 
@@ -199,7 +202,6 @@ export const editAsset = async (
     headers: { "Content-Type": "multipart/form-data" },
   });
   validateResponseData(res);
-  console.log("EDIT ASSET RES", res.data.Data.Device);
   if (res.data.Data.Device) {
     return res.data.Data.Device as string[];
   } else {

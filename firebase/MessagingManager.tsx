@@ -76,9 +76,7 @@ const MessagingManager = () => {
           importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
           vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
         },
-        (created) => {
-          console.log("Channel created", created);
-        }
+        () => {}
       );
     }
 
@@ -102,7 +100,7 @@ const MessagingManager = () => {
         return messaging().requestPermission();
       }
     } catch (error) {
-      console.log(error);
+      // Permission request failed
     }
   };
 
@@ -115,11 +113,9 @@ const MessagingManager = () => {
       if (!token) {
         throw "missing_token";
       } else {
-        console.log("Messaging token found!");
         dispatch(registerToken(token));
       }
     } catch (error) {
-      console.log("Manage token error", error);
       if (attempts < 4) {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         return manageToken(attempts + 1);
@@ -150,7 +146,6 @@ const MessagingManager = () => {
   const subscribeToForegroundMessages = () => {
     // Unsubscribe current listener
     if (typeof unsubscribeForeground.current === "function") {
-      console.log("Unsubscribing from foreground notifications");
       unsubscribeForeground.current();
     }
 
@@ -158,9 +153,7 @@ const MessagingManager = () => {
       // Subscribe to foreground messages
       unsubscribeForeground.current =
         messaging().onMessage(onForegroundMessage);
-      console.log("Subscribed to foreground notifications");
     } catch (error) {
-      console.log("Forground notification subscription error", error);
       return;
     }
 
@@ -182,8 +175,6 @@ const MessagingManager = () => {
 
   // Display local notification
   const onForegroundMessage = (remoteMessage: FCMMessage) => {
-    console.log("FOREGROUND MESSAGE", remoteMessage);
-
     if (!remoteMessage || remoteMessage.data?.["af-uinstall-tracking"]) {
       return;
     }

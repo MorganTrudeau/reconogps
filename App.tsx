@@ -12,17 +12,18 @@ import { PortalProvider } from "@gorhom/portal";
 import ToastProvider from "./context/ToastContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ToastManager from "./services/ToastManager";
-import { StripeProvider } from "@stripe/stripe-react-native";
 import PopoverProvider from "./context/PopoverContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NotificationsManager from "./services/NotificationsManager";
 import { MapLayerProvider } from "./context/MapLayerContext";
 import MessagingManager from "./firebase/MessagingManager";
 import { DynamicAssetDataLoader } from "./services/DynamicAssetDataLoader";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <ErrorBoundary>
       <NavigationContainer>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
@@ -30,18 +31,12 @@ export default function App() {
               <ThemeProvider>
                 <ToastProvider>
                   <PortalProvider>
-                    <StripeProvider
-                      publishableKey="pk_test_51M1LLjCDBFeHvOGCnqXOb5rYjJmc7hHk94sR8upPbKCY6eJiNd2WW1ncV1eeeqcmzlATHoOGt1zZYAc12RfHHyaV00tfUzHwvo"
-                      urlScheme="reconogps" // required for 3D Secure and bank redirects
-                      merchantIdentifier="merchant.com.reconogps.app.dev" // required for Apple Pay
-                    >
-                      <PopoverProvider>
-                        <MapLayerProvider>
-                          <StatusBar style="light" />
-                          <NavigationStack />
-                        </MapLayerProvider>
-                      </PopoverProvider>
-                    </StripeProvider>
+                    <PopoverProvider>
+                      <MapLayerProvider>
+                        <StatusBar style="light" />
+                        <NavigationStack />
+                      </MapLayerProvider>
+                    </PopoverProvider>
                   </PortalProvider>
                   <ToastManager />
                 </ToastProvider>
@@ -54,6 +49,7 @@ export default function App() {
           </PersistGate>
         </Provider>
       </NavigationContainer>
+      </ErrorBoundary>
     </GestureHandlerRootView>
   );
 }

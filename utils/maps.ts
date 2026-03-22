@@ -1,8 +1,8 @@
 import {
-  CameraBounds,
-  CameraPadding,
-  CameraStop,
-} from "@rnmapbox/maps/javascript/components/Camera";
+  type CameraBounds,
+  type CameraPadding,
+  type CameraStop,
+} from "@rnmapbox/maps";
 import { Dimensions } from "react-native";
 import { spacing } from "../styles";
 import { DynamicAsset, LatLng } from "../types";

@@ -26,7 +26,7 @@ export const AddressText = ({
         const address = await geocodeLatLong(lat, lng);
         setAddress(address);
       } catch (error) {
-        console.log("Failed to find address: ", error);
+        // Geocoding failed, address stays empty
       }
     };
 

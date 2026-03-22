@@ -42,7 +42,6 @@ const ForgotPasswordScreen = ({ navigation }: NavigationProps) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log("Send code error: ", error);
       Alert.alert("Failed to reset password", errorToMessage(error));
     }
   };
@@ -72,7 +71,6 @@ const ForgotPasswordScreen = ({ navigation }: NavigationProps) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log("Password reset error: ", error);
       Alert.alert("Failed to reset password", errorToMessage(error));
     }
   };

@@ -32,7 +32,7 @@ const AppPopover = (
           );
         });
     } catch (error) {
-      console.log("Could not measure", error);
+      // Measurement failed
     }
   };
 

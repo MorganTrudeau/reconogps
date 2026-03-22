@@ -21,12 +21,6 @@ export const registerToken = createAsyncThunk(
   async (deviceToken: string, thunkApi) => {
     const state = thunkApi.getState() as RootState;
     const { majorToken, minorToken, mobileToken } = state.auth;
-    console.log("Registering token:", {
-      majorToken,
-      minorToken,
-      mobileToken,
-      deviceToken,
-    });
     if (majorToken && minorToken && mobileToken && deviceToken) {
       await NotificationApis.registerToken(
         majorToken,

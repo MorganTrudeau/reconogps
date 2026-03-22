@@ -14,7 +14,6 @@ export const loadNotifications = async (
     params: { MinorToken, deviceToken: deviceToken },
   });
   validateResponseData(res);
-  console.log("Load notifications response:", res.data);
   return res.data.Data;
 };
 
@@ -30,7 +29,6 @@ export const registerToken = async (
     MobileToken,
     DeviceToken,
   };
-  console.log("Register token params:", params);
   const res = await axios.post(
     `${API_DOMIAN1}User/RefreshToken`,
     formDataFromObject(params),
@@ -38,7 +36,6 @@ export const registerToken = async (
       headers: { "Content-Type": "multipart/form-data" },
     }
   );
-  console.log("Register token response:", res.data);
   validateResponseData(res);
   return res.data.Data;
 };

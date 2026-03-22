@@ -69,19 +69,12 @@ export const createSubscriptionPaymentIntent = functions.https.onCall(
             subscription.metadata.imeis === imeis &&
             subscription.items.data.length === prices.length &&
             prices.every(({ id, quantity }) => {
-              console.log("Price param: ", { id, quantity });
               return subscription.items.data.find((item: any) => {
-                console.log("Subscription price: ", {
-                  id: item.price.id,
-                  quantity: item.quantity,
-                });
                 return item.price.id === id && item.quantity === quantity;
               });
             })
         );
-      console.log("Pending subscription: ", pendingSubscription?.id);
     } catch (error) {
-      console.log("Failed to check for pending subscription: ", error);
     }
 
     let subscription;

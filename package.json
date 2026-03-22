@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
     "web": "expo start --web",
     "postinstall": "patch-package",
     "validate": "tsc --noEmit",
@@ -81,6 +79,7 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/redux-logger": "^3.0.9",
     "babel-jest": "^29.6.3",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "patch-package": "^6.5.1",

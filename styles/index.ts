@@ -100,6 +100,9 @@ export const colors = {
 };
 
 export const styles = StyleSheet.create({
+  divider: {
+    marginVertical: spacing("md"),
+  },
   header: {
     backgroundColor: colors.background,
     shadowOpacity: 0,

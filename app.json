@@ -2,8 +2,8 @@
   "expo": {
     "name": "recono",
     "slug": "recono",
-    "version": "1.0.2",
-    "buildNumber": 5,
+    "version": "1.0.13",
+    "buildNumber": 22,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,14 +15,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
       "jsEngine": "hermes",
-      "bundleIdentifier": "com.reconogps.app"
+      "bundleIdentifier": "com.reconogps.pro"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,7 +40,5 @@
         }
       ]
     ]
-  },
-  "version": "1.0.2",
-  "buildNumber": 6
+  }
 }

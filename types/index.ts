@@ -494,3 +494,9 @@ export type Notification = {
   Direct: number;
   BatteryVoltage?: number;
 };
+
+export type ApiResponse = {
+  MajorCode: string;
+  MinorCode: string;
+  Data?: any;
+};

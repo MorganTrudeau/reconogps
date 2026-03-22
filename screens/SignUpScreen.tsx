@@ -10,6 +10,7 @@ import { login } from "../redux/thunks/auth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { startRegistration } from "../redux/reducers/auth";
 import AppScrollView from "../components/Core/AppScrollView";
+import { ApiResponse } from "../types";
 
 type AccountDetails = {
   Name: string;
@@ -91,8 +92,9 @@ const SignUpScreen = () => {
       );
       setLoading(false);
 
-      if (!(res.data.MajorCode === "000" && res.data.MinorCode === "0000")) {
-        handleError(res.data.Data?.error);
+      const data = res.data as ApiResponse;
+      if (!(data.MajorCode === "000" && data.MinorCode === "0000")) {
+        handleError(data.Data?.error);
       } else {
         dispatch(startRegistration());
         dispatch(
@@ -101,7 +103,6 @@ const SignUpScreen = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 

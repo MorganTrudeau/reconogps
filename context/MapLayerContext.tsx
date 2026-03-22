@@ -16,7 +16,7 @@ const getSavedLayerStyle = async () => {
       savedLayerStyle = _savedLayerStyle;
     }
   } catch (error) {
-    console.error("Failed to get saved layer style", error);
+    // Failed to get saved layer style
   }
 };
 getSavedLayerStyle();
@@ -25,7 +25,7 @@ const saveLayerStyle = async (layerStyle: StyleURL) => {
   try {
     await AsyncStorage.setItem(SAVED_LAYER_STYLE_ASYNC_KEY, layerStyle);
   } catch (error) {
-    console.error("Failed to save layer style", error);
+    // Failed to save layer style
   }
 };
 

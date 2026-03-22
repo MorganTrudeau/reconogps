@@ -56,7 +56,6 @@ const SubscribeAssetsScreen = ({ route }: NavigationProps) => {
 
       return products;
     } catch (error) {
-      console.log(error);
       Toast.show(
         "There was a problem loading your subscription products. Please check your internet and try again."
       );
@@ -81,7 +80,11 @@ const SubscribeAssetsScreen = ({ route }: NavigationProps) => {
       "createSubscriptionPaymentIntent"
     )({ customerData, prices: _prices, imeis: imeis.join(",") });
 
-    const { paymentIntent, subscription, customerId } = res.data;
+    const { paymentIntent, subscription, customerId } = res.data as {
+      paymentIntent: string;
+      subscription: Stripe.Subscription;
+      customerId: string;
+    };
 
     setSubscription(subscription);
 
@@ -129,7 +132,7 @@ const SubscribeAssetsScreen = ({ route }: NavigationProps) => {
     });
 
     if (error) {
-      console.log("initPaymentSheet error: ", error);
+      // Payment sheet initialization failed
     }
   };
 

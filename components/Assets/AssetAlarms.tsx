@@ -203,7 +203,6 @@ export const AssetAlarms = ({
       setHasChanges(false);
       setLoading(false);
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   }, [userConfigState]);
@@ -377,7 +376,6 @@ export const AssetAlarms = ({
         loading: false,
       }));
     } catch (error) {
-      console.error(error);
       Toast.show(Translations.errors.common);
       setState((s) => ({ ...s, loading: false }));
     }
@@ -393,7 +391,7 @@ export const AssetAlarms = ({
 
       loadAlarms(settings);
     } catch (error) {
-      console.log("Load alarm settings error:", error);
+      // Failed to load alarm settings
     }
   };
 

@@ -63,15 +63,15 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
         imei: assetImei,
       });
 
-      if (res && res.data && res.data.ssp && res.data.asset) {
-        setActivationInfo(res.data);
+      const data = res?.data as AssetActivationInfo | undefined;
+      if (data && data.ssp && data.asset) {
+        setActivationInfo(data);
       } else {
         throw Errors.InvalidData;
       }
 
       setLoading(false);
     } catch (error) {
-      console.log("startActivation error: ", error);
       setLoading(false);
       Toast.show(
         //@ts-ignore

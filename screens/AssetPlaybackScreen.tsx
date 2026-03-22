@@ -16,7 +16,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { RootStackParamList } from "../navigation/utils";
+import { getHeaderHeight, RootStackParamList } from "../navigation/utils";
 import { useAlert } from "../hooks/useAlert";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -224,7 +224,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         });
         setTrips(_trips[0] || null);
       } catch (error) {
-        console.log("Load trips error:", error);
+        // Failed to load trips
       }
     };
     loadTrips();
@@ -262,7 +262,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
             setPlaybackHistory(formattedPlaybackHistory);
           }, 100);
         } catch (error) {
-          console.log("Failed to optimize", error);
+          // Optimization failed, using unoptimized data
         }
       } else {
         setTimeout(() => {
@@ -274,7 +274,6 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
       Alert.alert("Playback not loaded", "Please go back and try again.");
     }
   };
@@ -659,7 +658,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         activeOffsetY={[-1, 1]}
         failOffsetX={[-5, 5]}
         ref={bottomSheet}
-        index={0}
+        index={1}
         snapPoints={snapPoints}
         backgroundStyle={{ backgroundColor: colors.background }}
         style={{
@@ -687,15 +686,13 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
         <View
           style={[
             StyleSheet.absoluteFillObject,
-            { justifyContent: "center", alignItems: "center" },
+            {
+              backgroundColor: `${colors.background}30`,
+              alignItems: "center",
+              paddingTop: insets.top + getHeaderHeight() + spacing("lg"),
+            },
           ]}
         >
-          <View
-            style={[
-              StyleSheet.absoluteFillObject,
-              { backgroundColor: colors.background, opacity: 0.3 },
-            ]}
-          />
           <View
             style={{
               borderRadius: BORDER_RADIUS_MD,

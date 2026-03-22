@@ -46,7 +46,6 @@ export const logout = async (
     validateResponseData(res);
     return res.data;
   } catch (error) {
-    console.log("Logout error", error);
     throw error;
   }
 };

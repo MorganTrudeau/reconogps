@@ -4,6 +4,8 @@ import {
 } from "expo-location";
 import { Platform } from "react-native";
 
+declare const navigator: any;
+
 export const checkLocationPermission =
   async (): Promise<LocationPermissionResponse> => {
     let res;
