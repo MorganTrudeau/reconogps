@@ -1,9 +1,15 @@
 import { useEffect, useRef } from "react";
-import messaging from "@react-native-firebase/messaging";
+import {
+  getMessaging,
+  requestPermission,
+  getToken,
+  onTokenRefresh,
+  getInitialNotification,
+  onMessage,
+  onNotificationOpenedApp,
+} from "@react-native-firebase/messaging";
+import notifee, { AndroidImportance, EventType } from "@notifee/react-native";
 import { AppState, AppStateStatus, Platform } from "react-native";
-import PushNotification, { Importance } from "react-native-push-notification";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import { requestNotifications } from "react-native-permissions";
 import { FCMMessage } from "../types/notifications";
 import { formatFCMMessage } from "../utils/notifications";
 import { useTheme } from "../hooks/useTheme";
@@ -17,29 +23,23 @@ export const LOCAL_NOTIFICATION_CHANNEL = "local_notifications";
 const MessagingManager = () => {
   const { colors } = useTheme();
 
-  const { isLoggedIn } = useAppSelector((state) => ({
-    isLoggedIn: !!state.auth.minorToken,
-  }));
+  const isLoggedIn = useAppSelector((state) => !!state.auth.minorToken);
   const dispatch = useAppDispatch();
 
   // Listener unsubscribe functions
-  const unsubscribeForeground = useRef<() => void>();
-  const unsubscribeBackground = useRef<() => void>();
-  const unsubscribeToken = useRef<() => void>();
+  const unsubscribeForeground = useRef<() => void>(undefined);
+  const unsubscribeBackground = useRef<() => void>(undefined);
+  const unsubscribeToken = useRef<() => void>(undefined);
   const recentMessages = useRef(new Set<string>());
 
-  const handleMessagingLifecycle = async () => {
+  // Subscribe to notifications on login
+  // Unsubscribe to notifications on logout and app quit
+  useEffect(() => {
     if (isLoggedIn) {
       initiateMessaging();
     } else {
       stopMessaging();
     }
-  };
-
-  // Subscribe to notifications on login
-  // Unsubscribe to notifications on logout and app quit
-  useEffect(() => {
-    handleMessagingLifecycle();
   }, [isLoggedIn]);
 
   let currentState = useRef(AppState.currentState);
@@ -66,38 +66,33 @@ const MessagingManager = () => {
   // Subscribe to foreground and background messages
   const initiateMessaging = async () => {
     if (Platform.OS === "android") {
-      PushNotification.createChannel(
-        {
-          channelId: LOCAL_NOTIFICATION_CHANNEL, // (required)
-          channelName: "Local Notifications", // (required)
-          channelDescription: "A channel to show local notifications", // (optional) default: undefined.
-          playSound: false, // (optional) default: true
-          soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
-          importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
-          vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-        },
-        () => {}
-      );
+      await notifee.createChannel({
+        id: LOCAL_NOTIFICATION_CHANNEL,
+        name: "Local Notifications",
+        description: "A channel to show local notifications",
+        importance: AndroidImportance.HIGH,
+        sound: "default",
+      });
     }
 
-    await requestPermission();
+    await requestNotificationPermission();
     await manageToken();
     await handleInitialNotification();
     subscribeToForegroundMessages();
     subscribeToBackgroundNotifications();
-    clearChatNotifications();
   };
 
-  // Request permission (require only for IOS)
-  const requestPermission = () => {
+  // Request permission
+  const requestNotificationPermission = async () => {
     if (Platform.OS === "web") {
       return;
     }
     try {
       if (Platform.OS === "android") {
-        return requestNotifications(["alert", "badge", "sound"]);
+        await notifee.requestPermission();
       } else {
-        return messaging().requestPermission();
+        const messaging = getMessaging();
+        await requestPermission(messaging);
       }
     } catch (error) {
       // Permission request failed
@@ -106,9 +101,10 @@ const MessagingManager = () => {
 
   // Get initial token and token updates and register token on database
   const manageToken = async (attempts = 0): Promise<void> => {
+    const messaging = getMessaging();
     // Get initial token
     try {
-      const token = await messaging().getToken();
+      const token = await getToken(messaging);
 
       if (!token) {
         throw "missing_token";
@@ -125,19 +121,23 @@ const MessagingManager = () => {
     // Unsubscribe to current listener
     if (typeof unsubscribeToken.current === "function") {
       unsubscribeToken.current();
+      unsubscribeToken.current = undefined;
     }
     // Listen to token updates
-    unsubscribeToken.current = messaging().onTokenRefresh(registerToken);
+    unsubscribeToken.current = onTokenRefresh(messaging, (token) =>
+      dispatch(registerToken(token))
+    );
   };
 
-  // Get initial token on app first open
+  // Get initial notification on app first open
   const handleInitialNotification = async () => {
     if (Platform.OS === "web") {
       return;
     }
 
+    const messaging = getMessaging();
     const initialNotification: FCMMessage | null =
-      await messaging().getInitialNotification();
+      await getInitialNotification(messaging);
 
     !!initialNotification &&
       handleMessage(formatFCMMessage(initialNotification));
@@ -147,29 +147,29 @@ const MessagingManager = () => {
     // Unsubscribe current listener
     if (typeof unsubscribeForeground.current === "function") {
       unsubscribeForeground.current();
+      unsubscribeForeground.current = undefined;
     }
 
     try {
+      const messaging = getMessaging();
       // Subscribe to foreground messages
-      unsubscribeForeground.current =
-        messaging().onMessage(onForegroundMessage);
+      unsubscribeForeground.current = onMessage(
+        messaging,
+        onForegroundMessage
+      );
     } catch (error) {
       return;
     }
 
-    // Subscribe to foreground message tapped event
-    PushNotification.configure({
-      // @ts-ignore
-      onNotification: (notification: DeviceNotification) => {
-        if (
-          notification.data?.localNotification ||
-          (notification.foreground && notification.userInteraction)
-        ) {
-          handleMessage(notification);
-        }
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
-      },
-      popInitialNotification: false,
+    // Subscribe to foreground notification tapped event
+    notifee.onForegroundEvent(({ type, detail }) => {
+      switch (type) {
+        case EventType.PRESS:
+          if (detail.notification?.data) {
+            handleMessage({ data: detail.notification.data });
+          }
+          break;
+      }
     });
   };
 
@@ -201,15 +201,20 @@ const MessagingManager = () => {
       }
     }
 
-    PushNotification.localNotification({
-      channelId: LOCAL_NOTIFICATION_CHANNEL,
+    notifee.displayNotification({
+      id: messageId,
       title,
-      message: body || "",
-      userInfo: { ...data, id: messageId, localNotification: true },
-      smallIcon: "ic_notification",
-      color: colors.primary,
-      soundName: "default",
-      playSound: true,
+      body: body || "",
+      data: { ...data, localNotification: "true" },
+      android: {
+        channelId: LOCAL_NOTIFICATION_CHANNEL,
+        smallIcon: "ic_notification",
+        pressAction: {
+          id: "default",
+        },
+        color: colors.primary,
+        importance: AndroidImportance.HIGH,
+      },
     });
   };
 
@@ -220,9 +225,12 @@ const MessagingManager = () => {
     // Unsubscribe current listener
     if (typeof unsubscribeBackground.current === "function") {
       unsubscribeBackground.current();
+      unsubscribeBackground.current = undefined;
     }
+    const messaging = getMessaging();
     // Subscribe to background messages
-    unsubscribeBackground.current = messaging().onNotificationOpenedApp(
+    unsubscribeBackground.current = onNotificationOpenedApp(
+      messaging,
       (remoteMessage: FCMMessage) =>
         handleMessage(formatFCMMessage(remoteMessage))
     );
@@ -232,62 +240,24 @@ const MessagingManager = () => {
   const handleMessage = async (message: any) => {
     const { data } = message;
   };
+
   // Unsubscribe to background and foreground messages
   // Unsubscribe to token updates
   // Delete token on firebase and database
   const stopMessaging = () => {
-    !!unsubscribeForeground.current && unsubscribeForeground.current();
-    !!unsubscribeBackground.current && unsubscribeBackground.current();
-    !!unsubscribeToken.current && unsubscribeToken.current();
+    if (unsubscribeForeground.current) {
+      unsubscribeForeground.current();
+      unsubscribeForeground.current = undefined;
+    }
+    if (unsubscribeBackground.current) {
+      unsubscribeBackground.current();
+      unsubscribeBackground.current = undefined;
+    }
+    if (unsubscribeToken.current) {
+      unsubscribeToken.current();
+      unsubscribeToken.current = undefined;
+    }
     dispatch(setDeviceToken(""));
-  };
-
-  // Clear notifications when app is active
-  const clearNotifications = (notificationType: string) => {
-    if (AppState.currentState === "background" || Platform.OS !== "ios") return;
-
-    PushNotificationIOS.getDeliveredNotifications((notifications) => {
-      let removedNotifications: string[] = [];
-      notifications.forEach((notification) => {
-        let currentNotificationType = notification.userInfo.type;
-        if (currentNotificationType === notificationType) {
-          removedNotifications.push(notification.identifier);
-        }
-      });
-      PushNotificationIOS.removeDeliveredNotifications(removedNotifications);
-    });
-  };
-
-  /**
-   * To remove notifications.
-   * Calls when user enter a chat.
-   */
-  const clearChatNotifications = (id?: string) => {
-    if (Platform.OS !== "ios") return;
-
-    PushNotificationIOS.getDeliveredNotifications((notifications) => {
-      let removedNotifications: string[] = [];
-      let clearBadge = true;
-      notifications.forEach((notification) => {
-        const chatId = notification.userInfo.chatId;
-        if (typeof chatId === "string") {
-          if (chatId && chatId === id) {
-            removedNotifications.push(notification.identifier);
-          } else if (
-            notification.userInfo?.type === "announcement_added" ||
-            notification.userInfo?.type === "chat_message_received"
-          ) {
-            clearBadge = false;
-          }
-        }
-      });
-      if (removedNotifications.length) {
-        PushNotificationIOS.removeDeliveredNotifications(removedNotifications);
-      }
-      if (clearBadge) {
-        PushNotification.setApplicationIconBadgeNumber(0);
-      }
-    });
   };
 
   // Not rendering any component

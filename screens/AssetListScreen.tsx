@@ -28,11 +28,9 @@ const AssetListScreen = ({
 }: Props) => {
   const { theme, colors } = useTheme();
 
-  const { assets, ids, loading } = useAppSelector((state) => ({
-    assets: getStaticAssets(state),
-    ids: state.assets.staticData.ids as string[],
-    loading: state.assets.staticLoadRequest.loading,
-  }));
+  const assets = useAppSelector(getStaticAssets);
+  const ids = useAppSelector((state) => state.assets.staticData.ids as string[]);
+  const loading = useAppSelector((state) => state.assets.staticLoadRequest.loading);
   const dispatch = useAppDispatch();
 
   const load = () => {

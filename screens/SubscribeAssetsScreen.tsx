@@ -4,7 +4,7 @@ import AppScrollView from "../components/Core/AppScrollView";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useTheme } from "../hooks/useTheme";
 import { useToast } from "../hooks/useToast";
-import functions from "@react-native-firebase/functions";
+import { getFunctions, httpsCallable } from "@react-native-firebase/functions";
 import { User } from "../types";
 import { useAlert } from "../hooks/useAlert";
 import AppButton from "../components/Core/AppButton";
@@ -12,15 +12,13 @@ import { RootStackParamList } from "../navigation/utils";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Stripe } from "stripe";
 import {
-  buildCheckoutItems,
   buildPricesParam,
   getStripePaymentSheetAppearance,
 } from "../utils/stripe";
 import { ActivityIndicator, View } from "react-native";
 import AppText from "../components/Core/AppText";
 import { BORDER_RADIUS_SM, spacing } from "../styles";
-import { CheckoutItem, PricesParam } from "../types/stripe";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PricesParam } from "../types/stripe";
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
@@ -46,7 +44,7 @@ const SubscribeAssetsScreen = ({ route }: NavigationProps) => {
 
   const loadProductsWithPrices = async () => {
     try {
-      const res = await functions().httpsCallable("fetchSubscriptionProducts")({
+      const res = await httpsCallable(getFunctions(), "fetchSubscriptionProducts")({
         dev: true,
       });
 
@@ -76,7 +74,8 @@ const SubscribeAssetsScreen = ({ route }: NavigationProps) => {
       },
     };
 
-    const res = await functions().httpsCallable(
+    const res = await httpsCallable(
+      getFunctions(),
       "createSubscriptionPaymentIntent"
     )({ customerData, prices: _prices, imeis: imeis.join(",") });
 

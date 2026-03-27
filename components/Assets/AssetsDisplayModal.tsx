@@ -14,7 +14,10 @@ import {
 } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
 import { iconSize, spacing } from "../../styles";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetView,
+  type BottomSheetProps,
+} from "@gorhom/bottom-sheet";
 import { AssetStack } from "../../navigation/AssetStack";
 import { NavigationState, useNavigation } from "@react-navigation/native";
 import AppIcon from "../Core/AppIcon";
@@ -43,7 +46,7 @@ type Props = {
 
 const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
   ({ onAssetSelected, onHeightChange }, ref) => {
-    const { colors, theme } = useTheme();
+    const { colors } = useTheme();
     const navigation = useNavigation<NavigationProp>();
     const { height } = useWindowDimensions();
 
@@ -103,7 +106,9 @@ const AssetsDisplayModal = forwardRef<AssetsDisplayModalRef, Props>(
       }
     });
 
-    const handleIndexChange = (_index: number) => {
+    const handleIndexChange: NonNullable<BottomSheetProps["onChange"]> = (
+      _index
+    ) => {
       if (_index < 0) {
         onHeightChange && onHeightChange(0);
       } else {
@@ -201,7 +206,6 @@ const HeaderLeft = ({ navigationIndex }: { navigationIndex: number }) => {
   return <View style={styles.headerLeftButton} />;
 };
 
-const BORDER_RADIUS = 15;
 const ICON_RATIO = 140 / 800;
 const ICON_WIDTH = 70;
 const ICON_HEIGHT = ICON_WIDTH * ICON_RATIO;

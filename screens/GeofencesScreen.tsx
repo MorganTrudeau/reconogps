@@ -23,10 +23,8 @@ const GeofencesScreen = ({ navigation }: NavigationProps) => {
 
   const geofenceOptions = useRef<GeofenceOptionsRef>(null);
 
-  const { geofences, loading } = useAppSelector((state) => ({
-    geofences: getGeofences(state),
-    loading: state.geofences.loadRequest.loading,
-  }));
+  const geofences = useAppSelector(getGeofences);
+  const loading = useAppSelector((state) => state.geofences.loadRequest.loading);
   const dispatch = useAppDispatch();
 
   const handleLoad = () => dispatch(loadGeofences());

@@ -14,7 +14,7 @@ export const usePosition = (
 ) => {
   const Alert = useAlert();
 
-  const watchSubscription = useRef<Location.LocationSubscription>();
+  const watchSubscription = useRef<Location.LocationSubscription>(undefined);
 
   const [findingLocation, setFindingLocation] = useState(false);
 

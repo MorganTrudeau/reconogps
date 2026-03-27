@@ -368,10 +368,8 @@ const MainStack = () => {
 };
 
 const NavigationStack = () => {
-  const { isLoggedIn, registering } = useAppSelector((state) => ({
-    isLoggedIn: state.auth.minorToken,
-    registering: state.auth.registering,
-  }));
+  const isLoggedIn = useAppSelector((state) => state.auth.minorToken);
+  const registering = useAppSelector((state) => state.auth.registering);
 
   return registering ? (
     <RegistrationStack />

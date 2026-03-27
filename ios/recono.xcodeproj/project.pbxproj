@@ -7,19 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1FA402D5A5D3FCB492860454 /* Pods_recono_shared_recono_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3A83DE7BC27E4920C06C1A /* Pods_recono_shared_recono_dev.framework */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		40AA92FC20BDE145B01AEF5D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838CF53183ABFF93F3929A54 /* ExpoModulesProvider.swift */; };
 		4F90B1B8F7C3AE6EF4E96B47 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 78377BDF8C7A3E42E5FC2A4E /* PrivacyInfo.xcprivacy */; };
 		60E75DDFDE8D11CACCADBE9D /* Pods_recono_shared_recono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E605701736F53A8ED7C9023E /* Pods_recono_shared_recono.framework */; };
+		79C5790879984618592FB97F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1960B2142C2F22F2B90F5AC /* AppDelegate.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		D06973F3A57F6D1C73EFC7C5 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E119EE0F3A3519CE6FAB2E /* ExpoModulesProvider.swift */; };
+		DF7FD18B9F51925CE201BF93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1960B2142C2F22F2B90F5AC /* AppDelegate.swift */; };
 		E0CED335C1D147D5AC117171 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BE1770AA954516A97E631F /* noop-file.swift */; };
-		F962536E2D3F6A6800560105 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		F962536F2D3F6A6800560105 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		F96253712D3F6A6800560105 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BE1770AA954516A97E631F /* noop-file.swift */; };
 		F96253752D3F6A6800560105 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F96253762D3F6A6800560105 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9C88FA029D4B88800F5F742 /* GoogleService-Info.plist */; };
@@ -31,11 +29,8 @@
 
 /* Begin PBXFileReference section */
 		13B07F961A680F5B00A75B9A /* recono.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recono.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = recono/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = recono/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = recono/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = recono/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = recono/main.m; sourceTree = "<group>"; };
 		41C9E7C02212CD15CF17A0DE /* Pods-recono-shared-recono-dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recono-shared-recono-dev.release.xcconfig"; path = "Target Support Files/Pods-recono-shared-recono-dev/Pods-recono-shared-recono-dev.release.xcconfig"; sourceTree = "<group>"; };
 		47724879CB63919C0AB201EC /* Pods-recono-shared-recono.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recono-shared-recono.debug.xcconfig"; path = "Target Support Files/Pods-recono-shared-recono/Pods-recono-shared-recono.debug.xcconfig"; sourceTree = "<group>"; };
 		773E6B7962535C1BBCEF1FF6 /* Pods-recono-shared-recono-dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recono-shared-recono-dev.debug.xcconfig"; path = "Target Support Files/Pods-recono-shared-recono-dev/Pods-recono-shared-recono-dev.debug.xcconfig"; sourceTree = "<group>"; };
@@ -43,6 +38,7 @@
 		838CF53183ABFF93F3929A54 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-recono-shared-recono-dev/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		93D22F6FC87FDAE401BC61D1 /* Pods-recono-shared-recono.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recono-shared-recono.release.xcconfig"; path = "Target Support Files/Pods-recono-shared-recono/Pods-recono-shared-recono.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = recono/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B1960B2142C2F22F2B90F5AC /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = recono/AppDelegate.swift; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		C6BE1770AA954516A97E631F /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "recono/noop-file.swift"; sourceTree = "<group>"; };
 		D1E119EE0F3A3519CE6FAB2E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-recono-shared-recono/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
@@ -78,15 +74,13 @@
 			isa = PBXGroup;
 			children = (
 				BB2F792B24A3F905000567C9 /* Supporting */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				C6BE1770AA954516A97E631F /* noop-file.swift */,
 				F99789642CA4870D00421F4C /* PrivacyInfo.xcprivacy */,
 				78377BDF8C7A3E42E5FC2A4E /* PrivacyInfo.xcprivacy */,
+				B1960B2142C2F22F2B90F5AC /* AppDelegate.swift */,
 			);
 			name = recono;
 			sourceTree = "<group>";
@@ -308,19 +302,17 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-recono-shared-recono/Pods-recono-shared-recono-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MapboxMaps/MapboxMaps.framework",
-				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCommon/MapboxCommon.framework/MapboxCommon",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCoreMaps/MapboxCoreMaps.framework/MapboxCoreMaps",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework/MapboxMobileEvents",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Turf/Turf.framework/Turf",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMaps.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreMaps.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +362,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/StripeBundle.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCoreBundle.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnectionsBundle.bundle",
@@ -400,6 +393,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeCoreBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeFinancialConnectionsBundle.bundle",
@@ -462,6 +456,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/StripeBundle.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCoreBundle.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnectionsBundle.bundle",
@@ -492,6 +487,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeCoreBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeFinancialConnectionsBundle.bundle",
@@ -539,19 +535,17 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-recono-shared-recono-dev/Pods-recono-shared-recono-dev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MapboxMaps/MapboxMaps.framework",
-				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCommon/MapboxCommon.framework/MapboxCommon",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCoreMaps/MapboxCoreMaps.framework/MapboxCoreMaps",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework/MapboxMobileEvents",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Turf/Turf.framework/Turf",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMaps.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreMaps.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,10 +612,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				E0CED335C1D147D5AC117171 /* noop-file.swift in Sources */,
 				D06973F3A57F6D1C73EFC7C5 /* ExpoModulesProvider.swift in Sources */,
+				DF7FD18B9F51925CE201BF93 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,10 +622,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F962536E2D3F6A6800560105 /* AppDelegate.mm in Sources */,
-				F962536F2D3F6A6800560105 /* main.m in Sources */,
 				F96253712D3F6A6800560105 /* noop-file.swift in Sources */,
 				40AA92FC20BDE145B01AEF5D /* ExpoModulesProvider.swift in Sources */,
+				79C5790879984618592FB97F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +648,7 @@
 				INFOPLIST_FILE = recono/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recono GPS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -688,7 +680,7 @@
 				INFOPLIST_FILE = recono/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recono GPS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -768,7 +760,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -844,7 +836,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -882,7 +874,7 @@
 				INFOPLIST_FILE = recono/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recono GPS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -914,7 +906,7 @@
 				INFOPLIST_FILE = recono/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recono GPS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

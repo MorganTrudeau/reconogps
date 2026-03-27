@@ -1,10 +1,9 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, ImageStyle, StyleSheet } from "react-native";
 import { StaticAsset } from "../../types";
 import { constructImageUrl } from "../../utils";
 import { assetHasIcon } from "../../utils/assets";
 import Avatar from "../Avatar";
-import { ImageStyle } from "react-native-fast-image";
 
 const AssetAvatar = ({
   asset,

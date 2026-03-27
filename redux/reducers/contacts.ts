@@ -21,15 +21,15 @@ import {
 } from "../thunks/contacts";
 
 export interface ContactsState {
-  data: EntityState<Contact>;
+  data: EntityState<Contact, string>;
 
   loadRequest: SimpleLoadingState;
   addContactRequest: SimpleLoadingState;
   deleteRequest: SimpleLoadingState;
 }
 
-const contactsAdapter = createEntityAdapter<Contact>({
-  selectId: (contact) => contact.Code,
+const contactsAdapter = createEntityAdapter({
+  selectId: (contact: Contact) => contact.Code,
 });
 
 const initialState: ContactsState = {

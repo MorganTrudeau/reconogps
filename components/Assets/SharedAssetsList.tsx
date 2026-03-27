@@ -50,16 +50,9 @@ const SharedAssetsList = ({
   const [selectedAsset, setSelectedAsset] =
     useState<SharedAssetListData | null>(null);
 
-  const {
-    staticAssetData,
-    unsubscribeSharedAssetRequest,
-    stopSharingAssetRequest,
-  } = useAppSelector((state) => ({
-    staticAssetData: state.assets.staticData.entities,
-    unsubscribeSharedAssetRequest:
-      state.sharedAssets.unsubscribeSharedAssetRequest,
-    stopSharingAssetRequest: state.sharedAssets.stopSharingAssetRequest,
-  }));
+  const staticAssetData = useAppSelector((state) => state.assets.staticData.entities);
+  const unsubscribeSharedAssetRequest = useAppSelector((state) => state.sharedAssets.unsubscribeSharedAssetRequest);
+  const stopSharingAssetRequest = useAppSelector((state) => state.sharedAssets.stopSharingAssetRequest);
   const dispatch = useAppDispatch();
 
   useUpdated(unsubscribeSharedAssetRequest.success, (success, prevSuccess) => {

@@ -1,6 +1,4 @@
-import { Dictionary } from "@reduxjs/toolkit";
-
-export const listOfEntities = <T>(ids: string[], entities: Dictionary<T>) => {
+export const listOfEntities = <T>(ids: string[], entities: Record<string, T | undefined>) => {
   return ids.reduce((acc, id) => {
     const asset = entities[id];
     if (asset) {

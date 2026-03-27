@@ -12,7 +12,7 @@ const ToastProvider = ({ children }: Props) => {
   const [state, setState] = useState(initialState);
   const { visible, text } = state;
 
-  const toastTimeout = useRef<NodeJS.Timeout>();
+  const toastTimeout = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {

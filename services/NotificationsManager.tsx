@@ -10,11 +10,9 @@ import {
 } from "react-native";
 
 const NotificationsManager = () => {
-  const { minorToken, majorToken, deviceToken } = useAppSelector((state) => ({
-    minorToken: state.auth.minorToken,
-    majorToken: state.auth.majorToken,
-    deviceToken: state.notifications.deviceToken,
-  }));
+  const minorToken = useAppSelector((state) => state.auth.minorToken);
+  const majorToken = useAppSelector((state) => state.auth.majorToken);
+  const deviceToken = useAppSelector((state) => state.notifications.deviceToken);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

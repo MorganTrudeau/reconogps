@@ -28,13 +28,10 @@ const ProfileScreen = ({ navigation }: NavigationProps) => {
 
   const timeZoneModalRef = useRef<Modalize>(null);
 
-  const { activeUser, updateRequest, permissions2, agentOrDealer } =
-    useAppSelector((state) => ({
-      activeUser: state.activeUser.data || ({} as User),
-      permissions2: state.activeUser.permissions2,
-      updateRequest: state.activeUser.updateRequest,
-      agentOrDealer: isAgentOrDealer(state),
-    }));
+  const activeUser = useAppSelector((state) => state.activeUser.data || ({} as User));
+  const permissions2 = useAppSelector((state) => state.activeUser.permissions2);
+  const updateRequest = useAppSelector((state) => state.activeUser.updateRequest);
+  const agentOrDealer = useAppSelector(isAgentOrDealer);
   const dispatch = useAppDispatch();
 
   const [userUpdate, setUserUpdate] = useState<Partial<User>>({

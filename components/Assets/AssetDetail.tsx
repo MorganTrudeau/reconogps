@@ -41,14 +41,11 @@ export const AssetDetail = ({
   const { theme, colors } = useTheme();
   const Toast = useToast();
 
-  const { dynamicAsset, staticAsset, activeUser, majorToken, minorToken } =
-    useAppSelector((state) => ({
-      minorToken: state.auth.minorToken as string,
-      majorToken: state.auth.majorToken as string,
-      dynamicAsset: state.assets.dynamicData.entities[assetId],
-      staticAsset: state.assets.staticData.entities[assetId],
-      activeUser: state.activeUser.data,
-    }));
+  const minorToken = useAppSelector((state) => state.auth.minorToken as string);
+  const majorToken = useAppSelector((state) => state.auth.majorToken as string);
+  const dynamicAsset = useAppSelector((state) => state.assets.dynamicData.entities[assetId]);
+  const staticAsset = useAppSelector((state) => state.assets.staticData.entities[assetId]);
+  const activeUser = useAppSelector((state) => state.activeUser.data);
 
   const [address, setAddress] = useState(undefined);
 

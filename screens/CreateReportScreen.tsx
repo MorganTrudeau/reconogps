@@ -90,13 +90,10 @@ const CreateReportScreen = ({ navigation, route }: NavigationProps) => {
   const [overviewOptions, setOverviewOptions] =
     useState<OverviewReportOption[]>(reportOptions);
 
-  const { minorToken, majorToken, contacts, geofenceLoadRequest } =
-    useAppSelector((state) => ({
-      minorToken: state.auth.minorToken,
-      majorToken: state.auth.majorToken,
-      contacts: getContacts(state),
-      geofenceLoadRequest: state.geofences.loadRequest,
-    }));
+  const minorToken = useAppSelector((state) => state.auth.minorToken);
+  const majorToken = useAppSelector((state) => state.auth.majorToken);
+  const contacts = useAppSelector(getContacts);
+  const geofenceLoadRequest = useAppSelector((state) => state.geofences.loadRequest);
   const dispatch = useAppDispatch();
 
   const minimumDate = useRef(moment().subtract(30, "days").toDate()).current;

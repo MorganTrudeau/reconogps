@@ -145,7 +145,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
     setSlidingValue(val);
   }, []);
 
-  const slideTimeout = useRef<NodeJS.Timeout>();
+  const slideTimeout = useRef<NodeJS.Timeout>(undefined);
   const handleSliderChange = useCallback((value: number) => {
     if (slideTimeout.current) {
       return;
@@ -194,7 +194,7 @@ const AssetPlaybackScreen = ({ route }: NavigationProps) => {
     [playbackData, playbackDataIndex]
   );
 
-  const lastFocusedPoint = useRef<PlaybackPoint | PlaybackEvent>();
+  const lastFocusedPoint = useRef<PlaybackPoint | PlaybackEvent>(undefined);
   useEffect(() => {
     if (
       focusedPoint &&
@@ -723,8 +723,8 @@ const styles = StyleSheet.create({
 const layerStyles = {
   lineLayer: {
     lineColor: "#3e8feb",
-    lineCap: "round",
-    lineJoin: "round",
+    lineCap: "round" as const,
+    lineJoin: "round" as const,
     lineWidth: 3,
   },
   singlePoint: {

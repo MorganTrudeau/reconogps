@@ -9,7 +9,7 @@ import { RootStackParamList } from "../navigation/utils";
 import { BORDER_RADIUS_SM, iconSize, spacing } from "../styles";
 import { Errors } from "../utils/enums";
 import { Translations } from "../utils/translations";
-import functions from "@react-native-firebase/functions";
+import { getFunctions, httpsCallable } from "@react-native-firebase/functions";
 import {
   AssetActivationEntry,
   AssetActivationFormData,
@@ -59,7 +59,7 @@ const AddAssetsScreen = ({ navigation, route }: NavigationProps) => {
     try {
       setLoading(true);
 
-      const res = await functions().httpsCallable("loadAssetActivationInfo")({
+      const res = await httpsCallable(getFunctions(), "loadAssetActivationInfo")({
         imei: assetImei,
       });
 

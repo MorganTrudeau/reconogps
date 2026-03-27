@@ -26,11 +26,8 @@ const AppDrawerContent = (props: DrawerContentComponentProps) => {
   const Alert = useAlert();
   const { theme, colors } = useTheme();
   const dispatch = useAppDispatch();
-  const { logoutRequest, unreadNotifications } = useAppSelector((state) => ({
-    minorToken: state.auth.minorToken,
-    logoutRequest: state.auth.logoutRequest,
-    unreadNotifications: state.notifications.unreadCount,
-  }));
+  const logoutRequest = useAppSelector((state) => state.auth.logoutRequest);
+  const unreadNotifications = useAppSelector((state) => state.notifications.unreadCount);
 
   const handleLogout = async () => {
     try {

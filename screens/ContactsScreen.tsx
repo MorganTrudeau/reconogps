@@ -42,11 +42,9 @@ const ContactsScreen = ({ navigation }: NavigationProps) => {
     }
   });
 
-  const { contacts, loadRequest, deleteRequest } = useAppSelector((state) => ({
-    contacts: getContacts(state),
-    loadRequest: state.contacts.loadRequest,
-    deleteRequest: state.contacts.deleteRequest,
-  }));
+  const contacts = useAppSelector(getContacts);
+  const loadRequest = useAppSelector((state) => state.contacts.loadRequest);
+  const deleteRequest = useAppSelector((state) => state.contacts.deleteRequest);
   const dispatch = useAppDispatch();
 
   useUpdated(deleteRequest.success, (currentSuccess, prevSuccess) => {

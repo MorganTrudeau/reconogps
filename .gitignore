@@ -35,3 +35,5 @@ functions/.runtimeconfig.json
 .expo
 dist/
 web-build/
+
+.kotlin/

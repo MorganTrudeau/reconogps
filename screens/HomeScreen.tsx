@@ -32,7 +32,7 @@ import { Colors } from "../types/styles";
 import { BORDER_RADIUS_SM, iconSize, spacing } from "../styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MapLayerSelect } from "../components/Maps/MapLayerSelect";
-import { MapState } from "@rnmapbox/maps/lib/typescript/src/components/MapView";
+import { MapState } from "@rnmapbox/maps";
 import AppIconButton from "../components/Core/AppIconButton";
 import { NotificationsButton } from "../components/Notifications/NotificationsButton";
 

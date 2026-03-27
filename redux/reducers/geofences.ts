@@ -20,13 +20,13 @@ import {
 import { createTransform } from "redux-persist";
 
 export interface GeofencesState {
-  data: EntityState<Geofence>;
+  data: EntityState<Geofence, string>;
   loadRequest: SimpleLoadingState;
   toggleActive: string | null;
 }
 
-const geofencesAdapter = createEntityAdapter<Geofence>({
-  selectId: (geofence) => geofence.Code,
+const geofencesAdapter = createEntityAdapter({
+  selectId: (geofence: Geofence) => geofence.Code,
 });
 
 const initialState: GeofencesState = {

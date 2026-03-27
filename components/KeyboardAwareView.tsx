@@ -144,7 +144,7 @@ export default class AppKeyboardAwareView extends React.PureComponent<
     return Math.max(0, overlap);
   };
 
-  setRef = (r: View | null) => (this.viewRef = r);
+  setRef = (r: View | null) => { this.viewRef = r; };
 
   render() {
     const { style } = this.props;

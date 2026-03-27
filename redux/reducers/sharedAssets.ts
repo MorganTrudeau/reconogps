@@ -18,8 +18,8 @@ import {
 } from "../thunks/sharedAssets";
 
 export interface SharedAssetsState {
-  mySharedAssets: EntityState<SharedAsset>;
-  subscribedAssets: EntityState<SharedAsset>;
+  mySharedAssets: EntityState<SharedAsset, string>;
+  subscribedAssets: EntityState<SharedAsset, string>;
   loadMySharedAssetsRequest: SimpleLoadingState;
   loadSubscribedAssetsRequest: SimpleLoadingState;
   startSharingAssetRequest: SimpleLoadingState;
@@ -29,8 +29,8 @@ export interface SharedAssetsState {
   extendExpiryRequest: SimpleLoadingState;
 }
 
-const sharedAssetsAdapter = createEntityAdapter<SharedAsset>({
-  selectId: (sharedAsset) => sharedAsset.Code,
+const sharedAssetsAdapter = createEntityAdapter({
+  selectId: (sharedAsset: SharedAsset) => sharedAsset.Code,
 });
 
 const initialState: SharedAssetsState = {

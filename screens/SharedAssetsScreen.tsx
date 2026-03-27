@@ -141,12 +141,8 @@ const SharedAssetTab = ({
 }) => {
   const { theme, colors } = useTheme();
 
-  const { sharedAssets, loading } = useAppSelector((state) => ({
-    majorToken: state.auth.majorToken,
-    minorToken: state.auth.minorToken,
-    sharedAssets: sharedAssetsSelector(state),
-    loading: sharedAssetsLoadingSelector(state),
-  }));
+  const sharedAssets = useAppSelector(sharedAssetsSelector);
+  const loading = useAppSelector(sharedAssetsLoadingSelector);
   const dispatch = useAppDispatch();
 
   const loadData = async () => {

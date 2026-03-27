@@ -1,3 +1,4 @@
+import { shallowEqual } from "react-redux";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useToast } from "../hooks/useToast";
 import { useUpdated } from "../hooks/useUpdated";
@@ -35,7 +36,7 @@ const ToastManager = () => {
     };
 
     return errorObj;
-  });
+  }, shallowEqual);
 
   useUpdated(errors, (currentErrors, prevErrors) => {
     Object.entries(currentErrors).forEach(([key, val]) => {

@@ -4,7 +4,7 @@ import AppButton from "../components/Core/AppButton";
 import AppTextInput from "../components/Core/AppTextInput";
 import { useTheme } from "../hooks/useTheme";
 import { spacing } from "../styles";
-import functions from "@react-native-firebase/functions";
+import { getFunctions, httpsCallable } from "@react-native-firebase/functions";
 import { useAlert } from "../hooks/useAlert";
 import { login } from "../redux/thunks/auth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -87,7 +87,7 @@ const SignUpScreen = () => {
     }
     try {
       setLoading(true);
-      const res = await functions().httpsCallable("createAccount")(
+      const res = await httpsCallable(getFunctions(), "createAccount")(
         accountDetails
       );
       setLoading(false);

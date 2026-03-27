@@ -31,9 +31,9 @@ export const AppBottomSheet = forwardRef<BottomSheet, Props>(
 
     const closed = useRef(false);
 
-    const handleIndexChange = (_index: number) => {
+    const handleIndexChange: NonNullable<BottomSheetProps["onChange"]> = (_index, position, type) => {
       if (onChange) {
-        onChange(_index);
+        onChange(_index, position, type);
       }
       if (_index < 0) {
         closed.current = true;
@@ -67,6 +67,7 @@ export const AppBottomSheet = forwardRef<BottomSheet, Props>(
         </Animated.View>
 
         <BottomSheet
+          enableDynamicSizing={false}
           enablePanDownToClose
           onChange={handleIndexChange}
           backgroundStyle={{ backgroundColor: colors.background }}

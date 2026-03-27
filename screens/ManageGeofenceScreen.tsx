@@ -47,12 +47,8 @@ const ManageGeofenceScreen = ({ route, navigation }: NavigationProps) => {
   const notifySelectModal = useRef<AppModalRef>(null);
   const assetSelectModal = useRef<AppModalRef>(null);
 
-  const { geofence, staticAssets } = useAppSelector((state) => ({
-    geofence: geofenceCode
-      ? state.geofences.data.entities[geofenceCode]
-      : undefined,
-    staticAssets: state.assets.staticData.entities,
-  }));
+  const geofence = useAppSelector((state) => geofenceCode ? state.geofences.data.entities[geofenceCode] : undefined);
+  const staticAssets = useAppSelector((state) => state.assets.staticData.entities);
   const dispatch = useAppDispatch();
 
   const [geofenceState, setGeofenceState] = useState<Geofence>(

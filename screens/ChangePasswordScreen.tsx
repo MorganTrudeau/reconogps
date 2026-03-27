@@ -32,9 +32,7 @@ const ChangePasswordScreen = ({ navigation }: NavigationProps) => {
     confirmPassword: "",
   });
 
-  const { changePasswordRequest } = useAppSelector((state) => ({
-    changePasswordRequest: state.auth.changePasswordRequest,
-  }));
+  const changePasswordRequest = useAppSelector((state) => state.auth.changePasswordRequest);
   const dispatch = useAppDispatch();
 
   useUpdated(changePasswordRequest.success, (success, prevSuccess) => {

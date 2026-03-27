@@ -47,10 +47,8 @@ const AssetDetailScreen = ({ route, navigation }: NavigationProps) => {
   const { theme, colors } = useTheme();
   const layout = useWindowDimensions();
 
-  const { staticAsset, dynamicAsset } = useAppSelector((state) => ({
-    staticAsset: state.assets.staticData.entities[assetId],
-    dynamicAsset: state.assets.dynamicData.entities[assetId],
-  }));
+  const staticAsset = useAppSelector((state) => state.assets.staticData.entities[assetId]);
+  const dynamicAsset = useAppSelector((state) => state.assets.dynamicData.entities[assetId]);
 
   const [index, setIndex] = React.useState(0);
   const routes = useMemo(() => {

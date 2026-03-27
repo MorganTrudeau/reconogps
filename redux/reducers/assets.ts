@@ -21,14 +21,16 @@ import {
 import { createTransform } from "redux-persist";
 
 export interface AssetsState {
-  staticData: EntityState<StaticAsset>;
-  dynamicData: EntityState<DynamicAsset>;
+  staticData: EntityState<StaticAsset, string>;
+  dynamicData: EntityState<DynamicAsset, string>;
   staticLoadRequest: SimpleLoadingState;
 }
 
-const staticAssetsAdapter = createEntityAdapter<StaticAsset>();
-const dynamicAssetsAdapter = createEntityAdapter<DynamicAsset>({
-  selectId: (model) => model.id,
+const staticAssetsAdapter = createEntityAdapter({
+  selectId: (asset: StaticAsset) => asset.id,
+});
+const dynamicAssetsAdapter = createEntityAdapter({
+  selectId: (asset: DynamicAsset) => asset.id,
 });
 
 const initialState: AssetsState = {

@@ -11,36 +11,11 @@ end
 
 # Use it to require both react-native's and this package's scripts:
 node_require('react-native/scripts/react_native_pods.rb')
-node_require('react-native-permissions/scripts/setup.rb')
-
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 $RNFirebaseAsStaticFramework = true
 $RNMBX_USE_FRAMEWORKS = true
-
-setup_permissions([
-  # 'AppTrackingTransparency',
-  # 'Bluetooth',
-  # 'Calendars',
-  # 'CalendarsWriteOnly',
-  # 'Camera',
-  # 'Contacts',
-  # 'FaceID',
-  # 'LocationAccuracy',
-  # 'LocationAlways',
-  # 'LocationWhenInUse',
-  # 'MediaLibrary',
-  # 'Microphone',
-  # 'Motion',
-  'Notifications',
-  # 'PhotoLibrary',
-  # 'PhotoLibraryAddOnly',
-  # 'Reminders',
-  # 'Siri',
-  # 'SpeechRecognition',
-  # 'StoreKit',
-])
 
 # @generated begin @rnmapbox/maps-rnmapboxmapsimpl - expo prebuild (DO NOT MODIFY) sync-864ccf63f800969a184646df0b2c2ef2971621f2
 $RNMapboxMapsDownloadToken = 'sk.eyJ1IjoicmVjb25vZ3BzIiwiYSI6ImNsZGRvbmVscTAwNHczcHFxOWd6cHFnZ3gifQ.6H6bpyJG6L6NAafD9Ds4AQ'

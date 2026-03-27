@@ -59,8 +59,8 @@ export const GeofenceMap = ({
     [geofence]
   );
 
-  const lastActiveDrawTool = useRef<DrawGeofenceTool>();
-  const firstDrawPoint = useRef<number[]>();
+  const lastActiveDrawTool = useRef<DrawGeofenceTool>(undefined);
+  const firstDrawPoint = useRef<number[]>(undefined);
   const circleRadius = useRef<number>(0);
 
   const [drawCoords, setDrawPoints] = useState<number[][]>([]);

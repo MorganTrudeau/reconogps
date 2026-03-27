@@ -4,10 +4,8 @@ import { login } from "../redux/thunks/auth";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 const AuthManager = () => {
-  const { account, password } = useAppSelector((state) => ({
-    account: state.auth.account,
-    password: state.auth.password,
-  }));
+  const account = useAppSelector((state) => state.auth.account);
+  const password = useAppSelector((state) => state.auth.password);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
