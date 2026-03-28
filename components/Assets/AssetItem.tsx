@@ -73,13 +73,17 @@ const AssetItem = ({
         onPress({ staticData: asset, dynamicData: dynamicData })
       }
     >
-      <AssetAvatarUpload
-        assetId={asset.id}
-        imei={asset.imei}
-        disabled={!allowEditing}
-      >
+      {allowEditing ? (
+        <AssetAvatarUpload
+          assetId={asset.id}
+          imei={asset.imei}
+          style={styles.avatar}
+        >
+          <AssetAvatar asset={asset} />
+        </AssetAvatarUpload>
+      ) : (
         <AssetAvatar asset={asset} style={styles.avatar} />
-      </AssetAvatarUpload>
+      )}
       <View style={styles.content}>
         <AppText>{asset.name}</AppText>
         {!dynamicData ? (

@@ -7,6 +7,7 @@ import {
   validateResponseData,
 } from "./utils";
 import { Errors } from "../utils/enums";
+import { refreshImageCacheKey } from "../utils";
 import { getSpeedValueInKM, initDynamicAssetData } from "../utils/assets";
 import { StaticAsset } from "../types";
 import { EditAssetParams } from "../types/api";
@@ -158,6 +159,8 @@ export const uploadAssetImage = async (imei: string, base64: string) => {
   );
 
   validateResponseData(res);
+
+  refreshImageCacheKey();
 
   return res.data.Data;
 };

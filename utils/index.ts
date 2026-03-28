@@ -38,9 +38,14 @@ export const errorHasCode = (
   return typeof error === "object" && error !== null && "code" in error;
 };
 
+let imageCacheKey = Date.now();
+
+export const refreshImageCacheKey = () => {
+  imageCacheKey = Date.now();
+};
+
 export const constructImageUrl = (image: string) =>
-  `${Config.IMAGE_URL}/Attachment/images/${image}`;
-// `${IMAGE_URL}/Attachment/images/${image}?${Date.now()}`;
+  `${Config.IMAGE_URL}/Attachment/images/${image}?${imageCacheKey}`;
 
 const errorHasMessage = (error: unknown): error is { message: string } => {
   return typeof error === "object" && error !== null && "message" in error;

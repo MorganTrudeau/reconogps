@@ -2,11 +2,12 @@ import {
   createSlice,
   createEntityAdapter,
   EntityState,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { login, logout } from "../thunks/auth";
+import { login } from "../thunks/auth";
 import { SimpleLoadingState } from "../../types/redux";
 import { DynamicAsset, StaticAsset } from "../../types";
-import { mapArrayOfAssetArrays, mapAssetArray } from "../../utils/assets";
+import { mapArrayOfAssetArrays } from "../../utils/assets";
 import {
   editAsset,
   loadDynamicAssets,
@@ -42,7 +43,17 @@ const initialState: AssetsState = {
 export const assetsSlice = createSlice({
   name: "assets",
   initialState,
-  reducers: {},
+  reducers: {
+    assetIconUpdated(
+      state,
+      action: PayloadAction<{ assetId: string; icon: string }>
+    ) {
+      staticAssetsAdapter.updateOne(state.staticData, {
+        id: action.payload.assetId,
+        changes: { icon: action.payload.icon },
+      });
+    },
+  },
   extraReducers: (builder) => {
     // Login data
     builder.addCase(login.fulfilled, (state, action) => {
@@ -84,4 +95,5 @@ export const transform = createTransform(
   { whitelist: ["assets"] }
 );
 
+export const { assetIconUpdated } = assetsSlice.actions;
 export default assetsSlice.reducer;

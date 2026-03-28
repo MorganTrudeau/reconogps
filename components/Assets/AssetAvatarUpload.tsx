@@ -1,10 +1,23 @@
-import React, { useMemo, useRef } from "react";
-import { Pressable, PressableProps, View } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  View,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import OptionsModal, { OptionModalItem } from "../Modals/OptionsModal";
 import { AppModalRef } from "../Core/AppModal";
 import { useAlert } from "../../hooks/useAlert";
 import { uploadAssetImage } from "../../api/assets";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { assetIconUpdated } from "../../redux/reducers/assets";
+import { colors } from "../../styles";
+
+const MAX_DIMENSION = 800;
+const COMPRESS_QUALITY = 0.7;
 
 export const AssetAvatarUpload = ({
   assetId,
@@ -16,6 +29,8 @@ export const AssetAvatarUpload = ({
   "children"
 >) => {
   const Alert = useAlert();
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const optionsModal = useRef<AppModalRef>(null);
 
@@ -28,17 +43,36 @@ export const AssetAvatarUpload = ({
     optionsModal.current?.open();
   };
 
+  const compressImage = async (uri: string): Promise<string> => {
+    const context = ImageManipulator.manipulate(uri);
+    context.resize({ width: MAX_DIMENSION });
+    const imageRef = await context.renderAsync();
+    const result = await imageRef.saveAsync({
+      base64: true,
+      compress: COMPRESS_QUALITY,
+      format: SaveFormat.JPEG,
+    });
+    if (!result.base64) {
+      throw new Error("Failed to compress image");
+    }
+    return result.base64;
+  };
+
   const handleUpload = async (base64: string) => {
     try {
+      setLoading(true);
       console.log("[AvatarUpload] uploading image", {
         imei,
         base64Length: base64.length,
       });
       const result = await uploadAssetImage(imei, base64);
       console.log("[AvatarUpload] upload success", result);
+      dispatch(assetIconUpdated({ assetId, icon: `IMEI_${imei}.png` }));
     } catch (error) {
       console.error("[AvatarUpload] upload failed", error);
       Alert.alert("Something went wrong", "Your image was not uploaded.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,20 +88,20 @@ export const AssetAvatarUpload = ({
         }
       }
       const res = await ImagePicker.launchImageLibraryAsync({
-        base64: true,
-        quality: 0.1,
+        quality: 1,
         allowsEditing: true,
         aspect: [1, 1],
       });
-      console.log("[AvatarUpload] library result", {
-        canceled: res.canceled,
-        assetCount: res.assets?.length,
-        hasBase64: !!res.assets?.[0]?.base64,
-      });
       if (!res.canceled) {
-        const base64 = res.assets?.[0].base64;
-        if (base64) {
-          handleUpload(base64);
+        const uri = res.assets?.[0]?.uri;
+        if (uri) {
+          try {
+            const base64 = await compressImage(uri);
+            await handleUpload(base64);
+          } catch (error) {
+            console.error("[AvatarUpload] library error", error);
+            Alert.alert("Something went wrong", "Your image was not uploaded.");
+          }
         } else {
           Alert.alert("Something went wrong", "Your image was not found.");
         }
@@ -83,27 +117,22 @@ export const AssetAvatarUpload = ({
       }
       try {
         const res = await ImagePicker.launchCameraAsync({
-          base64: true,
-          quality: 0.1,
+          quality: 1,
           allowsEditing: true,
           aspect: [1, 1],
         });
-        console.log("[AvatarUpload] camera result", {
-          canceled: res.canceled,
-          assetCount: res.assets?.length,
-          hasBase64: !!res.assets?.[0]?.base64,
-        });
         if (!res.canceled) {
-          const base64 = res.assets?.[0].base64;
-          if (base64) {
-            handleUpload(base64);
+          const uri = res.assets?.[0]?.uri;
+          if (uri) {
+            const base64 = await compressImage(uri);
+            await handleUpload(base64);
           } else {
             Alert.alert("Something went wrong", "Your image was not found.");
           }
         }
       } catch (error) {
         console.error("[AvatarUpload] camera error", error);
-        Alert.alert("Something went wrong", "Failed to launch camera.");
+        Alert.alert("Something went wrong", "Your image was not uploaded.");
       }
     }
   };
@@ -130,8 +159,15 @@ export const AssetAvatarUpload = ({
 
   return (
     <>
-      <Pressable onPress={handlePress} {...rest}>
-        <View>{children}</View>
+      <Pressable onPress={handlePress} disabled={loading} {...rest}>
+        <>
+          {children}
+          {loading && (
+            <View style={styles.loadingOverlay}>
+              <ActivityIndicator color={colors.white} />
+            </View>
+          )}
+        </>
       </Pressable>
       <OptionsModal
         title={"Edit asset image"}
@@ -141,3 +177,13 @@ export const AssetAvatarUpload = ({
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    borderRadius: 999,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
