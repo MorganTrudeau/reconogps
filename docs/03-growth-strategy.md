@@ -12,13 +12,47 @@
 | Price per tracker | $25 / month |
 | QuikTrak platform cost | $5 / month |
 | **Gross margin** | **$20 / tracker / month (80%)** |
-| Hardware & installation | Passed through to the customer **at cost** — break even, no margin, no loss |
+| Hardware & installation | Passed through **at cost** — $90 device + $175 install = **$265 per vehicle, paid by the customer upfront** |
 | Target | ~2,000 trackers |
 
 At 129 trackers that is **$3,225 MRR and ~$31,000 a year of gross profit**. At the target it is **$50,000 MRR
 and $480,000 a year of gross profit** — a genuinely good business, on SaaS-like margins.
 
 Three findings fall straight out of this.
+
+### The distribution matters more than the average
+
+Trackers per customer, top of the list:
+
+```
+31  25  14  9  8  6  6  6  5  5  4  4  4  …
+```
+
+| | Trackers | Share of 129 |
+|---|---|---|
+| Largest account | 31 | **24%** |
+| Top 2 | 56 | **43%** |
+| Top 3 | 70 | **54%** |
+| Top 5 | 87 | **67%** |
+| Top 13 | 127 | **98%** |
+
+Two things follow, and both are more useful than the 3.5 average.
+
+**1. "3.5 trackers per customer" was a misleading way to describe this business.** The mean is dragged up by two
+large accounts; the *median* customer has somewhere around one to three trackers. So there isn't a uniform
+population of 37 mid-sized fleets to expand — there are **two substantial accounts, a middle tier of eight to
+ten, and a long tail of very small ones.** Each tier needs a different move (§4).
+
+**2. Revenue concentration is a real risk that zero churn is currently masking.** The top two accounts are
+**43% of the business** — about **$13,400 a year of gross profit**. Nothing has churned yet, but "we've never
+lost a customer" and "losing one customer costs us a quarter of our revenue" are both true at the same time.
+Those two accounts deserve deliberate relationship management, not just good service.
+
+> **A number that doesn't reconcile.** The visible 13 customers already total **127 trackers**, which leaves
+> only 2 trackers for the remaining 24 customers — impossible. Either the active-tracker total is higher than
+> 129 (if the tail continues 4, 3, 3, 2, 2, 1 … the real total is nearer **165–170**, mean ~4.5, median ~2), or
+> a number of the 37 accounts have no active devices at all. **Worth resolving before planning against it** —
+> it changes the size of the tail and therefore the size of the expansion opportunity.
 
 ### Finding 1: Zero churn is the most important number in the business
 
@@ -34,15 +68,22 @@ It also means the constraint is unambiguous: **this is a top-of-funnel and accou
 nothing else.** Not features, not the app, not ELD. That diagnosis is now settled and the rest of this document
 assumes it.
 
-### Finding 2: 3.5 trackers per customer is the real problem
+### Finding 2: You have already proven you can land 25–31 tracker accounts
 
-At the current average, reaching 2,000 trackers requires roughly **535 customers**. Acquired one at a time
-through cold outreach, that is not a plan — it's a decade.
+This is the most encouraging fact in the data and it was invisible in the average.
 
-Raise the average to 10 and the same target needs about **190 customers**. Same revenue, a third of the
-relationships to win and support.
+Two customers run 25 and 31 trackers. That means fleets of that size **exist in your market, will buy from
+you, and will pay ~$8,000 upfront to do it** — customer #1 paid roughly `31 × $265 = $8,215` in hardware and
+installation before the subscription even started. Whatever you did to land those two is repeatable, and it is
+worth far more than grinding the tail upward.
 
-And the fastest source of that lift is not new customers at all — see §4.
+**The arithmetic:** five more accounts the size of #2 is **+125 trackers and ~$30,000 a year of gross profit** —
+roughly doubling the business, from five customers rather than thirty-six. Compare that to signing 36 new
+two-tracker customers for the same result.
+
+So the highest-value question in the business right now is: **what do those two accounts have in common?**
+Industry, size, how they found you, who signed off, what problem they were solving. That is your ideal
+customer profile, derived from evidence rather than guessed at — and it should redirect the outreach in §6.
 
 ### Finding 3: You can afford to spend far more on growth than you are
 
@@ -81,13 +122,21 @@ affordable. That is what the channel model in §5 does.
 ### Constraint 2 — The upfront cost is a conversion barrier
 
 Hardware and installation are passed through at cost, which is generous and is presumably part of why nothing
-churns. But "at cost" is not "free": the customer still writes a cheque on day one for roughly **$90 of
-hardware plus installation labour per vehicle**. For a contractor putting trackers on five machines, that's
-somewhere north of **$1,200 before the service has proved itself**.
+churns. But "at cost" is not "free": **$90 hardware + $175 installation = $265 per vehicle**, paid on day one.
 
-That is almost certainly costing deals, and it is very likely why the average account sits at 3.5 trackers
-rather than ten — expanding from 3 trackers to 12 means another four-figure cheque, so customers stop at the
-few vehicles they care most about.
+| Fleet | Cheque before the service has proved itself |
+|---|---|
+| 3 vehicles | **$795** |
+| 5 vehicles | **$1,325** |
+| 10 vehicles | **$2,650** |
+
+That is a serious barrier for a small contractor, and it explains the shape of the distribution: a long tail of
+accounts that bought two or three trackers for the vehicles they worried about most and stopped, because
+expanding means another four-figure cheque.
+
+It cuts both ways, though — the two large accounts paid **$6,625 and $8,215** upfront without blinking. The
+barrier is real for the tail and largely irrelevant at the top, which is another reason the two tiers need
+different treatment.
 
 > **Correction to an earlier draft of this document.** A previous version claimed a ~$168,000 working-capital
 > wall from funding hardware. That was wrong: the customer funds the hardware today, so no such wall exists
@@ -108,11 +157,11 @@ because it is too cheap to be worth the bother.
 
 ### Three options
 
-Install labour is assumed at ~$175 below — substitute your real figure.
+Install labour is **$175 (confirmed)**, so the figures below are the real model, not an illustration.
 
 | | **A — Today** | **B — Raise price** | **C — $0 down, 36-month term** |
 |---|---|---|---|
-| Customer pays upfront | ~$90 + install | ~$90 + install | **$0** |
+| Customer pays upfront | **$265** | **$265** | **$0** |
 | Monthly price | $25 | $35 | $45 |
 | QuikTrak | −$5.00 | −$5.00 | −$5.00 |
 | Hardware amortized | — | — | −$2.50 |
@@ -147,40 +196,33 @@ profit** — a ~50% increase in the profitability of the business from one decis
 Given zero churn the risk is low. Test it on three to five accounts first, and consider grandfathering the
 earliest customers as a goodwill gesture; it costs little and they are the ones most likely to refer.
 
-## 4. Lever 1 — Expand inside the 37 accounts you already have
+## 4. Lever 1 — Work the existing 37 accounts, by tier
 
-**This is the highest-return action available and it is phone calls, not engineering.**
+Still the first thing to do, and still phone calls rather than engineering — but the distribution says to treat
+the tiers differently rather than chasing one average.
 
-Your customers are fleet businesses with trucks *and* machines. At 3.5 trackers each, they are almost
-certainly tracking a fraction of what they own. A customer with 3 trackers and 14 machines is not a small
-customer — they're a large customer you've sold 20% of.
-
-The arithmetic:
-
-| Scenario | Trackers |
-|---|---|
-| Today: 37 customers × 3.5 | 129 |
-| Same 37 customers × 10 | **370** |
-| Same 37 customers × 15 | **555** |
-
-**Nearly 3x growth with zero new customers, zero CAC, and no sales cycle** — just expansion into accounts that
-already trust you and have never churned.
-
-**Do this in the next 30 days.** Call all 37. Two questions:
+**Call all 37 regardless.** Two questions, every time:
 
 1. *How many vehicles and machines do you own in total?*
 2. *What's not tracked, and why not?*
 
-The first answer is your entire near-term pipeline, quantified. The second is worth more than any market
-research you could buy.
+The first is your pipeline, quantified. The second tells you whether the blocker is the $265 upfront, the
+installation hassle, or something about the product. **Expect the upfront cost to dominate the tail** — and if
+it does, the $0-down option in §3 is not a pricing tweak, it is the thing that unlocks this lever. Take that
+offer with you on the calls and you can close expansion on the spot instead of booking a follow-up.
 
-**Expect the answer to be the upfront cost** (§2, Constraint 2) — expanding from 3 trackers to 12 means another
-four-figure cheque. If that is what comes back, the $0-down option in §3 is not a pricing tweak, it is the
-thing that unlocks this entire lever, and it should be built and offered first. Take the $0-down offer *with
-you* on these calls and you can close expansion on the spot.
+Then treat the tiers differently:
 
-Track the answers in a spreadsheet: customer, total assets, tracked, untracked, stated reason. That sheet
-becomes the operating document for the next year.
+| Tier | Accounts | Move |
+|---|---|---|
+| **Top 2** (31, 25) | 2 | **Protect first, expand second.** 43% of the business. Deliberate relationship management: a scheduled check-in, a named contact, early access to anything new. Ask each for a referral and a testimonial — they are your proof for lookalike prospects (§6). |
+| **Middle** (14, 9, 8, 6, 6, 6, 5, 5) | ~8 | **The best expansion targets.** Proven willingness to buy multiple units, and likely real headroom in the fleet. The $0-down offer should land hardest here. |
+| **Tail** (4 and below) | ~27 | **Qualify before investing effort.** Some are genuinely small businesses with two trucks and no headroom; some are large fleets that stalled at the upfront cost. Question 1 separates them in a single call. Don't spend equal effort on both. |
+
+**Temper the expansion target accordingly.** "Lift the average to 10" only works if the fleets are actually
+there — you cannot sell a three-truck contractor ten trackers. The realistic ceiling is whatever question 1
+returns, which is exactly why the calls come before the plan. The middle tier is where this lever pays; the
+tail is mostly a qualification exercise.
 
 ---
 
@@ -224,11 +266,20 @@ when there's money in it.
 ## 6. Lever 3 — Verticalize the outreach you're already doing
 
 Thirty-seven customers from cold outreach with zero churn means **the pitch works**. Don't abandon it —
-concentrate it.
+aim it.
 
-Look at the 37 and find the densest industry. Then go all-in on that vertical: same language, same references,
-same trade associations, same trade shows. In a tight trade community, five reference customers who all know
-each other is worth more than fifty scattered logos.
+**Start from the top two accounts, not from the market.** Per Finding 2, you have already proven that 25–31
+tracker fleets will buy from you. Profile those two — industry, fleet composition, company size, how they found
+you, who signed off, what problem they were solving — and make that your target. Then go find businesses that
+look like them, and use the two accounts themselves as the reference (which is why §4 says to ask them for a
+testimonial).
+
+Chasing lookalikes of your best customers beats chasing volume: **five accounts like #2 is worth more than
+thirty-six like the tail**, for less total sales effort.
+
+Then concentrate by vertical: same language, same references, same trade associations, same trade shows. In a
+tight trade community, five reference customers who all know each other is worth more than fifty scattered
+logos.
 
 **Also test the theft-and-immobilization angle.** The platform already supports geolock, relay immobilization
 and door lock (`api/assets.ts` — `changeGeolockStatus`, `changeRelayStatus`). Equipment and trailer theft is an
@@ -266,13 +317,18 @@ What it is *not* is more of the current motion. Thirty-seven customers came from
 
 ## 8. Next 30 days
 
-1. **Call all 37 customers.** Total assets owned vs. tracked, and why the rest isn't. Build the sheet. *(Week 1–3)*
-2. **Put the machine technician on a written recurring referral agreement.** *(Week 1)*
-3. **Decide pricing** — the two-option model in §3: $35/month with hardware and install paid upfront at cost,
+1. **Reconcile the tracker count** — the visible 13 accounts already total 127 of a stated 129. Establish the
+   real active total and how many of the 37 accounts have zero devices. *(Week 1, an hour)*
+2. **Profile the top two accounts.** Industry, fleet, how they found you, who signed off, what they were
+   solving. This is your ideal customer profile and it redirects all outreach. *(Week 1)*
+3. **Call all 37 customers**, tiered per §4. Total assets owned vs. tracked, and why the rest isn't. Build the
+   sheet. Ask the top two for a referral and a testimonial. *(Weeks 1–3)*
+4. **Put the machine technician on a written recurring referral agreement.** *(Week 1)*
+5. **Decide pricing** — the two-option model in §3: $35/month with hardware and install paid upfront at cost,
    or $45/month with $0 down on a 36-month term. *(Week 2)*
-4. **Test the price increase** on 3–5 existing accounts before rolling it out, and offer the $0-down option to
+6. **Test the price increase** on 3–5 existing accounts before rolling it out, and offer the $0-down option to
    the first expansion prospects from step 1. *(Week 3–4)*
-5. **List 20 potential channel partners** — mechanics, dealers, rental yards, installers — and contact the
+7. **List 20 potential channel partners** — mechanics, dealers, rental yards, installers — and contact the
    first five. *(Week 4)*
 
 Note that none of this is engineering. The engineering that matters is in
@@ -282,13 +338,12 @@ directly.
 
 ---
 
-## 9. Inputs still needed
+## 9. Open items
 
-Pricing, vendor cost and margin are now known and modelled in §3. Two inputs remain:
-
-| Input | Why it matters |
+| Item | Why it matters |
 |---|---|
-| **Installation time and loaded labour cost per unit** | Assumed at ~$175 in §3. It is the largest remaining estimate, and it sets the monthly rate the $0-down option needs to carry. |
-| **Concentration of the 129 trackers** | One customer is known to hold 20+. If the top two or three accounts are a large share of revenue, that is a risk worth naming and a reason to prioritise breadth over depth in the expansion push. |
+| **Reconcile 129 vs. the 127 visible in the top 13** | Determines the true size of the tail, and therefore how much expansion headroom actually exists. An hour's work and it gates the rest of the plan. |
+| **Profile of the top two accounts** | The empirically derived ideal customer profile. Redirects §6 outreach from generic to targeted. |
+| **Concentration risk** | Top two accounts are ~43% of revenue. Not a number to fix, but one to manage deliberately. |
 
-Substitute the real install figure and §3's table is the operating financial model.
+Pricing, vendor cost, install cost and margin are all now known and modelled in §3.
