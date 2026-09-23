@@ -9,9 +9,14 @@
 | Average trackers per customer | **3.5** |
 | Churn | **Zero** |
 | Acquisition channel | Cold outreach + personal connections (+ one informal referrer) |
-| Hardware margin | **Zero** — trackers cost $90, sold at cost |
-| Installation margin | **Zero** — given away deliberately, to remove friction |
+| Price per tracker | $25 / month |
+| QuikTrak platform cost | $5 / month |
+| **Gross margin** | **$20 / tracker / month (80%)** |
+| Hardware & installation | Passed through to the customer **at cost** — break even, no margin, no loss |
 | Target | ~2,000 trackers |
+
+At 129 trackers that is **$3,225 MRR and ~$31,000 a year of gross profit**. At the target it is **$50,000 MRR
+and $480,000 a year of gross profit** — a genuinely good business, on SaaS-like margins.
 
 Three findings fall straight out of this.
 
@@ -39,85 +44,108 @@ relationships to win and support.
 
 And the fastest source of that lift is not new customers at all — see §4.
 
-### Finding 3: The zero-margin model makes scale mathematically impossible
+### Finding 3: You can afford to spend far more on growth than you are
 
-Giving hardware and installation away at cost is the right instinct at 129 trackers — friction kills small
-deals, and the payback comes through a subscription that, with zero churn, runs effectively forever. But the
-same decision creates two hard walls on the way to 2,000, and both come from the same root.
+An 80% gross margin and zero churn together mean the lifetime value of a customer is enormous:
 
----
-
-## 2. The two walls
-
-### Wall 1 — Working capital
-
-Going from 129 to 2,000 trackers means buying **1,871 trackers × $90 = ~$168,000 of hardware**, paid out
-before a dollar of it comes back, plus the labour to install every one of them. At current scale that cost is
-invisible. At the target it is the entire game, and no amount of sales effort gets past it.
-
-The business currently funds each tracker out of pocket and recovers it over months. That works while you are
-adding a few trackers a month. It cannot fund hundreds.
-
-### Wall 2 — No margin to share with a channel
-
-**You already have proof the channel model works for you.** A machine technician, unpaid and unmanaged, sends
-you customers. That is the single strongest signal in the business — it says there is a class of tradesperson
-who is already inside your customer's yard, already trusted, and already willing to recommend you.
-
-But you cannot build a partner network on a product with no gross margin. A referral partner needs a cut of
-something, and right now hardware is at cost, installation is at cost, and the subscription is shared with
-QuikTrak. There is nothing to pay them with.
-
-**The one lever with genuine leverage is closed off by a pricing decision.**
-
----
-
-## 3. The fix: keep zero friction, stop giving away the margin
-
-The friction argument for free hardware and installation is correct, and should be preserved. But "free to the
-customer on day one" and "no margin" are not the same thing, and conflating them is what created both walls.
-
-**Move from "hardware at cost, month to month" to "zero upfront, amortized into the subscription, on a
-36-month term."** The customer's experience is unchanged — they still pay nothing to get started. What changes
-is that the monthly price now covers hardware recovery, installation, a partner's cut, and actual profit.
-
-Illustrative, at a $45/month rate (fill in your real figures — see §8):
-
-| Component | Per tracker / month |
+| | |
 |---|---|
-| Hardware recovery ($90 ÷ 36) | $2.50 |
-| Installation recovery (~$225 ÷ 36) | $6.25 |
-| QuikTrak platform cost | ~$8.00 |
-| Channel partner share (15%) | $6.75 |
-| **Gross margin retained** | **~$21.50** |
+| Gross profit per tracker | $20 / month |
+| LTV per tracker (5 years, zero churn) | **$1,200** |
+| LTV per customer (3.5 trackers) | **~$4,200** |
+| Affordable CAC at a healthy 3:1 ratio | **~$1,400 per customer** |
+| Cash currently spent per customer acquired | **$0** |
 
-Compare that to the current model at, say, $25/month with no partner: roughly $8/month retained, and nothing
-to offer a referrer. The difference between those two rows is the difference between a business that can
-recruit a channel and one that cannot.
+That last pair of rows is the finding. **You could pay well over a thousand dollars to land a customer and
+still have a strong business** — and you are spending nothing but founder time. Growth is currently funded
+entirely out of the one resource that doesn't scale.
 
-### Why a term commitment is safe here specifically
+This reframes the whole problem. It isn't that the money to grow doesn't exist. It's that the margin is being
+banked instead of deployed, and the only acquisition channel is the founder's calendar.
 
-Normally asking for a 36-month term costs you deals. **With zero churn it costs you almost nothing** — your
-customers aren't leaving anyway. The contract isn't there to trap anyone. It exists so that:
+## 2. What actually constrains growth
 
-- the hardware investment is contractually matched to its recovery period, and
-- **contracted MRR becomes financeable.** A lender or a receivables facility will advance against committed
-  contract revenue in a way they never will against month-to-month. That is how Wall 1 gets solved: the
-  pricing change funds the hardware.
+Two things, and neither is what it first looked like.
 
-### You are probably underpriced
+### Constraint 1 — Founder time is the only sales channel
 
-Zero churn across 37 customers, with no price experimentation, is very often a symptom of underpricing —
-nobody leaves because it is too cheap to be worth the bother of switching. Note also who you're comparing
-against: the $20–25/month players are self-serve OBD dongles with no installation, no local support, and no
-ability to handle machines. **You install it, you support it, and you track equipment as well as vehicles.**
-That is a materially different product and it can carry a materially higher price.
+Thirty-seven customers came from cold outreach and personal connections. That motion works — zero churn proves
+the pitch and the product both land — but it consumes the one input that cannot be bought more of. Reaching
+2,000 trackers at today's 3.5 per customer needs roughly **535 customers**. There is no version of that which
+is founder-led.
 
-**Fastest cash in the business:** a modest increase on the existing base. 129 trackers × $10/month = **$1,290
-per month, ~$15,500 per year** — which funds roughly 170 trackers of hardware. Given zero churn, the risk of
-that is low and it is testable on a handful of accounts first.
+The fix is not to work harder at outreach; it is to convert acquisition from a **fixed cost paid in founder
+hours** into a **variable cost paid out of gross margin** — which, at $20 a tracker with no churn, is very
+affordable. That is what the channel model in §5 does.
 
----
+### Constraint 2 — The upfront cost is a conversion barrier
+
+Hardware and installation are passed through at cost, which is generous and is presumably part of why nothing
+churns. But "at cost" is not "free": the customer still writes a cheque on day one for roughly **$90 of
+hardware plus installation labour per vehicle**. For a contractor putting trackers on five machines, that's
+somewhere north of **$1,200 before the service has proved itself**.
+
+That is almost certainly costing deals, and it is very likely why the average account sits at 3.5 trackers
+rather than ten — expanding from 3 trackers to 12 means another four-figure cheque, so customers stop at the
+few vehicles they care most about.
+
+> **Correction to an earlier draft of this document.** A previous version claimed a ~$168,000 working-capital
+> wall from funding hardware. That was wrong: the customer funds the hardware today, so no such wall exists
+> under the current model. It becomes real only if you adopt the $0-down option in §3 — where it is a
+> deliberate, financeable choice rather than a constraint.
+
+## 3. Pricing: you are underpriced, and the channel pays for itself
+
+### You are at the bottom of the market
+
+SMB fleet-telematics pricing runs roughly **$30–75 per vehicle per month**. You are at $25 — below
+self-serve OBD dongles like Matrack ($19.95–24.95), which ship a device in the post and leave the customer to
+it. **You install it, you support it locally, and you track machines as well as vehicles.** That is a
+materially better product being sold below the cheapest competitor in the category.
+
+Zero churn across 37 customers, with no price experimentation, is a classic symptom of this: nobody leaves
+because it is too cheap to be worth the bother.
+
+### Three options
+
+Install labour is assumed at ~$175 below — substitute your real figure.
+
+| | **A — Today** | **B — Raise price** | **C — $0 down, 36-month term** |
+|---|---|---|---|
+| Customer pays upfront | ~$90 + install | ~$90 + install | **$0** |
+| Monthly price | $25 | $35 | $45 |
+| QuikTrak | −$5.00 | −$5.00 | −$5.00 |
+| Hardware amortized | — | — | −$2.50 |
+| Install amortized | — | — | −$4.86 |
+| **Net, sold direct** | **$20.00** | **$30.00** | **$32.64** |
+| **Net, after 20% partner share** | — | **$23.00** | **$23.64** |
+
+**Read the bottom row.** A tracker sold *by a partner* under B or C nets more than a tracker you sell yourself
+today. The channel is not a cost you have to find room for — **the price increase pays for it, and you still
+come out ahead.**
+
+### Recommendation: offer both B and C
+
+Let the customer choose, the way phone carriers do:
+
+- **"Pay upfront, pay less monthly"** — ~$90 + install, then $35/month, no term. Cash-neutral for you.
+- **"Nothing down"** — $0 today, $45/month on a 36-month term. Removes the barrier in §2 entirely.
+
+Self-selection is strictly better than guessing, and the $0-down option is what unlocks both larger initial
+deals and expansion into the rest of an existing customer's fleet.
+
+**On the term commitment:** with zero churn it costs you almost nothing — customers aren't leaving anyway. It
+exists so the hardware recovery is contractually matched to its payback period, and so contracted MRR becomes
+something a lender will advance against. That is what funds the $0-down option at volume: at 2,000 trackers it
+implies roughly $170,000 of hardware and install carried on the balance sheet, which is financeable against
+committed contracts but not against month-to-month revenue.
+
+### Fastest cash available
+
+Raising the existing base from $25 to $35 is **+$1,290/month, ~$15,500/year, essentially all of it gross
+profit** — a ~50% increase in the profitability of the business from one decision, with no new customers.
+Given zero churn the risk is low. Test it on three to five accounts first, and consider grandfathering the
+earliest customers as a goodwill gesture; it costs little and they are the ones most likely to refer.
 
 ## 4. Lever 1 — Expand inside the 37 accounts you already have
 
@@ -144,8 +172,12 @@ already trust you and have never churned.
 2. *What's not tracked, and why not?*
 
 The first answer is your entire near-term pipeline, quantified. The second is worth more than any market
-research you could buy — it tells you whether the blocker is cost, installation hassle, not knowing it was
-possible, or something about the product. Whatever comes back is the thing to fix.
+research you could buy.
+
+**Expect the answer to be the upfront cost** (§2, Constraint 2) — expanding from 3 trackers to 12 means another
+four-figure cheque. If that is what comes back, the $0-down option in §3 is not a pricing tweak, it is the
+thing that unlocks this entire lever, and it should be built and offered first. Take the $0-down offer *with
+you* on these calls and you can close expansion on the spot.
 
 Track the answers in a spreadsheet: customer, total assets, tracked, untracked, stated reason. That sheet
 becomes the operating document for the next year.
@@ -156,10 +188,18 @@ becomes the operating document for the next year.
 
 The machine technician is an accidental channel partner. Make him a real one, then find ten more like him.
 
-**Pay recurring, not a bounty.** A one-time finder's fee buys one referral. A percentage of the subscription,
-paid for as long as the account is active, buys a partner who keeps selling. At 15% of a $45/month tracker, a
-partner with ten 5-tracker accounts earns ~$340/month in passive income — real money to a tradesperson, and it
-compounds for them exactly as it does for you.
+**You can afford to pay generously.** At a 20% share of a $45/month tracker that is $9 per tracker per month,
+and §3 shows a partner-sold tracker still nets you more than one you sell yourself today. Given an affordable
+CAC around $1,400 a customer (§1, Finding 3), 20% recurring is not aggressive — it is conservative.
+
+**Pay recurring, not a bounty.** A one-time finder's fee buys one referral; a share of the subscription for as
+long as the account lives buys a partner who keeps selling. At 20% of $45, a partner with ten 5-tracker
+accounts earns **$450 a month in passive income** — real money to a tradesperson, compounding for them exactly
+as it does for you.
+
+A hybrid works well if partners want cash sooner: a **$50 per tracker signing bonus plus 10% recurring**. On a
+3.5-tracker customer that is $175 up front against ~$840 a year of gross profit — payback inside three months,
+against an account that has never churned.
 
 **Who to recruit** — people already standing in your customer's yard, with a trusted reason to be there:
 
@@ -172,8 +212,9 @@ compounds for them exactly as it does for you.
 **The pitch:** *"You're already in their shop fixing their machine. Mention us, we do the install, and you get
 paid every month for as long as they stay a customer."*
 
-**The arithmetic:** 10 active partners × 4 customers a year × 8 trackers = **320 trackers a year**, and unlike
-cold outreach it compounds — partners get better at it, and referred customers refer.
+**The arithmetic:** 10 active partners × 4 customers a year × 8 trackers = **320 trackers a year**, worth
+~$88,000 of annual gross profit at the proposed pricing after the partner's share. Unlike cold outreach it
+compounds — partners get better at it, and referred customers refer.
 
 Start with one: put your machine technician on a written recurring agreement this month and see what he does
 when there's money in it.
@@ -210,8 +251,13 @@ not quickly:
 | Year 2 | Channel ramps to ~10 partners; vertical focus in outreach | → ~1,000 |
 | Year 3 | Channel compounds; larger accounts land | → ~2,000 |
 
-**A realistic three-year path**, requiring roughly $170k of hardware financing along the way — which the
-pricing change is what makes fundable.
+**A realistic three-year path.** It ends at roughly **$50,000 MRR and $480,000 a year of gross profit** at
+today's $25 price, or meaningfully more at the pricing in §3.
+
+If you take the $0-down option, it also means carrying roughly **$170,000 of hardware and installation** on the
+balance sheet by the end — recovered over each contract's 36 months, and financeable against committed
+contracts. That is a deliberate trade for removing the upfront barrier, not a constraint you are forced into:
+the pay-upfront option stays cash-neutral.
 
 What it is *not* is more of the current motion. Thirty-seven customers came from founder-led cold outreach;
 535 will not. The change isn't effort, it's mechanism: expansion and channel instead of one-at-a-time direct sales.
@@ -222,9 +268,10 @@ What it is *not* is more of the current motion. Thirty-seven customers came from
 
 1. **Call all 37 customers.** Total assets owned vs. tracked, and why the rest isn't. Build the sheet. *(Week 1–3)*
 2. **Put the machine technician on a written recurring referral agreement.** *(Week 1)*
-3. **Decide the new pricing model** — zero upfront, 36-month term, rate that carries hardware + install +
-   partner margin. *(Week 2)*
-4. **Test a price increase** on 3–5 existing accounts before rolling it out. *(Week 3–4)*
+3. **Decide pricing** — the two-option model in §3: $35/month with hardware and install paid upfront at cost,
+   or $45/month with $0 down on a 36-month term. *(Week 2)*
+4. **Test the price increase** on 3–5 existing accounts before rolling it out, and offer the $0-down option to
+   the first expansion prospects from step 1. *(Week 3–4)*
 5. **List 20 potential channel partners** — mechanics, dealers, rental yards, installers — and contact the
    first five. *(Week 4)*
 
@@ -237,13 +284,11 @@ directly.
 
 ## 9. Inputs still needed
 
-The pricing model in §3 is parameterized because these numbers aren't known here:
+Pricing, vendor cost and margin are now known and modelled in §3. Two inputs remain:
 
 | Input | Why it matters |
 |---|---|
-| Current monthly price per tracker | Sets the baseline for the new model and the size of the increase |
-| What QuikTrak charges per tracker per month | The floor under any pricing decision, and it determines whether channel margin is even available |
-| Installation time and loaded labour cost per unit | The largest hidden cost in the model; drives both the amortization and whether installation should stay free at volume |
-| Concentration of the 129 | If one customer holds 20+, revenue concentration is a risk worth naming |
+| **Installation time and loaded labour cost per unit** | Assumed at ~$175 in §3. It is the largest remaining estimate, and it sets the monthly rate the $0-down option needs to carry. |
+| **Concentration of the 129 trackers** | One customer is known to hold 20+. If the top two or three accounts are a large share of revenue, that is a risk worth naming and a reason to prioritise breadth over depth in the expansion push. |
 
-Fill these in and §3's table becomes a real financial model rather than an illustration.
+Substitute the real install figure and §3's table is the operating financial model.

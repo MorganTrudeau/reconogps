@@ -7,9 +7,10 @@ distribution and unit economics rather than product. See [doc 03](./03-growth-st
 
 ## 1. The shape of the problem
 
-The business has **zero churn across 37 customers and 129 trackers**. That is a strong position: the product
-works, the bucket doesn't leak, and everything added compounds. The constraint is entirely on the input side —
-too few customers, too few trackers per customer, and a pricing model that cannot fund either.
+The business has **zero churn across 37 customers and 129 trackers**, at **$20 gross margin per tracker per
+month (80%)**. That is a strong position: the product works, the bucket doesn't leak, and everything added
+compounds. The constraint is entirely on the input side — too few customers, too few trackers per customer,
+and growth funded out of founder hours rather than out of the margin that is already there.
 
 This splits the work cleanly in two:
 
@@ -30,8 +31,8 @@ Owned by the founder, not by engineering. Full detail in [doc 03](./03-growth-st
 |---|---|---|
 | 1 | Call all 37 customers: assets owned vs. tracked, and why the rest isn't | Weeks 1–3 |
 | 2 | Machine technician onto a written recurring referral agreement | Week 1 |
-| 3 | Decide new pricing: zero upfront, 36-month term, margin for hardware + install + partner | Week 2 |
-| 4 | Test a price increase on 3–5 existing accounts | Weeks 3–4 |
+| 3 | Decide pricing: $35/mo upfront-at-cost, or $45/mo with $0 down on a 36-month term | Week 2 |
+| 4 | Test the price increase on 3–5 existing accounts; offer $0 down to expansion prospects | Weeks 3–4 |
 | 5 | List 20 channel partner candidates; contact the first five | Week 4 |
 
 **Expansion inside the existing 37 accounts is the single highest-return action available** — lifting the
@@ -105,8 +106,8 @@ channel ramp in [doc 03 §7](./03-growth-strategy.md).
 
 | # | Question | Blocks |
 |---|---|---|
-| 1 | Current monthly price per tracker, and what QuikTrak charges per tracker | The whole pricing model in doc 03 §3 |
-| 2 | Installation time and loaded labour cost per unit | Whether installation stays free at volume |
+| 1 | Installation time and loaded labour cost per unit | The last estimate in doc 03 §3; sets the $0-down monthly rate |
+| 2 | Concentration of the 129 trackers across the 37 accounts | Revenue concentration risk; breadth vs. depth in the expansion push |
 | 3 | What is QuikTrak's device **activation** endpoint? | Phase 1 fulfilment — ask them directly |
 | 4 | Why does production code call `testapi.quiktrak.co`? | Phase 0 |
 | 5 | Will QuikTrak commit to breaking-change notice, a staging environment, and a support SLA? | Reduces the risk Phase 0 is mitigating |

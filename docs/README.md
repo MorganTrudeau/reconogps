@@ -8,20 +8,26 @@ thousand trackers. This folder is the plan for getting there.
 ## The short version
 
 **Zero churn is the headline.** The product works, customers stay, and everything added compounds. That
-settles the diagnosis: this is a **distribution and unit-economics problem, not a product problem.** Nothing in
-this codebase is why there are 129 trackers rather than 2,000.
+settles the diagnosis: this is a **distribution and pricing problem, not a product problem.** Nothing in this
+codebase is why there are 129 trackers rather than 2,000.
 
-Two things block scale, and both trace to one pricing decision:
+**The economics are better than they look.** At $25 a tracker with $5 going to QuikTrak, gross margin is
+**$20 per tracker per month — 80%**. Hardware and installation pass through to the customer at cost. With zero
+churn that puts lifetime value around **$4,200 per customer** and an affordable acquisition cost near
+**$1,400** — against the **$0 of cash currently spent acquiring anyone.**
 
-- **Working capital.** Reaching 2,000 trackers means ~$168,000 of hardware bought before any of it is
-  recovered. Hardware is currently sold at cost.
-- **No channel margin.** A machine technician already refers customers for free — proof the channel model
-  works here. But with hardware and installation both at cost, there is nothing to pay a partner with, so the
-  one lever with real leverage stays closed.
+So the constraint isn't that the money to grow doesn't exist. It's that:
 
-The fix keeps the friction advantage that made zero churn possible — **customers still pay nothing upfront** —
-but amortizes hardware, installation and a partner's cut into a higher monthly rate on a 36-month term. With
-zero churn, a term commitment costs almost nothing and makes the contracted revenue financeable.
+- **Founder time is the only sales channel.** 37 customers came from cold outreach. Reaching 2,000 trackers at
+  today's 3.5 per customer needs ~535 customers, which no amount of founder-led selling delivers. Acquisition
+  has to become a variable cost paid out of margin — which is exactly what a channel does.
+- **$25 is below the market floor.** SMB fleet telematics runs $30–75 per vehicle. You sit under the
+  self-serve OBD dongles, while installing, supporting and tracking machines they can't. A move to $35 is
+  **+$15,500 a year of almost pure profit** on the existing base alone — and it means a *partner-sold* tracker
+  nets more than a tracker sold direct does today. **The channel pays for itself.**
+- **The customer's upfront cost is a conversion barrier.** At cost is not free: ~$90 plus installation per
+  vehicle, so a five-machine contractor writes a four-figure cheque before the service has proved itself.
+  That is the likely reason accounts stall at 3.5 trackers.
 
 The fastest growth available needs no new customers at all: **at 3.5 trackers per customer, the existing 37
 accounts are tracking a fraction of what they own.** Lifting that average to 10 is ~3x growth with no
