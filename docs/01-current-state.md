@@ -82,8 +82,8 @@ We currently have **zero** visibility into production failures. This is document
 `redux/reducers/auth.ts:102` persists `account` **and `password`** through redux-persist into AsyncStorage, which
 is unencrypted on both platforms. `services/AuthManager.tsx:13` then replays that plaintext password to
 re-authenticate on every cold start. A rooted/jailbroken device, an Android backup, or an iOS unencrypted backup
-leaks fleet credentials. This must be fixed before any ELD conversation — the ELD technical standard has explicit
-data-integrity and tamper requirements, and a certification body will look at credential handling.
+leaks fleet credentials. Fix this before the customer base grows — a credential leak scales with the number of
+fleets on the platform, and it is table stakes for any enterprise or channel conversation.
 
 ### R5 — Stripe flow is half-built and cannot work in production *(high)*
 
@@ -109,14 +109,15 @@ expiry every server-side call fails until the function instance is recycled. `cr
 
 `jest.config.js` exists with the React Native preset; there are **no test files** in the repo and no
 `.github/` directory. There is a `validate` script (`tsc --noEmit`) that nothing runs automatically.
-For an ELD product this becomes a certification problem, not just a hygiene problem — see document 03.
+As tracker volume grows, this is what turns a vendor contract change into a silent data-corruption incident
+nobody catches — see [doc 02](./02-api-observability.md).
 
-### R8 — Polling architecture will not carry ELD *(medium)*
+### R8 — Polling architecture is foreground-only *(medium)*
 
 `services/DynamicAssetDataLoader.tsx` polls `GetPosInfosDB` for all assets every 30s while the app is
 foregrounded, and stops entirely when backgrounded. That is fine for "where is my truck" and completely
 unsuitable for duty-status recording, which must continue with the app backgrounded or killed and must survive
-offline periods. ELD needs its own ingestion path (document 04).
+offline periods. Any future duty-status or utilisation feature needs its own ingestion path, not this one.
 
 ### R9 — Third-party single points of failure *(low–medium)*
 

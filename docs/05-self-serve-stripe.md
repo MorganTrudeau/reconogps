@@ -1,8 +1,9 @@
 # 05 — Finishing self-serve onboarding, hardware sales and Stripe
 
-This is the shortest path to new revenue in the repo, and it is a hard prerequisite for the ELD play: if we are
-going to sell GPS trackers to trucking fleets, customers have to be able to buy a device, activate it and start a
-subscription without a human in the loop.
+This is the shortest path to new revenue in the repo, and it is what lets the channel model in
+[doc 03](./03-growth-strategy.md) scale: a referral partner cannot sell for us if every order needs us to
+process it by hand. Customers — and partners on their behalf — have to be able to buy a device, activate it and
+start a subscription without a human in the loop.
 
 Most of the **UI already exists**. What is missing is **fulfilment** — the part that turns a successful payment
 into a working device.
@@ -128,7 +129,7 @@ Ship that, and automate when the endpoint exists.
 
 - Stop persisting the user's password (`redux/reducers/auth.ts:102`) and stop replaying it
   (`services/AuthManager.tsx:13`). Move to `react-native-keychain` and a proper token refresh. This matters
-  independently, and it is table stakes for any ELD conversation.
+  independently, and it is table stakes for any enterprise or channel conversation.
 
 ### 3.5 Subscription lifecycle
 
@@ -144,11 +145,17 @@ Ship that, and automate when the endpoint exists.
   are accountant questions — get them answered before charging the first live card.
 - Invoices/receipts: Stripe's hosted invoices are sufficient to start.
 
-### 3.7 Hardware sales (the ELD prerequisite)
+### 3.7 Hardware sales
 
 Currently the flow assumes **the customer already has a device with an IMEI**. To sell trackers in-app:
 
-- Product catalogue with hardware SKUs (one-time charge) alongside the subscription.
+> **Note the pricing model.** [Doc 03 §3](./03-growth-strategy.md) recommends *not* charging for hardware
+> upfront — keeping the customer's day-one cost at zero and amortizing the tracker, the installation and the
+> channel partner's share into a higher monthly rate on a 36-month term. Build the checkout for that shape:
+> the primary path is a subscription with a term commitment and $0 due today, with an optional one-time
+> hardware SKU for customers who prefer to buy outright.
+
+- Product catalogue with hardware SKUs (one-time charge) as the *secondary* path, alongside the subscription.
 - Shipping address collection, shipping rates, tax on goods, fulfilment/tracking-number emails.
 - Inventory and IMEI assignment: either ship a device and have the customer enter its IMEI (the current flow —
   simplest, keep it), or pre-associate the IMEI to the order at pick-and-pack and activate on first power-up.
@@ -173,9 +180,9 @@ Google Play's equivalent carve-out is the same shape.
 | 1 | Order record + Stripe webhook + idempotent fulfilment + reconciliation | 6–10 d | Without this the feature cannot ship at all |
 | 2 | Production blockers (§3.2) | 2–3 d | Trivial, blocking |
 | 3 | Account-creation fixes incl. the `"888888"` password (§3.3) | 2–4 d | Security |
-| 4 | Credentials → Keychain (§3.4) | 2–3 d | Security; ELD prerequisite |
+| 4 | Credentials → Keychain (§3.4) | 2–3 d | Security |
 | 5 | Subscription lifecycle (§3.5) | 4–6 d | Prevents revenue leakage and dead trackers |
 | 6 | Stripe Tax (§3.6) | 2–3 d + accountant | Legal |
-| 7 | Hardware SKUs + shipping (§3.7) | 5–8 d | Unlocks device sales — the ELD business model |
+| 7 | Hardware SKUs + shipping (§3.7) | 5–8 d | Lets partners and customers order devices without us |
 
 Roughly **4–7 weeks** for the whole thing, and items 1–4 (~2–3 weeks) are enough to take real money safely.

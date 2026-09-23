@@ -128,7 +128,7 @@ fixture and assert the mapped object field-by-field. These are the regression te
 right, and they are also the artifact we hand the vendor: *"here is the response shape we were built against on
 2026-09-22, here is what you are returning now."*
 
-This also seeds the CI setup that R7 needs and that document 03 will require for ELD certification.
+This also seeds the CI setup that R7 needs.
 
 **Effort:** ~5–8 days, plus ~1 day per endpoint to capture fixtures.
 
@@ -251,8 +251,9 @@ fields, and even serve stale-but-cached data while the vendor is down.
 
 Two more things it buys us:
 
-- **Vendor credentials leave the device.** This kills R4's worst case and is a precondition for anything ELD.
-- **It is the same backend the ELD product needs anyway** (document 04). Building it now is not a detour.
+- **Vendor credentials leave the device.** This kills R4's worst case.
+- **It is the backend any future first-party feature needs anyway** — anything we own rather than resell has
+  to live somewhere that isn't the vendor's API. Building it now is not a detour.
 
 ### Migration — strangler pattern, not a rewrite
 
